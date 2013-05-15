@@ -1,14 +1,10 @@
 class AnswersController < ApplicationController
   before_filter :authenticate_user!, except: :create
   respond_to :json
-  before_filter :team_ids, only: :index
+  #before_filter :team_ids, only: :index
 
   def index
-    if current_user.admin?
-      @answers = Answer.search(params[:page], params[:search])
-    else
-      @answers = Answer.search(params[:page], params[:search], @team_ids)
-    end
+    @answers = Answer.search(params[:search], current_user).page(params[:page]).per(20)
   end
 
   def create
@@ -26,10 +22,10 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
   end
 
-  def team_ids
-    owner_team_ids = Team.where(owner_id: current_user.id).map {|e| e.id}
-    @team_ids ||= owner_team_ids | current_user.team_ids
-  end
+  #def team_ids
+  #  owner_team_ids = Team.where(owner_id: current_user.id).map {|e| e.id}
+  #  @team_ids ||= owner_team_ids | current_user.team_ids
+  #end
 
 private
   def delete_retroaction_answers

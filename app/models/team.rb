@@ -15,15 +15,6 @@ class Team
   validates_presence_of :name, :code
   validates_uniqueness_of :name
 
-  # Return scope not the records
-  def self.search(search)
-    if search
-      any_of(:name => /.*#{search}.*/i).desc(:created_at)
-    else
-      all.desc(:created_at)
-    end
-  end
-
   def owner
     @owner ||= User.find(self.owner_id)
   end
@@ -41,4 +32,20 @@ class Team
       return false
     end
   end
+
+  # Return scope not the records
+  def self.search(search)
+    if search
+      any_of(:name => /.*#{search}.*/i).desc(:created_at)
+    else
+      all.desc(:created_at)
+    end
+  end
+
+  # return the ids where the user is owner or
+  # he is enrolled
+  def self.ids_by_user(user)
+    Team.or({owner_id: user.id} , {user_ids: user.id}).distinct(:id)
+  end
+
 end

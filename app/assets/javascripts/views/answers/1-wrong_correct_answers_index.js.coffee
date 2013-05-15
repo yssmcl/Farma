@@ -1,3 +1,4 @@
+# This use http://documentcloud.github.io/visualsearch/
 class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette.CompositeView
   tagName: 'section'
   template: 'answers/wrong_correct_answers_index'
@@ -163,6 +164,7 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
               callback(@losJSON)
             when 'aprendiz'
               @updateLearners()
+              console.log @learnersJSON
               callback(@learnersJSON)
             when 'exercicio'
               @updateExercises()

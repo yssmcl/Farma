@@ -52,7 +52,7 @@ group :test do
   gem 'spork', '> 0.9.0.rc'
   gem 'guard-rspec'
   gem 'guard-spork'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails',  "~> 4.2.1"
 end
 
 gem 'bcrypt-ruby', '~> 3.0.0'

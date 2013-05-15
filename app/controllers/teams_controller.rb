@@ -5,7 +5,6 @@ class TeamsController < ApplicationController
 
   def index
     @teams = Team.search(params[:search]).page(params[:page]).per(10)
-    p @teams
   end
 
   def enrolled
@@ -20,6 +19,7 @@ class TeamsController < ApplicationController
     @teams = created | enrolled
   end
 
+  # TODO: Melhorar busca por apresendizes de várias turmas
   def learners
     if params[:team_id]
       @learners = Team.find(params[:team_id]).users

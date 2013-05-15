@@ -32,27 +32,31 @@ class Answer
 
   #default_scope desc(:created_at)
 
-  scope :wrong, where(correct: false, :team_id.ne => nil, :for_test.ne => true)
-  scope :corrects, where(correct: true, :team_id.ne => nil, :for_test.ne => true)
   scope :every, excludes(team_id: nil, for_test: true)
+  scope :wrong, every.where(correct: false)
+  scope :corrects, every.where(correct: true)
 
   before_create :verify_response, :store_datas
   after_create :register_last_answer, :update_questions_with_last_answer
 
-  def self.search(page, params = nil, team_ids = nil)
-    if team_ids
-      if params
-        Answer.excludes(team_id: nil, for_test: true).where(params).in(team_id: team_ids).page(page).per(20)
-      else
-        Answer.excludes(team_id: nil, for_test: true).in(team_id: team_ids).page(page).per(20)
-      end
+  # Excludes temp answers
+  #   excludes(team_id: nil, for_test: true)
+  #
+  # if admin can search all in all the answers
+  # if regular user
+  #   can see all your answer
+  #   can see all students' answers of your own team
+  #   can see only wrong studens' answers of students that participed of same team
+  #   TODO: Implmement this search
+  #
+  def self.search(conditions, user)
+    if user.admin?
+      filter_answers = Answer.every.where(conditions)
     else
-      if params
-        Answer.excludes(team_id: nil, for_test: true).where(params).page(page).per(20)
-      else
-        Answer.excludes(team_id: nil, for_test: true).page(page).per(20)
-      end
+      filter_answers = Answer.every.where(conditions).or(
+        {:user_id.ne => user.id, correct: false}, {user_id: user.id}).in(team_id: Team.ids_by_user(user))
     end
+    filter_answers
   end
 
   def lo

@@ -6,4 +6,5 @@ node(:numbers_of_enrolled) { |team| team.users.count }
 
 child(:users) do
   attributes :name
+  attributes :email
 end
