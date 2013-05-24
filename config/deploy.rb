@@ -1,9 +1,6 @@
-require "bundler/capistrano"
+set :whenever_command, "bundle exec whenever"
+set :rvm_type, :user
 set :rvm_ruby_string, 'ruby-1.9.3-p0@farma'
-require "rvm/capistrano"
-
-#set :whenever_command, "bundle exec whenever"
-#require "whenever/capistrano"
 
 server "173.246.40.9", :web, :app, :db, primary: true
 
@@ -24,6 +21,10 @@ set :rails_env,       "production"
 
 #default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
+
+require "rvm/capistrano"
+require "bundler/capistrano"
+require "whenever/capistrano"
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 after "deploy", "deploy:ckeditor_link"
