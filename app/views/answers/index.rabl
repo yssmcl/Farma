@@ -6,7 +6,6 @@ node(:total_pages) {|m| @answers.num_pages }
 child @answers do
   attributes :id, :tip, :response, :try_number, :correct, :many_answers
 
-
   node(:created_at) {|an| l an.created_at}
   node(:team) {|an| an.team.name}
   node(:user_id) {|an| an.user.id}

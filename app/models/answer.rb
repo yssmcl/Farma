@@ -26,12 +26,17 @@ class Answer
 
   attr_accessible :id, :response, :user_id, :team_id, :lo_id, :exercise_id, :question_id, :for_test
 
-  belongs_to :user
+  belongs_to :user, index: true
   has_one :last_answer
   embeds_many :comments, :as => :commentable
 
   #default_scope desc(:created_at)
+  index({ team_id: 1, for_test: 1}, { unique: true })
+  index({ team_id: 1, for_test: 1, correct: 1})
 
+  # Excludes temp answers
+  #   answers used for professer tests
+  #   excludes(team_id: nil, for_test: true)
   scope :every, excludes(team_id: nil, for_test: true)
   scope :wrong, every.where(correct: false)
   scope :corrects, every.where(correct: true)
@@ -39,16 +44,11 @@ class Answer
   before_create :verify_response, :store_datas
   after_create :register_last_answer, :update_questions_with_last_answer
 
-  # Excludes temp answers
-  #   excludes(team_id: nil, for_test: true)
-  #
   # if admin can search all in all the answers
   # if regular user
   #   can see all your answer
   #   can see all students' answers of your own team
   #   can see only wrong studens' answers of students that participed of same team
-  #   TODO: Implmement this search
-  #
   def self.search(conditions, user)
     if user.admin?
       filter_answers = Answer.every.where(conditions)
@@ -56,7 +56,7 @@ class Answer
       filter_answers = Answer.every.where(conditions).or(
         {:user_id.ne => user.id, correct: false}, {user_id: user.id}).in(team_id: Team.ids_by_user(user))
     end
-    filter_answers
+    filter_answers.desc(:created_at)
   end
 
   def lo
@@ -120,9 +120,11 @@ private
 
   def store_datas
     question = Question.find(self.question_id)
-    self.exercise = question.exercise.as_json(include: {questions: {include: :tips }})
-    self.lo = question.exercise.lo.as_json
-    self.question = question.as_json(include: :tips)
+
+    self.exercise= question.exercise.as_json(include: {questions: {include: :tips }})
+    self.lo= question.exercise.lo.as_json
+    self.question= question.as_json(include: :tips)
+
     self.team = Team.find(self.team_id).as_json if self.team_id
   end
 

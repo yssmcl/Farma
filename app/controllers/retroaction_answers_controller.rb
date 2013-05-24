@@ -8,7 +8,7 @@ class RetroactionAnswersController < ApplicationController
                                            user_id: current_user.id).try(:first)
 
     if @retroaction
-      @retroaction.response= params[:retroaction_answer][:response]
+      @retroaction.response = params[:retroaction_answer][:response]
       @retroaction.save
     else
       @retroaction = current_user.retroaction_answers.create(params[:retroaction_answer])

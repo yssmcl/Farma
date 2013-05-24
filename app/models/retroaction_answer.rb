@@ -38,12 +38,15 @@ private
   end
 
   def verify_response
-    options = {variables: question.exp_variables}
+    options = {variables: question_json['exp_variables']}
+    correct_answer = question_json['correct_answer']
 
-    if question.many_answers?
-      self.correct= MathEvaluate::Expression.eql_with_many_answers?(question.correct_answer, self.response, options)
+    if question_json['many_answers']
+      self.correct= MathEvaluate::Expression.eql_with_many_answers?(correct_answer, self.response, options)
+    elsif question_json['eql_sinal']
+      self.correct= MathEvaluate::Expression.eql_with_eql_sinal?(correct_answer, self.response, options)
     else
-      self.correct= MathEvaluate::Expression.eql?(question.correct_answer, self.response, options)
+      self.correct= MathEvaluate::Expression.eql?(correct_answer, self.response, options)
     end
 
     if !self.correct
@@ -54,9 +57,9 @@ private
   end
 
   def set_tip
-    self.try_number = @question_json['tries'] if self.try_number == 0
+    self.try_number = question_json['tries'] if self.try_number == 0
     self.try_number += 1
-    tip = self.answer.super_question['tips'].select {|tip| tip['number_of_tries'] <= self.try_number }
+    tip = question_json['tips'].select {|tip| tip['number_of_tries'] <= self.try_number }
     if tip.first
       self.tip = tip.first['content']
     end

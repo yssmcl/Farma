@@ -43,7 +43,7 @@ class Team
   end
 
   # return the ids where the user is owner or
-  # he is enrolled
+  # enrolled in a team
   def self.ids_by_user(user)
     Team.or({owner_id: user.id} , {user_ids: user.id}).distinct(:id)
   end

@@ -15,4 +15,8 @@ class Comment
   def user
     @user ||= User.find(self.user_id)
   end
+
+  def can_destroy?(current_user)
+    self.created_at >= 15.minutes.ago && self.user_id == current_user.id
+  end
 end

@@ -19,7 +19,7 @@ class Question
   before_create :set_position
   before_save :set_exp_variables
 
-  attr_accessible :id, :title, :content, :correct_answer, :available, :comparation_type
+  attr_accessible :id, :title, :content, :correct_answer, :available, :comparation_type, :many_answers
 
   validates_presence_of :title, :content, :correct_answer
   validates :available, :inclusion => {:in => [true, false]}
