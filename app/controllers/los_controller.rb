@@ -4,7 +4,7 @@ class LosController < ApplicationController
 
   def index
     if current_user.admin?
-      @los = Lo.all.order_by(:created_at => :desc)
+      @los = Lo.all.includes(:user).desc(:created_at)
     else
       @los = current_user.los.order_by(:created_at => :desc)
     end

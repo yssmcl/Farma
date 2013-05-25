@@ -32,4 +32,5 @@ class Carrie.Controllers.User
   perfil: ->
     Carrie.Helpers.Session.Exists
       func: =>
+        Carrie.main.show Carrie.layouts.main
         Carrie.layouts.main.content.show new Carrie.Views.UserPerfil()

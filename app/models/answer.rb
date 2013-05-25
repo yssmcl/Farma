@@ -50,11 +50,10 @@ class Answer
   #   can see all students' answers of your own team
   #   can see only wrong studens' answers of students that participed of same team
   def self.search(conditions, user)
-    if user.admin?
-      filter_answers = Answer.every.where(conditions)
-    else
-      filter_answers = Answer.every.where(conditions).or(
-        {:user_id.ne => user.id, correct: false}, {user_id: user.id}).in(team_id: Team.ids_by_user(user))
+    filter_answers = Answer.includes(:user).every.where(conditions)
+    unless user.admin?
+      filter_answers = filter_answers.or({:user_id.ne => user.id, correct: false},
+                                         {user_id: user.id}).in(team_id: Team.ids_by_user(user))
     end
     filter_answers.desc(:created_at)
   end

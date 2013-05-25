@@ -36,6 +36,7 @@ group :assets do
   gem 'marionette-rails'
 end
 
+gem 'bullet', group: :development
 group :development, :test do
   gem 'pry-rails'
   gem 'thin'

@@ -1,5 +1,3 @@
-set :whenever_command, "bundle exec whenever"
-set :rvm_type, :user
 set :rvm_ruby_string, 'ruby-1.9.3-p0@farma'
 
 server "173.246.40.9", :web, :app, :db, primary: true
@@ -24,10 +22,10 @@ ssh_options[:forward_agent] = true
 
 require "rvm/capistrano"
 require "bundler/capistrano"
-require "whenever/capistrano"
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 after "deploy", "deploy:ckeditor_link"
+after 'deploy:update_code', 'deploy:update_crontab'
 
 namespace :deploy do
 
@@ -44,6 +42,11 @@ namespace :deploy do
 
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :app do
+    run "cd #{release_path} && bundle exec whenever --update-crontab #{application} --set environment=production"
   end
 
   namespace :assets do

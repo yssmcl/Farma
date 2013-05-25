@@ -8,11 +8,11 @@ class TeamsController < ApplicationController
   end
 
   def enrolled
-    @teams = current_user.teams
+    @teams = current_user.teams.includes(:users, :los)
   end
 
   def created
-    @teams = @owner_teams.desc(:created_at)
+    @teams = @owner_teams.includes(:users).desc(:created_at)
   end
 
   def my_teams

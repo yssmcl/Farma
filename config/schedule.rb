@@ -24,7 +24,3 @@ set :output, "#{path}/log/cron.log"
 every :day, at: "3:58 AM" do
   rake "db:clear_tmp_data"
 end
-
-every 1.minutes do
-  command "echo 'oi' >> '#{path}/tmp/cron.txt'"
-end
