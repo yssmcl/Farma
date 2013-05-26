@@ -56,7 +56,8 @@ class Carrie.Views.CreateOrSaveQuestion extends Backbone.Marionette.ItemView
           @options.view.render()
         else
           view = new Carrie.Views.Question({model: @model})
-          $('#new_question').after view.render().el
+          $("\##{@model.get('exercise').get('id')}").append view.render().el
+          #$('#new_question').after view.render().el
           $('#new_question').html('')
 
       error: (model, response, options) =>
