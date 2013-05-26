@@ -1,6 +1,7 @@
 class Carrie.Views.ExerciseIndexItem extends Backbone.Marionette.ItemView
   template: 'exercises/index_item'
   tagName: 'article'
+  className: 'header'
 
   onRender: ->
     @el.id = @model.get('id')

@@ -7,7 +7,7 @@ class Introduction
   field :available, type: Boolean, default: false
   field :position, type: Integer
 
-  default_scope desc(:position)
+  default_scope asc(:position)
 
   before_create :set_position
 

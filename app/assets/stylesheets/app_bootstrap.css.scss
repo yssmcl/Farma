@@ -20,6 +20,14 @@
   .modal.fade.in {
     top: 50%;
   }
+
+  #header_left_menu {
+    margin-left: 10px;
+    a {
+      margin-left: 5px;
+    }
+  }
+
 }
 
 #update-user-form input[type='text'],

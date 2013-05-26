@@ -7,7 +7,7 @@ class Exercise
   field :available, type: Boolean, default: false
   field :position, type: Integer
 
-  default_scope desc(:position)
+  default_scope asc(:position)
   #default_scope order_by([:position, :desc])
 
   before_create :set_position
@@ -16,6 +16,7 @@ class Exercise
 
   validates_presence_of :title, :content
   validates :available, :inclusion => {:in => [true, false]}
+  validates_length_of :title, :maximum => 55
 
   belongs_to :lo
 

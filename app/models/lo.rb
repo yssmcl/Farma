@@ -11,6 +11,7 @@ class Lo
   validates_presence_of :name, :description
   validates :name, uniqueness: true
   validates :available, :inclusion => {:in => [true, false]}
+  validates_length_of :name, :maximum => 100
 
   belongs_to :user
   has_many :introductions, dependent: :delete

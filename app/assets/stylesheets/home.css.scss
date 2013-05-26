@@ -73,7 +73,7 @@
   font-size: 35px;
 }
 .subhead p {
-  line-height: 10px;
+  line-height: 15px;
 }
 
 .subhead .container-fluid {
@@ -178,7 +178,7 @@
 @media (max-width: 593px) {
   .toggle-menu {
     position: absolute;
-    top: 230px;
+    top: 264px;
   }
 }
 
@@ -210,5 +210,23 @@
   padding: 20px;
   .footer {
     margin-top: 100px;
+  }
+}
+/* header icon
+------------------------- */
+.header {
+  .icon i, .move i {
+    position: relative;
+    top: 13px;
+  }
+  .move i {
+    position: relative;
+    top: 10px;
+  }
+}
+
+#introductions .page-header, #exercises .page-header {
+  h3 {
+    line-height: 25px !important;
   }
 }

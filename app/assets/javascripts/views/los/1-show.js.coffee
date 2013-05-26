@@ -1,6 +1,7 @@
 class Carrie.Views.Lo extends Backbone.Marionette.ItemView
   template: 'los/show'
   tagName: 'article'
+  className: 'header'
 
   onRender: ->
     @el.id = @model.get('id')

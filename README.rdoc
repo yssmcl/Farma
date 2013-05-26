@@ -2,6 +2,8 @@
   ok Página Inicial
   ok Fale conosco
   ok Sobre
-  Send Email When Receive a comment
   OK CronTab
-  Ao criar questão ou dica inserir no final da lista
+  OK Ao criar questão ou dica inserir no final da lista
+  OK Verificar nomes grandes para o título de introduções
+  Refactoring some finds
+  Send Email When Receive a comment

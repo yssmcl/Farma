@@ -1,22 +1,27 @@
-<header class='clearfix'>
-  <span class='icon'>
-    {{#if available }}
-      <i rel="tooltip" data-original-title="OA Publicado" class='left icon-certificate icon-green'></i>
-    {{else}}
-      <i rel="tooltip" data-original-title="OA não Publicado" class='left icon-certificate icon-red'></i>
-    {{/if}}
-  </span>
-  <div class='left'>
-    <h4>{{name}}</h4>
+<header>
+  <div class='row-fluid'>
+    <div class='span9'>
+      <span class='icon'>
+        {{#if available }}
+          <i rel="tooltip" data-original-title="OA Publicado" class='left icon-certificate icon-green'></i>
+        {{else}}
+          <i rel="tooltip" data-original-title="OA não Publicado" class='left icon-certificate icon-red'></i>
+        {{/if}}
+      </span>
+
+      <h4 class='left'>{{name}}</h4>
+    </div>
+
+    <span class='span3 text-right'>
+      <a href='#' class='edit-lo'><i class="icon-edit"></i> Editar </a>
+      <a href='#' class='destroy-lo' ><i class="icon-remove-circle"></i> Remover </a>
+    </span>
   </div>
-  <span class='options-links'>
-    <a href='#' class='edit-lo'><i class="icon-edit"></i> Editar </a>
-    <a href='#' class='destroy-lo' ><i class="icon-remove-circle"></i> Remover </a>
-  </span>
-  <div class='right date-info'>
+  <div class='text-right date-info'>
     Criado por {{created_by}} em {{created_at}} | Última atualização {{updated_at}}
   </div>
 </header>
+
 <p>{{description}}</p>
 <p>
   <a class='btn btn-small introductions-btn' >Introduções</a>
@@ -24,3 +29,4 @@
   <a class='btn btn-small view-lo-btn'>Visualizar OA</a>
 </p>
 <hr>
+

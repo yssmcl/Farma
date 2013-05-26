@@ -1,6 +1,7 @@
 class Carrie.Views.IntroductionShow extends Backbone.Marionette.ItemView
   template: 'introductions/show'
   tagName: 'article'
+  className: 'header'
 
   events:
     'click #edit_intro' : 'edit'

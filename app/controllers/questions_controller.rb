@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_filter :find_exercise
 
   def index
-    @questions = @exercise.questions.order_by(:position => :desc)
+    @questions = @exercise.questions
   end
 
   def create
@@ -38,10 +38,10 @@ class QuestionsController < ApplicationController
   end
 
   def sort
-    size = params[:ids].size
+    #size = params[:ids].size # size-index to index
     params[:ids].each_with_index do |id, index|
       q = @exercise.questions.find(id)
-      q.update_attribute(:position, size-index) if q
+      q.update_attribute(:position, index) if q
     end
     render nothing: true
   end

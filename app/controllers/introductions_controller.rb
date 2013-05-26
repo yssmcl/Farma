@@ -4,7 +4,7 @@ class IntroductionsController < ApplicationController
   before_filter :find_lo
 
   def index
-    @introductions = @lo.introductions.order_by(:position => :desc)
+    @introductions = @lo.introductions
   end
 
   def create
@@ -38,10 +38,11 @@ class IntroductionsController < ApplicationController
   end
 
   def sort
-    size = params[:ids].size
+    #size = params[:ids].size
+    #TODO: Verificar size-index
     params[:ids].each_with_index do |id, index|
       intro = @lo.introductions.find(id)
-      intro.update_attribute(:position, size-index) if intro
+      intro.update_attribute(:position, index) if intro
     end
     render nothing: true
   end

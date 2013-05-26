@@ -5,7 +5,7 @@ class ExercisesController < ApplicationController
   before_filter :find_lo, except: :delete_last_answers
 
   def index
-    @exercises = @lo.exercises.order_by(:position => :desc)
+    @exercises = @lo.exercises
   end
 
   def create
@@ -47,10 +47,10 @@ class ExercisesController < ApplicationController
   end
 
   def sort
-    size = params[:ids].size
+    # size = params[:ids].size # size-index
     params[:ids].each_with_index do |id, index|
       intro = @lo.exercises.find(id)
-      intro.update_attribute(:position, size-index) if intro
+      intro.update_attribute(:position, index) if intro
     end
     render nothing: true
   end
@@ -77,6 +77,7 @@ private
     end
  end
 
+ # TODO: Refactor this, do in a better way
  def user_los_ids
    @lo_ids ||= []
    current_user.teams.each {|team| @lo_ids = @lo_ids | team.lo_ids}

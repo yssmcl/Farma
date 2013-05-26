@@ -14,7 +14,7 @@ class Question
 
   has_many :tips_counts
 
-  default_scope desc(:position)
+  default_scope asc(:position)
 
   before_create :set_position
   before_save :set_exp_variables
@@ -23,6 +23,7 @@ class Question
 
   validates_presence_of :title, :content, :correct_answer
   validates :available, :inclusion => {:in => [true, false]}
+  validates_length_of :title, :maximum => 55
   #validates :compartion_type, :inclusion => {:in => ['result', 'expression']}
 
   belongs_to :exercise
