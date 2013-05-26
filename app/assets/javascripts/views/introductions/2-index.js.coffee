@@ -20,5 +20,4 @@ class Carrie.CompositeViews.IntroductionIndex extends Backbone.Marionette.Compos
       axis: 'y'
       items: 'article'
       update: (event, ui) ->
-        console.log $(this).sortable('toArray')
         $.post(url, { 'ids' : $(this).sortable('toArray') })
