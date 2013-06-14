@@ -10,7 +10,7 @@ class Team
   attr_accessible :name, :code, :owner_id, :lo_ids
 
   has_and_belongs_to_many :los
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :users, order: "name ASC"
 
   validates_presence_of :name, :code
   validates_uniqueness_of :name

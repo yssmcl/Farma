@@ -24,12 +24,12 @@
 <section class='show-learners hide'>
   <table class="table table-condensed table-hover">
      <thead>
-      <tr><th>Aprendiz</th></tr>
+      <tr><td></td><th>Aprendiz</th></tr>
      </thead>
      <tbody>
-      {{#each users}}
-        <tr><td>{{name}} <span class='date-info'> {{email}} </span> </td></tr>
-      {{/each}}
+      {{#each_with_index users}}
+        <tr><td colspan="2">{{index}} - {{name}} <span class='date-info'> {{email}} </span> </td></tr>
+      {{/each_with_index}}
      </tbody>
   </table>
 </section>
