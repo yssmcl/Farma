@@ -13,8 +13,11 @@ class Carrie.Views.Team extends Backbone.Marionette.ItemView
       type: 'POST'
       data: {code: form.code.value}
       success: (data) =>
-        view = '<div class="alert alert-info">Matricula efetivada</div>'
-        $(@el).find('.enroll').html view
+        #view = '<div class="alert alert-info">Matricula efetivada</div>'
+        #$(@el).find('.enroll').html view
+        Backbone.history.navigate("/teams/enrolled", true)
+        Carrie.Helpers.Notifications.Top.success 'Matricula efetivada com sucesso!', 4000
+
       error: (data) ->
         resp = $.parseJSON(data.responseText)
         $(form).find('.error').html(resp.errors['enroll'])
