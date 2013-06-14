@@ -8,7 +8,6 @@
   ? Pensar em não mostrar o nome dos participantes para outros aprendizes
 
 ## Urgentes
-  Verificar link do perfil e outros links
   Ordenar apendizes por odem alfebética
   Verificar se o dono da turma ve as respostas certas
 
@@ -27,3 +26,4 @@
   Verificar nomes grandes para o título de introduções
   Atualizar ckeditor 14-06-2013
   Após matriculado redirecionar para turmas matriculadas 14-06-2013
+  Verificar link do perfil e outros links  14-06-2013
