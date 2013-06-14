@@ -58,6 +58,10 @@ describe Answer do
     Answer.search({}, user).should have(4).items
   end
 
+  it "when a ower of a turm search a answer it can see the correct and wrongs answers" do
+    pending
+  end
+
 
 private
   def create_valid_answers(user = @user, response = 'x')

@@ -73,12 +73,6 @@ class Carrie.Views.CreateOrSaveTip extends Backbone.Marionette.ItemView
     @modelBinder.bind(@model, @el)
     config =
       language: 'pt-br'
-      toolbar:[
-          { name: 'basicstyles', items : [ 'Bold','Italic' ] },
-          { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
-          { name: 'tools', items : [ 'Maximize','-','About' ] },
-          { name: 'insert', items : [ 'Image'] },
-          { name: 'colors', items : [ 'TextColor','BGColor' ] }
-        ]
+      toolbar: Carrie.CKEDITOR.toolbar.basic
 
-    Carrie.CKEDITOR.show "\##{@cked}"
+    Carrie.CKEDITOR.show "\##{@cked}", config

@@ -1,11 +1,18 @@
 # TODO
-  Atualizar ckeditor
   Gravar histórico do uso da retroação
   Refactoring some finds
   Possibilidade de intercalar exercícios e introduções
   Enviar email quando uma resposta receber um comentário
   Possibilidade de o aprendiz ver todas as dicas apresentadas
   Possibilidade de o professor cadastrar aprendizes na turma
+  Após matriculado redirecionar para turmas matriculadas
+  ? Pensar em não mostrar o nome dos participantes para outros aprendizes
+
+## Urgentes
+  Verificar link do perfil e outros links
+  Ordenar apendizes por odem alfebética
+  Verificar se o dono da turma ve as respostas certas
+
 
 ## Complexas
    Compartilhamento de Objetos de Aprendizagem
@@ -19,3 +26,4 @@
   CronTab
   Ao criar questão ou dica inserir no final da lista
   Verificar nomes grandes para o título de introduções
+  Atualizar ckeditor 14-06-2013

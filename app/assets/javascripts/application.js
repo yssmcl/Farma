@@ -16,7 +16,7 @@
 //= require jquery.md5
 //= require bootbox.min
 //= require ckeditor/init
-//= require ckeditor/adapters/jquery
+//= require jquery_ckeditor_adapter
 //= require underscore
 //= require underscore.string
 //= require backbone

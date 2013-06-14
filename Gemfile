@@ -14,7 +14,7 @@ gem 'bson_ext'
 gem 'devise'
 gem 'simple_form'
 
-gem "ckeditor", "3.7.1"
+gem "ckeditor", '~> 4.0.4'
 gem 'mongoid-paperclip', :require => 'mongoid_paperclip'
 gem 'kaminari', "~> 0.14.1"
 
