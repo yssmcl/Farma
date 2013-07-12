@@ -1,3 +1,3 @@
-class Carrie.Collections.LearnerSearchAnswers extends Backbone.Collection
-  model: Carrie.Models.LearnerSearchAnswers
+class Carrie.Collections.LearnerForSearchAnswers extends Backbone.Collection
+  model: Carrie.Models.LearnerForSearchAnswers
   url: '/api/teams/learners'

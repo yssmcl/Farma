@@ -56,14 +56,6 @@ class LosController < ApplicationController
     end
   end
 
-  def los_for_search
-    if current_user.admin?
-      @los = Lo.desc(:created_at)
-    else
-      my_los
-    end
-  end
-
   def exercises
     @exercises = Lo.find(params[:id]).exercises
   end

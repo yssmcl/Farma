@@ -11,6 +11,16 @@ Carrie::Application.routes.draw do
     resources :answers do
       get 'retroaction', on: :member
       get 'page/:page', :action => :index, :on => :collection
+
+      get 'my', :action => :search_in_my, :on => :collection
+      get 'my/page/:page', :action => :search_in_my, :on => :collection
+
+      get 'search-in-teams-enrolled', action: :search_in_teams_enrolled, :on => :collection
+      get 'search-in-teams-enrolled/page/:page', action: :search_in_teams_enrolled, :on => :collection
+
+      get 'search-in-teams-created', :action => :search_in_teams_created, :on => :collection
+      get 'search-in-teams-created/page/:page', :action => :search_in_teams_created, :on => :collection
+
       resources :comments
     end
 
@@ -22,7 +32,7 @@ Carrie::Application.routes.draw do
       get 'created', on: :collection
       get 'enrolled', on: :collection
       get 'my_teams', on: :collection
-      get 'teams_for_search', on: :collection
+      get 'los', on: :collection
       get 'learners', on: :collection
       post 'enroll', on: :member
       get 'page/:page', :action => :index, :on => :collection
@@ -30,7 +40,6 @@ Carrie::Application.routes.draw do
 
     resources :los do
       get 'my_los', on: :collection
-      get 'los_for_search', on: :collection
       get 'exercises', on: :collection
       resources :introductions do
         collection {post :sort}

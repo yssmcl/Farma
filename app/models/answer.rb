@@ -23,6 +23,7 @@ class Answer
 
   alias :super_exercise :exercise
   alias :super_question :question
+  alias :super_team :team
 
   attr_accessible :id, :response, :user_id, :team_id, :lo_id, :exercise_id, :question_id, :for_test
 
@@ -49,13 +50,37 @@ class Answer
   #   can see all your answer
   #   can see all students' answers of your own team
   #   can see only wrong studens' answers of students that participed of same team
-  def self.search(conditions, user)
-    filter_answers = Answer.includes(:user).every.where(conditions)
-    unless user.admin?
-      filter_answers = filter_answers.or({:user_id.ne => user.id, correct: false},
-                                         {user_id: user.id}).in(team_id: Team.ids_by_user(user))
+  #def self.search(conditions, user)
+  #  filter_answers = Answer.includes(:user).every.where(conditions)
+  #  unless user.admin?
+  #    filter_answers = filter_answers.or({:user_id.ne => user.id, correct: false},
+  #                                       {:team_id.in => user.owner_teams.pluck(:id)},
+  #                                       {user_id: user.id}
+  #                                      ).in(team_id: Team.ids_by_user(user))
+  #  end
+  #  filter_answers.desc(:created_at)
+  #end
+
+  # return only answers of specific user
+  def self.search_of_user(user, teams, conditions = {})
+    Answer.includes(:user).every.where(user_id: user.id).where(conditions)
+  end
+
+  # return only answers of a teams grup
+  def self.search_in_teams_enrolled(user, conditions = {})
+    Answer.every.wrong.where(conditions).
+                in(team_id: Team.ids_enrolled_by_user(user)).
+                excludes(user_id: user.id)
+  end
+
+  # return only answers of a teams created
+  def self.search_in_teams_created(user, conditions = {})
+    if user.admin?
+        Answer.includes(:user).every.where(conditions)
+    else
+        Answer.every.where(conditions).
+              in(team_id: Team.ids_created_by_user(user))
     end
-    filter_answers.desc(:created_at)
   end
 
   def lo
@@ -88,6 +113,12 @@ class Answer
 
   def team
     @_team ||= Team.new(super) rescue nil
+  end
+
+  # User can see only your name and name of your own team learners
+  # leaners can't not see the other learners name
+  def can_see_user?(user)
+   (user.id === self.user.id) || (user.id === self.team.owner_id)
   end
 
 # Need store all information for retroaction

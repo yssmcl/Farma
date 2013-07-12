@@ -5,7 +5,9 @@
     </div>
     <span class='right'>
       <a href='#' data-id='{{id}}' id='edit_team'><i class="icon-edit"></i> Editar </a>
-      <a href='#' data-id='{{id}}' id='destroy_team' ><i class="icon-remove-circle"></i> Remover </a>
+      {{#ifCond numbers_of_enrolled 0}}
+        <a href='#' data-id='{{id}}' id='destroy_team' ><i class="icon-remove-circle"></i> Remover </a>
+      {{/ifCond}}
     </span>
   </div>
     <span class='date-info'>

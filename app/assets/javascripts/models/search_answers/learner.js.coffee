@@ -1,1 +1,1 @@
-class Carrie.Models.LearnerSearchAnswers extends Backbone.RelationalModel
+class Carrie.Models.LearnerForSearchAnswers extends Backbone.RelationalModel

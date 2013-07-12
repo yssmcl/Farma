@@ -8,7 +8,7 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
   initialize: ->
     @mapFilters()
     @endless = new Carrie.Models.Endless
-       root_url: '/api/answers'
+       root_url: @options.url
        collection: @collection
        fecth_array: 'answers'
 
@@ -27,6 +27,13 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
       @search()
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
 
+
+  serializeData: ->
+    viewData =
+      title: @options.title
+      subTitle: @options.subTitle
+    return viewData
+
   updatePageInfo: ->
     info = "Total de encontrados: #{@endless.get('total')}"
     $(@el).find('.pages-info').html(info)
@@ -43,12 +50,17 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
 
   loadFilters: ->
     @params = {}
-    @teams = new Carrie.Collections.TeamSearchAnswers()
+
+    @teams = new Carrie.Collections.TeamForSearchAnswers()
+    @teams.url = @options.teams_url
+    @teams.fetch(async: false)
     @teamsJSON = @teams.toJSON()
 
-    @los = new Carrie.Collections.LoSearchAnswers()
-    @learners = new Carrie.Collections.LearnerSearchAnswers()
-    @exercises = new Carrie.Collections.ExerciseSearchAnswers()
+    @los = new Carrie.Collections.LoForSearchAnswers()
+    @exercises = new Carrie.Collections.ExerciseForSearchAnswers()
+
+    if @options.filter_by_learner
+      @learners = new Carrie.Collections.LearnerForSearchAnswers()
 
   searchContains: (data, name) ->
     contains = false
@@ -73,8 +85,8 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
           lo = @los.where({label: value})[0]
           value = lo.get('id') if lo
 
-        value =  @learners.where({label: value})[0].get('id') if key == 'user_id'
         value =  @exercises.where({label: value})[0].get('id') if key == 'exercise_id'
+        value =  @learners.where({label: value})[0].get('id') if key == 'user_id'
 
         params[key] = value
 
@@ -86,23 +98,8 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
       @los.fetch
         async: false
         data: params
-    else
-      @los.fetch
-        async: false
 
     @losJSON = @los.toJSON()
-
-  updateLearners: ->
-    if @params['team_id']
-      params = {team_id: @params['team_id']}
-      @learners.fetch
-        async: false
-        data: params
-    else
-      @learners.fetch
-        async: false
-
-    @learnersJSON = @learners.toJSON()
 
   updateExercises: ->
     if @params['lo_id']
@@ -112,6 +109,15 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
         data: params
 
     @exercisesJSON = @exercises.toJSON()
+
+  updateLearners: ->
+    if @params['team_id']
+      params = {team_id: @params['team_id']}
+      @learners.fetch
+        async: false
+        data: params
+
+    @learnersJSON = @learners.toJSON()
 
   search: ->
     @visualSearch = VS.init
@@ -136,11 +142,11 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
           if not @searchContains facets, 'turma'
             filters.push { value: 'turma', label: 'Turmas' }
 
-          if not @searchContains facets, 'oa'
-            filters.push { value: 'oa', label: 'OA' }
-
-          if not @searchContains facets, 'aprendiz'
+          if not(@searchContains(facets, 'aprendiz')) &&  @params['team_id'] && @options.filter_by_learner
             filters.push { value: 'aprendiz', label: 'Aprendiz' }
+
+          if not(@searchContains(facets, 'oa')) &&  @params['team_id']
+            filters.push { value: 'oa', label: 'OA' }
 
           if not(@searchContains(facets, 'exercicio')) &&  @params['lo_id']
             filters.push { value: 'exercicio', label: 'Exercício' }
@@ -164,7 +170,6 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
               callback(@losJSON)
             when 'aprendiz'
               @updateLearners()
-              console.log @learnersJSON
               callback(@learnersJSON)
             when 'exercicio'
               @updateExercises()

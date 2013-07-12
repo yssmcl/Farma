@@ -1,3 +1,3 @@
-class Carrie.Collections.ExerciseSearchAnswers extends Backbone.Collection
-  model: Carrie.Models.ExerciseSearchAnswers
+class Carrie.Collections.ExerciseForSearchAnswers extends Backbone.Collection
+  model: Carrie.Models.ExerciseForSearchAnswers
   url: '/api/los/exercises'

@@ -6,6 +6,21 @@ class AnswersController < ApplicationController
     @answers = Answer.search(params[:search], current_user).page(params[:page]).per(20)
   end
 
+  # search only in current user answers
+  def search_in_my
+    @answers = Answer.search_of_user(current_user, params[:search]).page(params[:page]).per(20)
+  end
+
+  # search in teams enrolleds
+  def search_in_teams_enrolled
+    @answers = Answer.search_in_teams_enrolled(current_user, params[:search]).page(params[:page]).per(20)
+  end
+
+  # search in teams created
+  def search_in_teams_created
+    @answers = Answer.search_in_teams_created(current_user, params[:search]).page(params[:page]).per(20)
+  end
+
   def create
     last = LastAnswer.where(user_id: current_or_guest_user.id, question_id: params[:answer][:question_id]).try(:first)
 

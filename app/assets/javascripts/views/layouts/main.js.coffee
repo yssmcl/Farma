@@ -53,6 +53,8 @@ class Carrie.Views.Layouts.Main extends Backbone.Marionette.Layout
     @toggle = $(@el).find('.toggle-menu')
     @toggle.tooltip()
 
+    $(@menu).find('a[data-toggle="tooltip"]').tooltip()
+
   showView: (ev) ->
     ev.preventDefault()
 

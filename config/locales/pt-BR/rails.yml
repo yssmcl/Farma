@@ -46,7 +46,7 @@
       - :year
   time:
     formats:
-      default: "%d/%m/%Y %Hh%M"
+      default: "%d/%m/%Y %H:%M:%S"
       time: "%Hh%M"
       short: "%d/%m/%y às %Hh%M"
       short_date: "%d de %B de %Y"
@@ -186,6 +186,7 @@
         inclusion: "não está incluído na lista"
         exclusion: "não está disponível"
         invalid: "não é válido"
+        not_allowed: "não é permitido se matricular em sua própria turma"
         confirmation: "não está de acordo com a confirmação"
         accepted: "precisa de ser aceite"
         empty: "precisa ser preenchido"

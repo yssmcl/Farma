@@ -1,1 +1,1 @@
-class Carrie.Models.ExerciseSearchAnswers extends Backbone.RelationalModel
+class Carrie.Models.ExerciseForSearchAnswers extends Backbone.RelationalModel

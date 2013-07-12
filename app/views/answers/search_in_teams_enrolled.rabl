@@ -12,9 +12,9 @@ child @answers do
   node(:team_id) {|an| an.team.id}
   node(:user_id) {|an| an.user.id}
 
-  # name can be show just for the user and the owner of team
-  node(:user_name) {|an| an.can_see_user?(current_user) ? an.user.name : 'Não identificado'}
-  node(:user_email) {|an| an.can_see_user?(current_user) ? an.user.email : 'Não identificado'}
+  # the collegues name is not show
+  node(:user_name) { "Não identificado" }
+  node(:user_email) { "Não identificado" }
 
   node(:lo) {|an| an.lo.name}
   node(:exercise) {|an| an.exercise.title}

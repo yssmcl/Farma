@@ -47,6 +47,10 @@ class User
     self.gravatar= Digest::MD5.hexdigest(self.email)
   end
 
+  def owner_teams
+    @owner_teams = Team.where(owner_id: self.id)
+  end
+
   def self.guest
     @user ||= User.where(email: 'guest@farma.mat.br').first
     return @user

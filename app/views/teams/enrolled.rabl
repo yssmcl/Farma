@@ -2,6 +2,9 @@ collection @teams, object_root: false
 
 attributes :id, :name
 
+node(:label) {|t| t.name}
+node(:value) {|t| t.name}
+
 node(:numbers_of_enrolled) { |team| team.users.count }
 
 child(:los) do

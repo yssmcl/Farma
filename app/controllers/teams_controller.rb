@@ -15,18 +15,21 @@ class TeamsController < ApplicationController
     @teams = @owner_teams.includes(:users).desc(:created_at)
   end
 
+  # My teams
+  # Teams that current user created or enrolled
   def my_teams
-    @teams = created | enrolled
+    @teams = Team.or({owner_id: current_user.id} , {user_ids: current_user.id})
   end
 
-  # TODO: Melhorar busca por apresendizes de várias turmas
   def learners
-    if params[:team_id]
-      @learners = Team.find(params[:team_id]).users
-    else
-      @learners = []
-      @owner_teams.each {|team| @learners = @learners | team.users}
+    @learners = []
+    if params[:team_id] && current_user.admin?
+      @learners = Team.includes(:users).find(params[:team_id]).users
+    elsif params[:team_id]
+      @learners = Team.includes(:users).where(owner_id: current_user.id, id: params[:team_id]).
+                       first.users
     end
+    @learners
   end
 
   def enroll
@@ -71,20 +74,19 @@ class TeamsController < ApplicationController
     respond_with(@team)
   end
 
-  def teams_for_search
-    if current_user.admin?
-      @teams = Team.desc(:created_at)
-    else
-      my_teams
-    end
+  # find los of teams
+  # use in visual search
+  def los
+    @los = Team.find(params[:team_id]).los
   end
+
 
 private
   def teams
     if current_user.admin?
       @owner_teams = Team.all
     else
-      @owner_teams = Team.where(owner_id: current_user.id)
+      @owner_teams = current_user.owner_teams
     end
   end
 

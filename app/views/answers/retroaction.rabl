@@ -1,7 +1,10 @@
+#encoding: utf-8
 glue @answer do
   attributes :id, :created_at, :response, :try_number
 
-  node(:answered_by) { |answer| answer.user.name }
+  # name can be show just for the user and the owner of team
+  #node(:answered_by) { |answer| answer.user.name }
+  node(:answered_by) {|answer| answer.can_see_user?(current_user) ? answer.user.name : 'Não identificado'}
   node(:created_at) { |answer| l answer.created_at }
 
   node(:lo) {|answer| answer.lo.name}

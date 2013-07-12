@@ -15,11 +15,23 @@ class Team
   validates_presence_of :name, :code
   validates_uniqueness_of :name
 
+  before_destroy :allow_destroy
+
+  def allow_destroy
+    can_destroy = users.empty?
+    errors.add(:base, "Cannot delete booking with payments") unless can_destroy
+    can_destroy
+  end
+
   def owner
     @owner ||= User.find(self.owner_id)
   end
 
   def enroll(user, code)
+    if self.owner_id == user.id
+      self.errors.messages[:enroll] = [I18n.translate('mongoid.errors.messages.not_allowed')]
+      return false
+    end
     if code == self.code
       self.errors.messages.delete :enroll
       unless self.users.include?(user)
@@ -48,4 +60,14 @@ class Team
     Team.or({owner_id: user.id} , {user_ids: user.id}).distinct(:id)
   end
 
+  # return the team ids where the user is
+  # enrolled
+  def self.ids_enrolled_by_user(user)
+    Team.where(user_ids: user.id).distinct(:id)
+  end
+
+  # return the team ids created by a user
+  def self.ids_created_by_user(user)
+    Team.where(owner_id: user.id).distinct(:id)
+  end
 end
