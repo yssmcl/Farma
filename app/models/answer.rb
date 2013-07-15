@@ -31,7 +31,7 @@ class Answer
   has_one :last_answer
   embeds_many :comments, :as => :commentable
 
-  #default_scope desc(:created_at)
+  default_scope desc(:created_at)
   index({ team_id: 1, for_test: 1}, { unique: true })
   index({ team_id: 1, for_test: 1, correct: 1})
 
@@ -62,13 +62,14 @@ class Answer
   #end
 
   # return only answers of specific user
-  def self.search_of_user(user, teams, conditions = {})
+  def self.search_of_user(user, conditions = {})
     Answer.includes(:user).every.where(user_id: user.id).where(conditions)
   end
 
   # return only answers of a teams grup
   def self.search_in_teams_enrolled(user, conditions = {})
-    Answer.every.wrong.where(conditions).
+    conditions.delete('correct') if conditions
+    Answer.includes(:user).wrong.where(conditions).
                 in(team_id: Team.ids_enrolled_by_user(user)).
                 excludes(user_id: user.id)
   end
@@ -78,7 +79,7 @@ class Answer
     if user.admin?
         Answer.includes(:user).every.where(conditions)
     else
-        Answer.every.where(conditions).
+        Answer.includes(:user).every.where(conditions).
               in(team_id: Team.ids_created_by_user(user))
     end
   end
@@ -118,7 +119,7 @@ class Answer
   # User can see only your name and name of your own team learners
   # leaners can't not see the other learners name
   def can_see_user?(user)
-   (user.id === self.user.id) || (user.id === self.team.owner_id)
+   (user.id === self.user.id) || (user.id === self.team.owner_id) || user.admin?
   end
 
 # Need store all information for retroaction

@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   respond_to :json
 
   def index
-    @answers = Answer.search(params[:search], current_user).page(params[:page]).per(20)
+    #@answers = Answer.search(params[:search], current_user).page(params[:page]).per(20)
   end
 
   # search only in current user answers

@@ -1,3 +1,6 @@
+host:
+  production: 'farma.educacional.mat.br'
+  development: 'localhost:3000'
 email:
   account: "farma.ufpr@gmail.com"
   passwd: "farma123"

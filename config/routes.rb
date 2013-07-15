@@ -15,11 +15,11 @@ Carrie::Application.routes.draw do
       get 'my', :action => :search_in_my, :on => :collection
       get 'my/page/:page', :action => :search_in_my, :on => :collection
 
-      get 'search-in-teams-enrolled', action: :search_in_teams_enrolled, :on => :collection
-      get 'search-in-teams-enrolled/page/:page', action: :search_in_teams_enrolled, :on => :collection
+      get 'teams-enrolled', action: :search_in_teams_enrolled, :on => :collection
+      get 'teams-enrolled/page/:page', action: :search_in_teams_enrolled, :on => :collection
 
-      get 'search-in-teams-created', :action => :search_in_teams_created, :on => :collection
-      get 'search-in-teams-created/page/:page', :action => :search_in_teams_created, :on => :collection
+      get 'teams-created', :action => :search_in_teams_created, :on => :collection
+      get 'teams-created/page/:page', :action => :search_in_teams_created, :on => :collection
 
       resources :comments
     end

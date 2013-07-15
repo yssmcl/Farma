@@ -20,7 +20,6 @@ class CommentsController < ApplicationController
     respond_with(@model, @comment)
   end
 
-
   def edit
     respond_with(@model, @comment)
   end

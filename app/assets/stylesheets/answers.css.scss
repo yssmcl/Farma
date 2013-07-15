@@ -23,8 +23,17 @@
   }
   .modal-header {
     padding: 0px 15px;
+    table {
+      font-size: small;
+      margin-top: 10px;
+      margin-bottom: -8px;
+      td, th {
+        padding: 2px;
+      }
+    }
+    h3 {margin:1px;}
   }
   .modal-footer {
-    padding: 5px 15px 30px;
+    padding: 5px 15px 10px;
   }
 }

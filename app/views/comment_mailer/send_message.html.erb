@@ -1,0 +1,17 @@
+<p>Você recebeu um novo comentário</p>
+
+<p><strong>Turma: </strong> <%= @answer.team.name %> </p>
+<p><strong>OA: </strong> <%= @answer.lo.name %> </p>
+<p><strong>Exercício: </strong> <%= @answer.exercise.title %> </p>
+<p><strong>Questão: </strong> <%= @answer.question.title %> </p>
+
+<br />
+
+<p>
+  <strong>Comentário: </strong>
+  <%= @comment.text %>
+</p>
+
+<br />
+
+<%= link_to 'Ver comentátio na FARMA', @url %>

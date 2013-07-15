@@ -1,10 +1,28 @@
 <div class="modal" id="retroaction-modal" tabindex="-1" >
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Retroação a resposta {{response}}</h3>
-    <p>
-      Resposta <em>{{response}}</em> do aprendiz <em>{{answered_by}}</em> para questão <strong>{{question.title}}</strong>
-      do exercício <em>{{exercise.title}}</em> ocorrida às <em>{{created_at}}</em> durante a tentativa <em>{{try_number}}</em>
+    <h3 class="center">Retroação a resposta do aprendiz {{answered_by}}</h3>
+    <table class='table table-bordered'>
+      <thead>
+        <th>Turma</th>
+        <th>OA</th>
+        <th>Exercício</th>
+        <th>Questão</th>
+        <th>Resposta</th>
+        <th>Tentativa</th>
+        <th>Ocorrida em</th>
+      </thead>
+      <tbody>
+        <td>{{team}}</td>
+        <td>{{lo}}</td>
+        <td>{{exercise.title}}</td>
+        <td>{{question.title}}</td>
+        <td>${{response}}$</td>
+        <td>{{try_number}}</td>
+        <td>{{created_at}}</td>
+      </tbody>
+    </table>
+
     <p>
     {{#ifCond comments.length 1}}
       <p>Esta resposta possui <span data-number='{{comments.length}}' class='number_of_comments'>{{comments.length}} comentário </span></p>
@@ -12,6 +30,7 @@
       <p>Esta resposta possui <span data-number='{{comments.length}}' class='number_of_comments'>{{comments.length}} comentários </span></p>
     {{/ifCond}}
   </div>
+
   <div class="modal-body">
     <div class='answers'></div>
     <div class='comments'></div>

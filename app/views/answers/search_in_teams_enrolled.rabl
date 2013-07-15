@@ -20,4 +20,6 @@ child @answers do
   node(:exercise) {|an| an.exercise.title}
   node(:question) {|an| an.question.title}
   node(:many_answers) {|an| an.question.many_answers}
+
+  node(:comments_size) {|an| an.comments.size}
 end

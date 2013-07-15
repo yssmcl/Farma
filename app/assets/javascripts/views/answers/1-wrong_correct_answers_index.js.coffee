@@ -25,14 +25,31 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
     @updatePageInfo()
     unless @visualSearch
       @search()
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
 
+    @retroToAnswer()
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
+    $(@el).find('th[data-toggle="tooltip"]').tooltip()
 
   serializeData: ->
     viewData =
       title: @options.title
       subTitle: @options.subTitle
     return viewData
+
+
+  retroToAnswer: ->
+    if @options.retro_to_id
+      @answer = Carrie.Models.Retroaction.Answer.findOrCreate(@options.retro_to_id)
+      @answer = new Carrie.Models.Retroaction.Answer(id: @options.retro_to_id) if not @answer
+      @answer.fetch
+        async: false
+        success: (model, response, options) =>
+          view = new Carrie.Views.Retroaction.Answer(model: @answer).render().el
+          $(view).modal('show')
+          Backbone.history.navigate @options.url.replace('/api', ''), false
+
+        error: (model, response, options) ->
+          Carrie.Helpers.Notifications.Top.success 'Não foi possível retroagir a essa resposta!', 4000
 
   updatePageInfo: ->
     info = "Total de encontrados: #{@endless.get('total')}"
@@ -136,7 +153,7 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
         facetMatches : (callback) =>
           facets = @visualSearch.searchQuery.facets()
           filters = []
-          if not @searchContains facets , 'respostas'
+          if not(@searchContains(facets , 'respostas')) && not @options.not_filter_by_answers
             filters.push { value: 'respostas', label: 'Respostas' }
 
           if not @searchContains facets, 'turma'
