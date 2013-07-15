@@ -9,6 +9,7 @@ class Answer
   field :correct, type: Boolean
   field :for_test, type: Boolean
   field :tip, type: String, default: ''
+  field :tips, type: Array, default: Array.new()
   field :try_number, type: Integer
 
   field :lo, type: Hash
@@ -140,6 +141,7 @@ private
         question['last_answer']['response'] = la.first.answer.response
         question['last_answer']['correct'] = la.first.answer.correct
         question['last_answer']['tip'] = la.first.answer.tip
+        question['last_answer']['tips'] = la.first.answer.tips
         question['last_answer']['try_number'] = la.first.answer.try_number
       end
 
@@ -187,6 +189,10 @@ private
     self.try_number = @tips_count.tries
 
     tip = question.tips.where(:number_of_tries.lte => @tips_count.tries).desc(:number_of_tries).first
+
+    self.tips = question.tips.where(:number_of_tries.lte => @tips_count.tries).desc(:number_of_tries).map do |tip|
+      [tip.number_of_tries, tip.content]
+    end
     if tip
       self.tip = tip.content
     end

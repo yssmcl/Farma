@@ -8,6 +8,7 @@ class RetroactionAnswer
   field :response
   field :correct, type: Boolean
   field :tip, type: String, default: ''
+  field :tips, type: Array, default: Array.new()
   field :try_number, type: Integer, default: 0
   field :answer_id, type: Moped::BSON::ObjectId
   field :question_id, type: Moped::BSON::ObjectId
@@ -60,6 +61,7 @@ private
     self.try_number = question_json['tries'] if self.try_number == 0
     self.try_number += 1
     tip = question_json['tips'].select {|tip| tip['number_of_tries'] <= self.try_number }
+    self.tips = tip.map {|t| [t['number_of_tries'], t['content']]}
     if tip.first
       self.tip = tip.first['content']
     end

@@ -8,11 +8,18 @@
 
 {{#if tip}}
    <div class="span4 answer-tip">
-     <i class='icon-caret-left'></i>
+     <i class='left-icon icon-caret-left'></i>
      <div class='title'>Resposta Incorreta, análise a dica e tente novamente</div>
      <div class='content'>
-         <p><strong>Tentativa: {{try_number}}</strong></p>
-         {{safe tip}}
+         <div class="clearfix">
+           <span class="left"><strong>Tentativa: {{try_number}}</strong></span>
+           <span class="tip-number right"></span>
+         </div>
+         <div class="tip">{{safe tip}}</div>
+     </div>
+     <div class="tip-nav clearfix">
+        <a href="#" class="left previous"><i class="icon-arrow-left"></i></a>
+        <a href="#" class="right next"><i class="icon-arrow-right"></i></a>
      </div>
    </div>
 {{/if}}

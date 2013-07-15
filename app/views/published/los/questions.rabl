@@ -4,6 +4,7 @@ node :last_answer, if: lambda {|question| ( current_user && question.last_answer
   la = question.last_answers.by_user(current_user).first
   {
     tip: la.answer.tip,
+    tips: la.answer.tips,
     correct: la.answer.correct,
     response: la.answer.response,
     try_number: la.answer.try_number,

@@ -71,7 +71,7 @@
         @include border-radius($top:5px);
       }
 
-      i {
+      i.left-icon {
         font-size: 30px;
         color: red;
         position: relative;
@@ -79,6 +79,11 @@
         top: 30px;
         float: left;
         margin-left: -25px;
+      }
+
+      .tip-nav {
+        padding: 0px 7px;
+        a  i { font-size: 12px; }
       }
     }
 
