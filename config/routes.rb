@@ -20,7 +20,6 @@ Carrie::Application.routes.draw do
 
       get 'teams-created', :action => :search_in_teams_created, :on => :collection
       get 'teams-created/page/:page', :action => :search_in_teams_created, :on => :collection
-
       resources :comments
     end
 
