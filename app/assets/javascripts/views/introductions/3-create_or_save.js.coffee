@@ -13,7 +13,11 @@ class Carrie.Views.CreateOrSaveIntroduction extends Backbone.Marionette.ItemView
 
   onRender: ->
     @modelBinder.bind(this.model, this.el)
-    Carrie.CKEDITOR.show()
+    config =
+      language: 'pt-br'
+      toolbar: Carrie.CKEDITOR.toolbar.full
+    Carrie.CKEDITOR.show('textarea', config)
+
 
   create: (ev) ->
     ev.preventDefault()
