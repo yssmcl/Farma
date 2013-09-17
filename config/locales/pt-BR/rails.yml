@@ -53,6 +53,7 @@
       long: "%A, %d de %B de %Y – %Hh%M"
       only_second: "%S"
       date: "%d/%m/%Y"
+      only_time: "%H:%M:%S"
       month: "%m/%Y"
     am: "AM"
     pm: "PM"

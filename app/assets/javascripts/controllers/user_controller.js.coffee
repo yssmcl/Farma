@@ -22,11 +22,13 @@ class Carrie.Controllers.User
   passwords: ->
     Carrie.Helpers.Session.notExists
       func: ->
+        Carrie.main.show Carrie.layouts.unauthenticated
         Carrie.layouts.unauthenticated.showView('retrievePassword')
 
   editPassword: (token) ->
     Carrie.Helpers.Session.notExists
       func: =>
+        Carrie.main.show Carrie.layouts.unauthenticated
         Carrie.layouts.unauthenticated.resetPassword(token)
 
   perfil: ->
