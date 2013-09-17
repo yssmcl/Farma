@@ -23,7 +23,6 @@ class Carrie.Controllers.Exercises
             index = new Carrie.CompositeViews.ExerciseIndex
               collection: lo.get('exercises')
               model: lo
-
             Carrie.layouts.main.content.show index
           error: (model, response, options)->
             Carrie.Helpers.Notifications.Flash.error('Problema para carregar os exercícios')

@@ -10,4 +10,6 @@ public/ckeditor_assets/*
 *.tmproj
 public/assets
 .rvmrc
+.ruby-version
+.ruby-gemset
 db/dump

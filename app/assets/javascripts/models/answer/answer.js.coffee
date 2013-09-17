@@ -4,13 +4,17 @@ class Carrie.Models.Answer extends Backbone.RelationalModel
 
   paramRoot: 'answer'
 
+  # because the answer is used for authoring and published
+  initialize: ->
+    @fixed_key = if @get('question').get('exercise') then '' else '_p'
+
   default:
     tip: ''
 
   toJSON: ->
     response: @get('response')
-    lo_id: @get('question').get('exercise').get('lo').get('id')
-    exercise_id: @get('question').get('exercise').get('id')
+    lo_id: @get('question').get("exercise#{@fixed_key}").get("lo#{@fixed_key}").get('id')
+    exercise_id: @get('question').get("exercise#{@fixed_key}").get('id')
     question_id: @get('question').get('id')
     tip: @get('tip')
     tips: @get('tips')

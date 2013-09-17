@@ -6,6 +6,6 @@ class Carrie.Published.Models.Exercise extends Backbone.RelationalModel
     relatedModel: 'Carrie.Published.Models.Question'
     collectionType: 'Carrie.Published.Collections.Questions'
     reverseRelation: {
-      key: 'exercise'
+      key: 'exercise_p'
     }
   }]
