@@ -188,13 +188,16 @@ private
     @tips_count.inc(:tries, 1)
     self.try_number = @tips_count.tries
 
-    tip = question.tips.where(:number_of_tries.lte => @tips_count.tries).desc(:number_of_tries).first
+    current_tip = question.tips.where(:number_of_tries.lte => @tips_count.tries).desc(:number_of_tries).first
 
-    self.tips = question.tips.where(:number_of_tries.lte => @tips_count.tries).desc(:number_of_tries).map do |tip|
+    tips = question.tips.where(:number_of_tries.lte => @tips_count.tries).desc(:number_of_tries)
+
+    self.tips = tips.map do |tip|
       [tip.number_of_tries, tip.content]
     end
-    if tip
-      self.tip = tip.content
+
+    if current_tip
+      self.tip = current_tip.content
     end
   end
 

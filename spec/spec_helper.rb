@@ -46,6 +46,7 @@ Spork.prefork do
     config.run_all_when_everything_filtered = true
 
     config.include FactoryGirl::Syntax::Methods
+    config.include Capybara::DSL
 
     config.before(:suite) do
       DatabaseCleaner.strategy = :truncation

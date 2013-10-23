@@ -41,12 +41,14 @@ group :development, :test do
   gem 'pry-rails'
   gem 'thin'
   gem 'rspec-rails', '~> 2.0'
-  gem 'capybara'
+  gem 'capybara', '~> 2.1.0'
+  gem 'selenium-webdriver',   '~> 2.35.1'
   gem 'launchy'
   gem 'database_cleaner'
   gem 'thin'
   gem 'growl'
   gem 'faker'
+  gem 'railroady'
 end
 
 group :test do

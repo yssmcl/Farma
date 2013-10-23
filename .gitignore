@@ -13,3 +13,5 @@ public/assets
 .ruby-version
 .ruby-gemset
 db/dump
+doc/*.svg
+doc/*.png

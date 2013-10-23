@@ -16,6 +16,9 @@
   ? Pensar em não mostrar o nome dos participantes para outros aprendizes
   Não deixa o usuário se matricular na sua própria turma
 
+  1. Possibilitar a desmatricula do aluno.
+  2. Professor(dono da turma), recebe email de cada comentário.
+  3. Deixar a opção de correção ortográfica habilitada por padrão
 
 ## Complexas
    Compartilhamento de Objetos de Aprendizagem

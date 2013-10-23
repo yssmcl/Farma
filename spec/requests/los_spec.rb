@@ -1,11 +1,15 @@
 require 'spec_helper'
 
-describe "Los" do
-  describe "GET /los" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get los_path
-      response.status.should be(200)
-    end
+describe "Los", :js => true do
+  let(:user) {FactoryGirl.create(:user)}
+  subject {page}
+  before do
+    sign_in user
+  end
+  
+  describe "Los index", focus: true do
+    before { click_link "los-link" }
+
+    it { should have_content('Objetos de Aprendizagem') }
   end
 end
