@@ -1,20 +1,20 @@
 class Carrie.Routers.Exercises extends Backbone.Marionette.AppRouter
   appRoutes:
-    'los/:lo_id/exercises': 'index'
-    'los/:lo_id/exercises/new': 'new'
-    'los/:lo_id/exercises/edit/:id': 'edit'
-    'los/:lo_id/exercises/:id': 'show'
+    'my-los/:lo_id/exercises': 'index'
+    'my-los/:lo_id/exercises/new': 'new'
+    'my-los/:lo_id/exercises/edit/:id': 'edit'
+    'my-los/:lo_id/exercises/:id': 'show'
 
 class Carrie.Controllers.Exercises
 
   index: (lo_id) ->
      Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
           2: name: "Exercícios do OA #{lo.get('name')}", url: ''
 
         lo.get('exercises').fetch
@@ -30,12 +30,12 @@ class Carrie.Controllers.Exercises
   new: (lo_id) ->
     Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
-          2: name: "Exercícios do OA #{lo.get('name')}", url: "/los/#{lo.get('id')}/exercises"
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+          2: name: "Exercícios do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/exercises"
           3: name: 'novo', url: ''
 
         Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveExercise(lo: lo)
@@ -43,15 +43,15 @@ class Carrie.Controllers.Exercises
   edit: (lo_id, id) ->
      Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
         exercise = @findExer(lo, id)
 
         exercise.fetch
           success: (model, response, options) =>
             Carrie.layouts.main.loadBreadcrumb
-              1: name: 'Objetos de Aprendizagem', url: '/los'
-              2: name: "Exercícios do OA #{lo.get('name')}", url: "/los/#{lo.get('id')}/exercises"
+              1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+              2: name: "Exercícios do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/exercises"
               3: name: "Editar exercício #{model.get('title')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveExercise(lo: lo, model: model)
@@ -61,15 +61,15 @@ class Carrie.Controllers.Exercises
   show: (lo_id, id) ->
     Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
         exercise = @findExer(lo, id)
 
         exercise.fetch
           success: (model, response, options) =>
             Carrie.layouts.main.loadBreadcrumb
-              1: name: 'Objetos de Aprendizagem', url: '/los'
-              2: name: "Exercícios do OA #{lo.get('name')}", url: "/los/#{lo.get('id')}/exercises"
+              1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+              2: name: "Exercícios do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/exercises"
               3: name: "Visualizando exercício #{model.get('title')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.CompositeViews.ExerciseShow(lo: lo, model: exercise)

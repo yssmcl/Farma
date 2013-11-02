@@ -1,18 +1,29 @@
 class Carrie.Routers.Los extends Backbone.Marionette.AppRouter
   appRoutes:
-    'los': 'list'
-    'los/new': 'new'
-    'los/edit/:id': 'edit'
+    'my-los': 'list'
+    'my-los/new': 'new'
+    'my-los/edit/:id': 'edit'
     'help' : 'showHelp'
+    'shared-los': 'list_shared'
 
 class Carrie.Controllers.Los
+
+  list_shared: ->
+    Carrie.Helpers.Session.Exists
+      func: ->
+        obj = Carrie.Utils.Menu.highlight 'shared-los-link'
+        Carrie.layouts.main.loadBreadcrumb
+          1: name: 'Objetos de Aprendizagem compartilhados', url: obj.data('url')
+
+        Carrie.layouts.main.content.show new Carrie.CompositeViews.SharedLos
+
   list: ->
     Carrie.Helpers.Session.Exists
       func: ->
         los = new Carrie.Collections.Los
         losView = new Carrie.CompositeViews.Los collection: los
 
-        obj = Carrie.Utils.Menu.highlight 'los-link'
+        obj = Carrie.Utils.Menu.highlight 'my-los-link'
 
         Carrie.layouts.main.loadBreadcrumb
           1: name: obj.text(), url: obj.data('url')
@@ -23,17 +34,17 @@ class Carrie.Controllers.Los
   new: ->
     Carrie.Helpers.Session.Exists
       func: ->
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
-          2: name: 'novo', url: '/los/new'
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+          2: name: 'novo', url: '/my-los/new'
 
         Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveLo()
 
   edit: (id) ->
      Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
 
         lo = Carrie.Models.Lo.findOrCreate(id)
         lo = new Carrie.Models.Lo({id: id}) if not lo
@@ -41,8 +52,8 @@ class Carrie.Controllers.Los
         lo.fetch
           success: (model, response, options) ->
             Carrie.layouts.main.loadBreadcrumb
-              1: name: 'Objetos de Aprendizagem', url: '/los'
-              2: name: "Editar OA #{model.get('name')}", url: '/los/edit'
+              1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+              2: name: "Editar OA #{model.get('name')}", url: '/my-los/edit'
 
             Carrie.layouts.main.content.close()
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveLo(model: lo)

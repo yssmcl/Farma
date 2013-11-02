@@ -21,17 +21,17 @@ class Carrie.Views.Lo extends Backbone.Marionette.ItemView
 
   viewIntroductions: (ev) ->
     ev.preventDefault()
-    url = "/los/#{@model.get('id')}/introductions"
+    url = "/my-los/#{@model.get('id')}/introductions"
     Backbone.history.navigate(url, true)
 
   viewExercises: (ev) ->
     ev.preventDefault()
-    url = "/los/#{@model.get('id')}/exercises"
+    url = "/my-los/#{@model.get('id')}/exercises"
     Backbone.history.navigate(url, true)
 
   edit_lo: (ev) ->
     ev.preventDefault()
-    Backbone.history.navigate("/los/edit/#{@model.get('id')}", true)
+    Backbone.history.navigate("/my-los/edit/#{@model.get('id')}", true)
 
   destroy_lo: (ev) ->
     ev.preventDefault()

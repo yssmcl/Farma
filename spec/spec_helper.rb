@@ -48,21 +48,28 @@ Spork.prefork do
     config.include FactoryGirl::Syntax::Methods
     config.include Capybara::DSL
 
-    config.before(:suite) do
-      DatabaseCleaner.strategy = :truncation
-      DatabaseCleaner.clean_with(:truncation)
-    end
+    # Cleaner
+    DatabaseCleaner[:mongoid].strategy = :truncation
+    config.before(:each) { DatabaseCleaner[:mongoid].clean }
+    config.after(:each) { DatabaseCleaner[:mongoid].clean }
 
-    config.before(:each) do
-      DatabaseCleaner.start
-    end
+    #config.before(:suite) do
+    #  DatabaseCleaner.strategy = :truncation
+    #  DatabaseCleaner.clean_with(:truncation)
+    #end
 
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
+    #config.before(:each) do
+    #  DatabaseCleaner.start
+    #end
+
+    #config.after(:each) do
+    #  DatabaseCleaner.clean
+    #end
   end
 end
 
 Spork.each_run do
   FactoryGirl.reload
+  load "#{Rails.root}/spec/support/utilities.rb"
+  Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
 end

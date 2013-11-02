@@ -1,19 +1,19 @@
 class Carrie.Routers.Introductions extends Backbone.Marionette.AppRouter
   appRoutes:
-    'los/:lo_id/introductions': 'index'
-    'los/:lo_id/introductions/new': 'new'
-    'los/:lo_id/introductions/edit/:id': 'edit'
+    'my-los/:lo_id/introductions': 'index'
+    'my-los/:lo_id/introductions/new': 'new'
+    'my-los/:lo_id/introductions/edit/:id': 'edit'
 
 class Carrie.Controllers.Introductions
 
   index: (lo_id) ->
     Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
           2: name: "Introduções do OA #{lo.get('name')}", url: ''
 
         lo.get('introductions').fetch
@@ -31,12 +31,12 @@ class Carrie.Controllers.Introductions
   new: (lo_id) ->
     Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
-          2: name: "Introduções do OA #{lo.get('name')}", url: "/los/#{lo.get('id')}/introductions"
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+          2: name: "Introduções do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/introductions"
           3: name: 'nova', url: ''
 
         Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveIntroduction(lo: lo)
@@ -44,15 +44,15 @@ class Carrie.Controllers.Introductions
   edit: (lo_id, id) ->
     Carrie.Helpers.Session.Exists
       func: =>
-        Carrie.Utils.Menu.highlight 'los-link'
+        Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
         introduction = @findIntro(lo, id)
 
         introduction.fetch
           success: (model, response, options) =>
             Carrie.layouts.main.loadBreadcrumb
-              1: name: 'Objetos de Aprendizagem', url: '/los'
-              2: name: "Introduções do OA #{lo.get('name')}", url: "/los/#{lo.get('id')}/introductions"
+              1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
+              2: name: "Introduções do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/introductions"
               3: name: "Editar introdução #{model.get('title')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveIntroduction(lo: lo, model: model)

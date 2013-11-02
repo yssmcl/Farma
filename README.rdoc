@@ -1,15 +1,9 @@
-# TODO
+# TODO - Pensar
   Gravar histórico do uso da retroação
   Refactoring some finds
   Possibilidade de intercalar exercícios e introduções
   Enviar email quando uma resposta receber um comentário
   Possibilidade de o professor cadastrar aprendizes na turma
-
-  Dividir busca em:
-  Erros e Acertos
-    Meus erros
-    Erros das das minhas turmas
-    Erros dos meu colegadas de turmas
 
 ## Urgentes
   Possibilidade de o aprendiz ver todas as dicas apresentadas
@@ -17,13 +11,22 @@
   Não deixa o usuário se matricular na sua própria turma
 
   1. Possibilitar a desmatricula do aluno.
-  2. Professor(dono da turma), recebe email de cada comentário.
   3. Deixar a opção de correção ortográfica habilitada por padrão
 
 ## Complexas
-   Compartilhamento de Objetos de Aprendizagem
    Avaliação de objetos de aprendizagem
    Criação de objetos com uso de fractais
+
+## Futuras Versões
+   Documentar o Sistema
+   Salvar os erros em um banco de dados separados.
+   Redefinir a criação de OAs.
+   Categorização dos erros de acordo com o trabalho do Gustavo
+   Possibilidade de criar vários tipos de OA
+      e.g multipla escolha com limite de tentativas
+      Fractal
+      Programação
+   Histórico de acesso da utilização do OAs e ferramentas
 
 ## Concluídas Recentementes
   Página Inicial
@@ -37,3 +40,11 @@
   Verificar link do perfil e outros links                14-06-2013
   Ordenar apendizes por odem alfebética                  14-06-2013
   Verificar se o dono da turma ve as respostas certas    14-06-2013
+  Dividir busca em:
+  Erros e Acertos
+    Meus erros
+    Erros das das minhas turmas
+    Erros dos meu colegadas de turmas
+
+  Compartilhamento de Objetos de Aprendizagem 02-10-2013
+  2. Professor(dono da turma), recebe email de cada comentário. 02-10-2013

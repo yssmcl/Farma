@@ -27,7 +27,7 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
       wait: true
       success: (model, response, options) =>
         Carrie.Helpers.Notifications.Form.resetSubmit()
-        Backbone.history.navigate "/los/#{@options.lo.get('id')}/exercises/#{@model.get('id')}", true
+        Backbone.history.navigate "/my-los/#{@options.lo.get('id')}/exercises/#{@model.get('id')}", true
         Carrie.Helpers.Notifications.Top.success 'Exercício salvo com sucesso!', 4000
 
       error: (model, response, options) =>

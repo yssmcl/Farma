@@ -25,6 +25,11 @@
     student: "Estudante"
     professor: "Professor"
 
+  request_status:
+    waiting: Aguardando resposta
+    canceled: Cancelado
+    authorized: Autorizado
+
   date:
     formats:
       day_of_week: "%a"

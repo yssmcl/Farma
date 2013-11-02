@@ -8,6 +8,17 @@ Carrie::Application.routes.draw do
       match '/teams/:team_id/los/:id' => "los#show"
     end
 
+    match '/home/lo_example' => "home#lo_example"
+    match '/home/dashboard' => "home#dashboard"
+
+    match 'requests/los/to-me' => "request_los#to_me", via: :get
+    match '/requests/:lo_id', to: 'request_los#petition', via: :post
+    match '/requests/:id/authorize' => "request_los#authorize", via: :post
+    match '/requests/:id/not-authorize' => "request_los#not_authorize", via: :post
+
+    resources :retroaction_answers, only: :create
+    resources :contacts, only: :create
+
     resources :answers do
       get 'retroaction', on: :member
       get 'page/:page', :action => :index, :on => :collection
@@ -23,10 +34,6 @@ Carrie::Application.routes.draw do
       resources :comments
     end
 
-    match '/home/lo_example' => "home#lo_example"
-    resources :retroaction_answers, only: :create
-    resources :contacts, only: :create
-
     resources :teams do
       get 'created', on: :collection
       get 'enrolled', on: :collection
@@ -39,6 +46,8 @@ Carrie::Application.routes.draw do
 
     resources :los do
       get 'my_los', on: :collection
+      get 'shared', on: :collection
+      get 'shared/page/:page', :action => :shared, :on => :collection
       get 'exercises', on: :collection
       resources :introductions do
         collection {post :sort}

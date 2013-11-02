@@ -8,7 +8,7 @@ class Carrie.CompositeViews.ExerciseIndex extends Backbone.Marionette.CompositeV
 
   new: (ev) ->
     ev.preventDefault()
-    Backbone.history.navigate('/los/'+@model.get('id')+'/exercises/new', true)
+    Backbone.history.navigate('/my-los/'+@model.get('id')+'/exercises/new', true)
 
   onRender: ->
     @el.id = 'exercises'

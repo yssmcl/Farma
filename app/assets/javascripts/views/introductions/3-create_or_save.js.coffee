@@ -32,7 +32,7 @@ class Carrie.Views.CreateOrSaveIntroduction extends Backbone.Marionette.ItemView
       success: (model, response, options) =>
         Carrie.Helpers.Notifications.Form.resetSubmit()
 
-        Backbone.history.navigate "/los/#{@options.lo.get('id')}/introductions", true
+        Backbone.history.navigate "/my-los/#{@options.lo.get('id')}/introductions", true
         Carrie.Helpers.Notifications.Top.success 'OA salva com sucesso!', 4000
 
       error: (model, response, options) =>

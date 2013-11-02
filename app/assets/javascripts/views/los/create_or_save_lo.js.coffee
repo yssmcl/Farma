@@ -20,7 +20,7 @@ class Carrie.Views.CreateOrSaveLo extends Backbone.Marionette.ItemView
       wait: true
       success: (model, response, options) =>
         Carrie.Helpers.Notifications.Form.resetSubmit()
-        Backbone.history.navigate '/los', true
+        Backbone.history.navigate '/my-los', true
         Carrie.Helpers.Notifications.Top.success 'OA salva com sucesso!', 4000
 
       error: (model, response, options) =>

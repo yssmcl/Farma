@@ -14,11 +14,11 @@ class Carrie.Views.ExerciseIndexItem extends Backbone.Marionette.ItemView
 
   show: (ev) ->
     ev.preventDefault()
-    Backbone.history.navigate('/los/'+@model.get('lo').get('id')+'/exercises/'+@el.id, true)
+    Backbone.history.navigate('/my-los/'+@model.get('lo').get('id')+'/exercises/'+@el.id, true)
 
   edit: (ev) ->
     ev.preventDefault()
-    Backbone.history.navigate('/los/'+@model.get('lo').get('id')+'/exercises/edit/'+@el.id, true)
+    Backbone.history.navigate('/my-los/'+@model.get('lo').get('id')+'/exercises/edit/'+@el.id, true)
 
   destroy: (ev) ->
     ev.preventDefault()

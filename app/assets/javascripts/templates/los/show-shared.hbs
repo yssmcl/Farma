@@ -1,0 +1,26 @@
+<header>
+  <div class='row-fluid'>
+    <div class='span9'>
+      <h4 class='left'>{{name}}</h4>
+    </div>
+  </div>
+  <div class='text-right date-info'>
+    Criado por {{created_by}} em {{created_at}}
+  </div>
+</header>
+
+<p>{{description}}</p>
+<p class="text-right">
+  <a class='btn btn-small btn-primary preview'> Visualizar</a>
+
+  {{#UnlessCond status "waiting" }}
+  <a class='btn btn-small btn-primary request-lo' data-toggle="tooltip" data-placement="bottom" title=""
+        data-original-title="Ao solicitar um OA será enviado um email ao seu proprietário,
+        solicitando sua autorização, posteriormente, com aceitação, será disponibilizado
+        nos seus OAs" >
+        Solicitar compartilhamento</a>
+  {{else}}
+    <a class="btn btn-success disabled">Aguardando autorização</a>
+  {{/UnlessCond}}
+</p>
+<hr>

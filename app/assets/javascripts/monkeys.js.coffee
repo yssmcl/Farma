@@ -19,6 +19,12 @@ Handlebars.registerHelper 'ifCond', (e1, e2, options) ->
 
   return options.inverse(this)
 
+Handlebars.registerHelper 'UnlessCond', (e1, e2, options) ->
+  if e1 != e2
+    return options.fn(this)
+
+  return options.inverse(this)
+
 Handlebars.registerHelper 'include',(template, options) ->
   #Find the partial in question.
   partial = Handlebars.partials[template]

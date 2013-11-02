@@ -5,7 +5,7 @@ class Carrie.Views.Breadcrumb extends Backbone.Marionette.ItemView
 
   onRender: ->
     if Carrie.currentUser
-      @add('Home', '/welcome', true)
+      @add('Home', '/dashboard', true)
     else
       @add('Home', '/', true)
 

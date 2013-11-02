@@ -8,7 +8,7 @@ class Carrie.CompositeViews.Los extends Backbone.Marionette.CompositeView
 
   new_lo: (ev) ->
     ev.preventDefault()
-    Backbone.history.navigate('/los/new', true)
+    Backbone.history.navigate('/my-los/new', true)
 
   onRender: ->
     @el.id = 'los'

@@ -41,6 +41,12 @@ class User
   has_many :answers, dependent: :delete
   has_many :retroaction_answers, dependent: :delete
   has_many :last_answers, dependent: :delete
+
+  has_many :requests_for_los_from_me,
+            class_name: 'RequestLo', inverse_of: :user_from, dependent: :delete
+  has_many :requests_for_los_to_me,
+            class_name: 'RequestLo', inverse_of: :user_to, dependent: :delete
+
   has_and_belongs_to_many :teams
 
   def do_gravatar_hash

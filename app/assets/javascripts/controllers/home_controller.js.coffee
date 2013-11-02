@@ -1,7 +1,7 @@
 class Carrie.Routers.Home extends Backbone.Marionette.AppRouter
   appRoutes:
     '': 'index'
-    'welcome': 'welcome'
+    'dashboard': 'dashboard'
     'lo_example': 'lo_example'
     'lo_example/pages/:page': 'lo_example'
     '*options': 'urlNotFound'
@@ -12,11 +12,14 @@ class Carrie.Controllers.Home
     $('.carousel').carousel
       interval: 7000
 
-  welcome: ->
+  dashboard: ->
     Carrie.Helpers.Session.Exists
       func: ->
         Carrie.layouts.main = new Carrie.Views.Layouts.Main()
         Carrie.main.show Carrie.layouts.main
+
+        Carrie.Utils.Menu.highlight 'dashboard-link'
+        Carrie.layouts.main.content.show new Carrie.Views.DashboardIndex()
 
   lo_example: (page) ->
     lo = Carrie.Published.Models.Lo.findOrCreate()

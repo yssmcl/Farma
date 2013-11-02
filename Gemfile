@@ -53,6 +53,7 @@ end
 
 group :test do
   gem 'spork', '> 0.9.0.rc'
+  gem 'rb-fsevent', '~> 0.9'
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'factory_girl_rails',  "~> 4.2.1"

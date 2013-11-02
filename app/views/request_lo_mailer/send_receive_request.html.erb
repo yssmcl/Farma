@@ -1,0 +1,14 @@
+Olá <%= @request.user_to.name %>
+
+<p>Você recebeu uma solicitação de compartilhamento de Objeto de Aprendizado
+de <em><%= @request.user_from.name  %> - <%= @request.user_from.email  %></em></p>
+
+<p>Para autorizar o compartilhamento, visite sua página inicial na farma(<%= link_to 'FARMA', @url %>),
+e clique em compartilhar.</p>
+
+<p>
+Quando você autorizar o compartilhamento uma cópia de seu Objeto de Aprendizado é feita
+para o usuário solicitante.
+</p>
+
+Obrigado!

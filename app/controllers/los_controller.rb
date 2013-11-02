@@ -10,6 +10,12 @@ class LosController < ApplicationController
     end
   end
 
+  # Shared Los
+  # Los marked as can_share equal true
+  def shared
+    @los = Lo.search(params[:search]).page(params[:page]).per(15)
+  end
+
   def show
     if current_user.admin?
       respond_with Lo.find(params[:id])
@@ -44,6 +50,7 @@ class LosController < ApplicationController
     end
   end
 
+  # Los Enrolled
   def my_los
     if params[:team_id]
       @los = Team.find(params[:team_id]).los

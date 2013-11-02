@@ -1,10 +1,26 @@
 desc "Send mailing"
 
+task :send_request_receive => :environment do
+  request = RequestLo.find(ENV["REQUEST_ID"])
+  RequestLoMailer.send_receive_request(request).deliver
+end
+
+task :send_request_authorized => :environment do
+  request = RequestLo.find(ENV["REQUEST_ID"])
+  RequestLoMailer.send_authorized_request(request).deliver
+end
+
+task :send_request_not_authorized => :environment do
+  request = RequestLo.find(ENV["REQUEST_ID"])
+  RequestLoMailer.send_not_authorized_request(request).deliver
+end
+
 task :send_message_mailing => :environment do
   answer = Answer.find(ENV["ANSWER_ID"])
+  team_onwer_id = answer.team.owner.id
 
   users_ids = answer.comments.distinct(:user_id)
-  users_ids = users_ids | [answer.user.id]
+  users_ids = users_ids | [answer.user.id, team_onwer_id]
 
   default_url = "http://#{APP_CONFIG[:host][Rails.env.to_sym]}/answers/my/#{answer.id}"
 
