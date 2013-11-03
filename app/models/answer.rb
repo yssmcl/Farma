@@ -51,16 +51,6 @@ class Answer
   #   can see all your answer
   #   can see all students' answers of your own team
   #   can see only wrong studens' answers of students that participed of same team
-  #def self.search(conditions, user)
-  #  filter_answers = Answer.includes(:user).every.where(conditions)
-  #  unless user.admin?
-  #    filter_answers = filter_answers.or({:user_id.ne => user.id, correct: false},
-  #                                       {:team_id.in => user.owner_teams.pluck(:id)},
-  #                                       {user_id: user.id}
-  #                                      ).in(team_id: Team.ids_by_user(user))
-  #  end
-  #  filter_answers.desc(:created_at)
-  #end
 
   # return only answers of specific user
   def self.search_of_user(user, conditions = {})
@@ -126,7 +116,8 @@ class Answer
 # Need store all information for retroaction
 private
   def update_questions_with_last_answer
-   _exercise = super_exercise
+   #_exercise = super_exercise
+   _exercise = self[:exercise]
    _exercise['questions'].each do |question|
       question['id'] = question['_id']
       question.delete('_id')

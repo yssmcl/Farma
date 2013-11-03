@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Answer do
 
   before(:each) do
-    @user_admin = FactoryGirl.create(:user, admin: true)
-    @user = FactoryGirl.create(:user, admin: false)
+    @user_admin = FactoryGirl.create(:admin)
+    @user = FactoryGirl.create(:user)
     @lo = FactoryGirl.create(:lo, user: @user_admin)
     @exercise = FactoryGirl.create(:exercise, lo: @lo)
     @question = FactoryGirl.create(:question, exercise: @exercise)
@@ -52,7 +52,7 @@ describe Answer do
     team.enroll(user, '1234')
     team.enroll(user_a, '1234')
 
-    4.times { create_valid_answers(user_a, '1000', team.id) }
+    4.times { create_valid_answers(user_a, '1000', team) }
 
     Answer.search_in_teams_enrolled(user).should have(4).items
   end
@@ -63,8 +63,8 @@ describe Answer do
     team = FactoryGirl.create(:team, owner_id: user.id)
 
     team.enroll(user_a, '1234')
-    2.times { create_valid_answers(user_a, 'x + 1', team.id) } # corrects
-    2.times { create_valid_answers(user_a, 'x + 10', team.id) } # wrongs
+    2.times { create_valid_answers(user_a, 'x + 1', team) } # corrects
+    2.times { create_valid_answers(user_a, 'x + 10', team) } # wrongs
 
     Answer.search_in_teams_created(user).should have(4).items
   end
@@ -85,24 +85,21 @@ describe Answer do
 
     team.enroll(user_a, '1234')
     #team.enroll(user, '1234')
-    2.times { create_valid_answers(user_a, 'x + 1', team.id) } # corrects
-    2.times { create_valid_answers(user_a, 'x + 10', team.id) } # wrongs
+    2.times { create_valid_answers(user_a, 'x + 1', team) } # corrects
+    2.times { create_valid_answers(user_a, 'x + 10', team) } # wrongs
 
     Answer.search_in_teams_created(user).should have(4).items
     Answer.search_in_teams_enrolled(user_a).should have(0).items
   end
 
 private
-  def create_valid_answers(user = @user, response = 'x', team_id = @team.id)
-      FactoryGirl.create(:answer,
-                         lo_id: @lo.id,
-                         exercise_id: @exercise.id,
-                         question_id: @question.id,
-                         team_id: team_id,
-                         response: response,
-                         user: user,
-                         for_test: false
-                        )
+  def create_valid_answers(user = @user, response = 'x', team = @team)
+      answer = user.answers.create(lo_id: @lo.id,
+                                   exercise_id: @exercise.id,
+                                   question_id: @question.id,
+                                   team_id: team.id,
+                                   response: response,
+                                   for_test: false)
   end
 
   def create_invalid_answers(number = 0, user = @user)
@@ -116,6 +113,5 @@ private
                          for_test: true
                         )
   end
-
 
 end

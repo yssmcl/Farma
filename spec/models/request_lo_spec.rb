@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RequestLo, focus: true do
+describe RequestLo do
   let(:lo) { FactoryGirl.create(:lo, :with_introductions_and_exercises) }
   let(:user) { FactoryGirl.create(:user) }
 

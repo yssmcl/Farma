@@ -18,14 +18,16 @@ class LosController < ApplicationController
 
   def show
     if current_user.admin?
-      respond_with Lo.find(params[:id])
+      @lo = Lo.find(params[:id])
+      respond_with @lo
     else
       respond_with current_user.los.find(params[:id])
     end
   end
 
   def create
-    respond_with current_user.los.create(params[:lo])
+    @lo = current_user.los.create(params[:lo])
+    respond_with @lo
   end
 
   def update
