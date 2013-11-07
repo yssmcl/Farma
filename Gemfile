@@ -18,7 +18,8 @@ gem "ckeditor", '~> 4.0.4'
 gem 'mongoid-paperclip', :require => 'mongoid_paperclip'
 gem 'kaminari', "~> 0.14.1"
 
-gem 'math_engine', git: 'git://github.com/dmarczal/math_engine.git' #, branch: 'original'
+#gem 'math_engine', git: 'git://github.com/dmarczal/math_engine.git' #, branch: 'original'
+gem 'math_engine', git: 'https://github.com/brightbits/math_engine.git' #, branch: 'original'
 
 gem 'redcarpet'
 gem 'whenever', require: false

@@ -57,7 +57,7 @@ module MathEvaluate
     end
 
     def self.evaluate(exp, variables_with_values)
-      engine = MathEngine::MathEngine.new
+      engine = ::MathEngine.new
       variables_with_values.each do |key, value|
         engine.evaluate("#{key} = #{value}")
       end

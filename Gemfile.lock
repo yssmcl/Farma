@@ -7,11 +7,11 @@ GIT
       sass (>= 3.2)
 
 GIT
-  remote: git://github.com/dmarczal/math_engine.git
-  revision: 900241468e5c339d4e20265bddd76527450e271e
+  remote: https://github.com/brightbits/math_engine.git
+  revision: 472049bf15b31b45dceff577184bc2647063e443
   specs:
-    math_engine (0.3.0)
-      lexr (>= 0.2.2)
+    math_engine (0.6.4)
+      lexr (>= 0.3.1)
 
 GEM
   remote: https://rubygems.org/
