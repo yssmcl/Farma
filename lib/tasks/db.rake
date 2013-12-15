@@ -9,7 +9,7 @@ namespace :db do
        question.tips_counts.where(user_id: answer.user_id).try(:delete_all)
        answer.delete
      end
-     RetroactionAnswer.delete_all
+     #RetroactionAnswer.delete_all
      User.where(guest: true).delete_all
   end
 

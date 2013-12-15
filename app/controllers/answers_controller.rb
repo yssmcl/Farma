@@ -32,11 +32,12 @@ class AnswersController < ApplicationController
   end
 
   def retroaction
-    delete_retroaction_answers
+    #delete_retroaction_answers
     @answer = Answer.find(params[:id])
   end
 
 private
+  # Need to be thing about this
   def delete_retroaction_answers
     retros = RetroactionAnswer.where(answer_id: params[:id], user_id: current_user.id)
     retros.delete_all

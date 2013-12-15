@@ -16,24 +16,40 @@ namespace :xls do
 
   desc "Create a xls document"
   task :generate => :environment do
+    require 'remove_accents'
     datas = []
-    headers = ['Turma', 'Aprendiz', 'Exercício', 'Questão', 'Data de ocorrência', 'Hora de ocorrência', 'Resposta', 'Correta', 'Resposta Correta']
+    headers = ['Turma', 'ID da Turma', 'Aprendiz', 'ID do Aprendiz', 'Exercício', 'Questão',
+               'Data de ocorrência', 'Hora de ocorrência',
+               'Resposta', 'Correta', 'Resposta Correta']
     datas.push headers
 
     #answers = Answer.every.sort {|a,b| a.user.name <=> b.user.name }
     #answers = answers.select {|a| a.lo.name = 'Pitágoras Mix - Senai - Curitiba/PR' }
-    answers = Answer.every.where('lo.name' => 'Pitágoras Max - Senai - Curitiba/PR').asc(:'user.name')
-    answers = answers.sort {|a,b| [a.user.name, a.created_at] <=> [b.user.name, b.created_at] }
-
-    answers.each do |answer|
-      datas.push [answer.team.name, answer.user.name, answer.exercise.title, answer.question.title,
-       I18n.l(answer.created_at, format: :date),
-       I18n.l(answer.created_at, format: :only_time),
-       answer.response, answer.correct?, answer.question.correct_answer ]
+    oas = ['Relatividade Especial', 'A invenção dos logaritmos', 'Pitágoras Mix - Senai - Curitiba/PR',
+           'Pitágoras Max - Senai - Curitiba/PR', 'Uma Ética para alem do bem e do mal']
+    
+    oas.each do |oa|
+      lo = Lo.find_by(name: oa)
+      puts "#{lo.id} \t #{lo.name}"
     end
+    exit
+    oas.each do |el|
+      answers = Answer.every.where('lo.name' => el).asc(:'user.name')
+      answers = answers.sort {|a,b| [a.team.name, a.created_at] <=> [b.team.name, b.created_at] }
 
-    f = File.new("answers-pitagoras-max-senai.xls", "w+")
-    f << datas.to_xls
-    f.close
+      answers.each do |answer|
+        next if answer.user.nil?
+        datas.push [answer.team.name, answer.team_id, answer.user.name, answer.user.id, answer.exercise.title, answer.question.title,
+                    I18n.l(answer.created_at, format: :date),
+                    I18n.l(answer.created_at, format: :only_time),
+                    answer.response, answer.correct?, answer.question.correct_answer ]
+      end
+
+      file_name = "answers-#{el.removeaccents.urlize(convert_spaces: '-')}"
+
+      f = File.new("#{file_name}.csv", "w+")
+      f << datas.to_xls
+      f.close
+    end
   end
 end

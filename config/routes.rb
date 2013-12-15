@@ -63,7 +63,9 @@ Carrie::Application.routes.draw do
     end
   end
 
-  devise_for :users
+  constraints lambda {|req| req.url =~ /api\/users/ && req.delete? ? false : true} do
+    devise_for :users
+  end
 
   root to: "home#index"
   match '*path', to: 'home#index'
