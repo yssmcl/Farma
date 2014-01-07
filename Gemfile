@@ -24,6 +24,8 @@ gem 'math_engine', git: 'https://github.com/brightbits/math_engine.git' #, branc
 gem 'redcarpet'
 gem 'whenever', require: false
 
+gem 'request-log-analyzer', require: false
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.5'
   gem 'coffee-rails', '~> 3.2.1'
