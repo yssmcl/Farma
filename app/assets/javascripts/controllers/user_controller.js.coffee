@@ -10,12 +10,14 @@ class Carrie.Controllers.User
   signIn: ->
     Carrie.Helpers.Session.notExists
       func: ->
+        Carrie.layouts.unauthenticated = new Carrie.Views.Layouts.Unauthenticated()
         Carrie.main.show Carrie.layouts.unauthenticated
         Carrie.layouts.unauthenticated.showView('login')
 
   signUp: ->
     Carrie.Helpers.Session.notExists
       func: ->
+        Carrie.layouts.unauthenticated = new Carrie.Views.Layouts.Unauthenticated()
         Carrie.main.show Carrie.layouts.unauthenticated
         Carrie.layouts.unauthenticated.showView('signup')
 

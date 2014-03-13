@@ -17,6 +17,19 @@
    Avaliação de objetos de aprendizagem
    Criação de objetos com uso de fractais
 
+   * cada erro cometido pelo aprendiz fica registrado em associação à sua
+      chave de acesso e não é eliminado de seu histórico mesmo que esse aprediz
+      retroceda à situação de erro e resolva o exercício de maneira correta (**
+      TEMOS QUE PENSAR MELHOR NISSO, LEMBRA? TALVEZ SEJA O CASO DE ELIMINAR O
+      REGISTRO DO ERRO DA VISÃO DO ALUNO, MESMO QUE ELE FIQUE REGISTRADO PRA
+      SEMPRE EM SEU NOME);
+
+Neste ponto teríamos que discutir como ficaria melhor, acho interessante que
+depois que o aprendiz corrigiu seu erro, ele seja separado em áreas distintas,
+sendo uma para apresentar os que ele solucionou e os que ele não solucionou
+ainda, isso também poderia virar em dados estatísticos apresentados ao
+professor.
+
 ## Futuras Versões
    Documentar o Sistema
    Salvar os erros em um banco de dados separados.
