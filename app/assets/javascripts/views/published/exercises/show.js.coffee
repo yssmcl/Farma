@@ -19,7 +19,7 @@ class Carrie.Published.Views.Exercise extends Backbone.Marionette.CompositeView
   clearLastAnswers: (ev) ->
     ev.preventDefault()
     obj = new Carrie.Published.Models.ExerciseLastAnswersDelete
-      lo_id: @model.get('lo').get('id')
+      lo_id: @model.get('lo_p').get('id')
       id: @model.get('id')
 
     obj.destroy
