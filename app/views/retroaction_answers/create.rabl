@@ -1,3 +1,5 @@
 glue @retroaction do
-  attributes :id, :tip, :tips, :response, :try_number, :correct
+  attributes :id, :response, :correct
+  node(:tips) {|retroaction| @tips.as_json}
+  node(:attempt_number) { session[@question_id] }
 end

@@ -1,4 +1,5 @@
 # Answer for construct a exercise
+# TODO: Refatorar!!
 class Carrie.Views.Answer extends Backbone.Marionette.ItemView
   template: null
   tagName: 'div'
@@ -15,6 +16,7 @@ class Carrie.Views.Answer extends Backbone.Marionette.ItemView
       if not @model.get('correct')
         @model.set('classname', 'wrong')
         @model.set('title', 'Incorreto')
+        @model.set('tip', @tips[0])
       else
         @model.set('classname', 'right')
         @model.set('title', 'Correto')
@@ -36,14 +38,14 @@ class Carrie.Views.Answer extends Backbone.Marionette.ItemView
     ev.preventDefault()
     if @tips && @current_tip_index < @tips.length-1
       @current_tip_index++
-      $(@el).find('.content .tip-number').html("Dica: " + @tips[@current_tip_index][0])
-      $(@el).find('.content .tip').html(@tips[@current_tip_index][1])
+      $(@el).find('.content .tip-number').html("Dica: " + @tips[@current_tip_index].number_of_tries)
+      $(@el).find('.content .tip').html(@tips[@current_tip_index].content)
       MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
 
   nextTip: (ev) ->
     ev.preventDefault()
     if @current_tip_index > 0
       @current_tip_index--
-      $(@el).find('.content .tip-number').html("Dica: " + @tips[@current_tip_index][0])
-      $(@el).find('.content .tip').html(@tips[@current_tip_index][1])
+      $(@el).find('.content .tip-number').html("Dica: " + @tips[@current_tip_index].number_of_tries)
+      $(@el).find('.content .tip').html(@tips[@current_tip_index].content)
       MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])

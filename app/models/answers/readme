@@ -1,0 +1,23 @@
+The Answers namespace is used for represent all register of answers, this is
+important because its necessary to save a copy of datas for each register of answer.
+
+The anwers here is called soluction and it represents the right
+correct and wrong answers.
+
+For each soluction is stored a copy of:
+  * OA
+    * Title 
+    * Description
+  * Exercises
+    * Title 
+    * Enunciation
+    * All questions
+  * Question
+    * Title
+    * Enunciation
+    * LastAnswer
+
+Others data that is necessary to save with de soluction
+  * Response
+  * Correct
+

@@ -2,16 +2,29 @@ namespace :db do
 
   desc "Clear temporary data of answers"
   task :clear_tmp_data => :environment do
-     answers = Answer.or({team_id: nil}, {for_test: true})
+     answers = Answers::Soluction.or({team_id: nil}, {to_test: true})
      answers.each do |answer|
        question = answer.question
        question.last_answers.where(user_id: answer.user_id).try(:delete_all)
        question.tips_counts.where(user_id: answer.user_id).try(:delete_all)
-       answer.delete
+       answer.destroy
      end
      #RetroactionAnswer.delete_all
-     User.where(guest: true).delete_all
+     User.where(guest: true).destroy_all
   end
+  task :delete_all_answers => :environment do
+     answers = Answers::Soluction.all
+     answers.each do |answer|
+       question = answer.original_question
+       question.last_answers.where(user_id: answer.user_id).try(:delete_all)
+       question.tips_counts.where(user_id: answer.user_id).try(:delete_all)
+       answer.destroy
+     end
+
+     #[Answers::Lo,Answers::Exercise, Answers::Question,
+     # Answers::Tip,Answers::LastAnswer].each(&:destroy_all)
+  end
+  #==============================================
 
   desc "This populate database"
   task :populate => :environment do
@@ -35,9 +48,9 @@ namespace :db do
             q = exer.questions.create(title: Faker::Name.title, content: Faker::Lorem.paragraphs(1).join,
                                   correct_answer: i)
 
-            3.times do |i|
+            3.times do |o|
               q.tips.create(content: Faker::Lorem.paragraphs(1).join,
-                            numbers_of_tries: i )
+                            numbers_of_tries: o )
             end
 
           end

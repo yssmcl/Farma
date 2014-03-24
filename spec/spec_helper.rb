@@ -11,9 +11,15 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 Spork.prefork do
 
-  Capybara.register_driver :rack_test do |app|
-    Capybara::RackTest::Driver.new(app, :browser => :chrome)
+  #Capybara.register_driver :rack_test do |app|
+  #  Capybara::RackTest::Driver.new(app, :browser => :chrome)
+  #end
+
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :chrome)
   end
+
+  Capybara.javascript_driver = :chrome
 
   RSpec.configure do |config|
     # ## Mock Framework
@@ -47,6 +53,7 @@ Spork.prefork do
 
     config.include FactoryGirl::Syntax::Methods
     config.include Capybara::DSL
+
 
     # Cleaner
     DatabaseCleaner[:mongoid].strategy = :truncation

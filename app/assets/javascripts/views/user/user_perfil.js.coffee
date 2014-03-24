@@ -35,7 +35,8 @@ class Carrie.Views.UserPerfil extends Backbone.Marionette.ItemView
         Carrie.Helpers.Notifications.Top.success('Seus dados foram atualizados!')
         Carrie.header_right_menu.show new Carrie.Views.AuthenticateHRM model: Carrie.currentUser
         Carrie.layouts.main.content.close()
-        Backbone.history.navigate '/los', true
+        Backbone.history.navigate '/dashboard', true
+
 
       error: (userSession, response) =>
         result = $.parseJSON(response.responseText)

@@ -50,7 +50,7 @@ class Carrie.Views.Question extends Backbone.Marionette.CompositeView
       question: @model
       user_id: Carrie.currentUser.get('id')
       response: resp
-      for_test: true
+      to_test: true
 
     answer.save answer.attributes,
       wait: true

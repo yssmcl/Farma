@@ -19,6 +19,7 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
         MathJax.Hub.Queue(["Typeset",MathJax.Hub, el])
       ), 100
     , @
+    console.log @collection
 
   onRender: ->
     @endless.load()

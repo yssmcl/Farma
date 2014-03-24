@@ -1,3 +1,4 @@
 glue @answer do
-  attributes :id, :tip, :tips, :response, :try_number, :correct
+  attributes :id, :response, :attempt_number, :correct
+  node(:tips) {|answer| answer.tips.as_json}
 end

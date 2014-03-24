@@ -38,14 +38,17 @@ class User
   before_save :do_gravatar_hash
 
   has_many :los, dependent: :delete
-  has_many :answers, dependent: :delete
-  has_many :retroaction_answers, dependent: :delete
-  has_many :last_answers, dependent: :delete
+
+  #has_many :answers, dependent: :delete
+  has_many :answers, class_name: "Answers::Soluction", dependent: :destroy
+
+  has_many :retroaction_answers, dependent: :destroy
+  has_many :last_answers, dependent: :destroy
 
   has_many :requests_for_los_from_me,
-            class_name: 'RequestLo', inverse_of: :user_from, dependent: :delete
+            class_name: 'RequestLo', inverse_of: :user_from, dependent: :destroy
   has_many :requests_for_los_to_me,
-            class_name: 'RequestLo', inverse_of: :user_to, dependent: :delete
+            class_name: 'RequestLo', inverse_of: :user_to, dependent: :destroy
 
   has_and_belongs_to_many :teams
 

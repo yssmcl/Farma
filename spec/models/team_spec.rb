@@ -19,6 +19,14 @@ describe Team do
     @ids.push team.id
   end
 
+  it { should respond_to(:code) }
+  it { should respond_to(:name) }
+  it { should respond_to(:owner_id) }
+
+  it { should has_and_belongs_to_many(:los) }
+  it { should has_and_belongs_to_many(:users) }
+  it { should has_many(:answers) }
+
   it "should return owner team ids and enroll team_ids from a specific user" do
      Team.ids_by_user(@user).should eql(@ids)
   end

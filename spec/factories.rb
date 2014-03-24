@@ -61,7 +61,7 @@ FactoryGirl.define do
 
   factory :tip do
     question
-    sequence(:number_of_tries)
+    sequence(:number_of_tries) {|n| n + 3 } # plus 3 because question factory
     sequence(:content) {|n| "Tip #{n}"}
   end
 
@@ -71,13 +71,23 @@ FactoryGirl.define do
     #owner_id must be defined in runtime
   end
 
-  factory :answer do
-    response    "x"
-    for_test    false
+  #factory :answer do
+  #  response    "x"
+  #  for_test    false
     #team_id     team.id      - must be defined in runtime
     #lo_id       lo.id        - must be defined in runtime
     #exercise_id exercise.id  - must be defined in runtime
     #question_id question.id  - must be defined in runtime
+  #  user
+  #end
+
+  # Answers Factories
+  factory :soluction, class: Answers::Soluction do
+    response    "x + 10"
+    to_test    false
+    attempt_number 2
+    current_tip "Pay Atention!!"
     user
   end
+
 end

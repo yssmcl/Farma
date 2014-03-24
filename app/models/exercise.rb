@@ -20,7 +20,7 @@ class Exercise
 
   belongs_to :lo
 
-  has_many :questions, dependent: :delete
+  has_many :questions, dependent: :destroy
 
   def delete_last_answers_of(user_id)
     self.questions.each  do |question|

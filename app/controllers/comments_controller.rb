@@ -76,7 +76,9 @@ class CommentsController < ApplicationController
   end
 
   def get_model
-    @model = classname.find(params[model_id.to_sym])
+    # when the controller must be polimorphic
+    #@model = classname.find(params[model_id.to_sym]) 
+    @model = Answers::Soluction.find(params[:answer_id])
   end
 
   def get_comment

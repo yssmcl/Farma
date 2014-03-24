@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Unauthenticated routers",js: true, focus: true do
+describe "Unauthenticated routers",js: true do
 
   describe "not logged" do
     it "visit root path should see login form" do

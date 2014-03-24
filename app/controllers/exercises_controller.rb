@@ -58,10 +58,10 @@ class ExercisesController < ApplicationController
 private
  # Its necessary for clean the database and the tests
  def clear_test_answers
-   current_user.answers.where(for_test: true).each do |answer|
-      tips_counts = answer.question.tips_counts.where(user_id: current_user.id)
-      tips_counts.delete
-      answer.delete
+   current_user.answers.where(to_test: true).each do |answer|
+      tips_counts = answer.original_question.tips_counts.where(user_id: current_user.id)
+      tips_counts.destroy
+      answer.destroy
    end
  end
 
@@ -71,7 +71,8 @@ private
     else
       begin
         @lo = current_user.los.find(params[:lo_id])
-      rescue Exception=>e
+      #rescue Exception => e
+      rescue
         @lo = Lo.find(params[:lo_id]).in(lo_id: user_los_ids).try(:first)
       end
     end

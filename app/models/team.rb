@@ -12,16 +12,12 @@ class Team
   has_and_belongs_to_many :los
   has_and_belongs_to_many :users, order: "name ASC"
 
+  has_many :answers, class_name: "Answers::Soluction" # For see the answers a long term
+
   validates_presence_of :name, :code
   validates_uniqueness_of :name
 
   before_destroy :allow_destroy
-
-  def allow_destroy
-    can_destroy = users.empty?
-    errors.add(:base, "Cannot delete booking with payments") unless can_destroy
-    can_destroy
-  end
 
   def owner
     @owner ||= User.find(self.owner_id)
@@ -70,4 +66,12 @@ class Team
   def self.ids_created_by_user(user)
     Team.where(owner_id: user.id).distinct(:id)
   end
+
+private
+  def allow_destroy
+    can_destroy = users.empty?
+    errors.add(:base, "Você não pode deletar essa turma! Pois já possui alunos vinculados") unless can_destroy
+    can_destroy
+  end
+
 end

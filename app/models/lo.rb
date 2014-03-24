@@ -15,9 +15,9 @@ class Lo
 
   belongs_to :user
 
-  has_many :requests, class_name: 'RequestLo', dependent: :delete
-  has_many :introductions, dependent: :delete
-  has_many :exercises, dependent: :delete
+  has_many :requests, class_name: 'RequestLo', dependent: :destroy
+  has_many :introductions, dependent: :destroy
+  has_many :exercises, dependent: :destroy
 
   # Knows who copies who
   belongs_to :copy_from, class_name: 'Lo', inverse_of: :copies

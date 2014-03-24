@@ -6,12 +6,16 @@
   Possibilidade de o professor cadastrar aprendizes na turma
 
 ## Urgentes
-  Possibilidade de o aprendiz ver todas as dicas apresentadas
-  ? Pensar em não mostrar o nome dos participantes para outros aprendizes
-  Não deixa o usuário se matricular na sua própria turma
+  Pensar:
+    Não mostrar o nome dos participantes para outros aprendizes
+    Não deixa o usuário se matricular na sua própria turma
 
   1. Possibilitar a desmatricula do aluno.
-  3. Deixar a opção de correção ortográfica habilitada por padrão
+  3. Deixar a opção de correção ortográfica habilitada por padrão.
+  4. Não permitir remover OA da turma se tiver erro.
+  5. Vincular erro junto a turma e o OA não somente ao OA
+  6. Fechamento da Tuma
+
 
 ## Complexas
    Avaliação de objetos de aprendizagem
@@ -61,3 +65,4 @@ professor.
 
   Compartilhamento de Objetos de Aprendizagem 02-10-2013
   2. Professor(dono da turma), recebe email de cada comentário. 02-10-2013
+  Possibilidade de o aprendiz ver todas as dicas apresentadas

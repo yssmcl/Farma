@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Lo, focus: true do
+describe Lo do
   describe "When Lo is shared" do
     let(:lo) { FactoryGirl.create(:lo) }
     let(:user) { FactoryGirl.create(:user) }

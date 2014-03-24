@@ -1,13 +1,13 @@
 attributes :id, :title, :content, :exp_variables, :many_answers, :eql_sinal
 
-node :last_answer, if: lambda {|question| ( current_user && question.last_answers.by_user(current_user).size > 0 )} do |question|
-  la = question.last_answers.by_user(current_user).first
+node :last_answer,
+  if: lambda { |question| question.has_last_answer?(current_user)} do |question|
+  la = question.last_answer(current_user).answer
   {
-    tip: la.answer.tip,
-    tips: la.answer.tips,
-    correct: la.answer.correct,
-    response: la.answer.response,
-    try_number: la.answer.try_number,
     id: la.id,
+    response: la.response,
+    attempt_number: la.attempt_number,
+    correct: la.correct,
+    tips: la.tips.as_json
   }
 end

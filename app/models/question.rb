@@ -12,8 +12,6 @@ class Question
   field :many_answers, type: Boolean, default: false
   field :eql_sinal, type: Boolean, default: false
 
-  has_many :tips_counts
-
   default_scope asc(:position)
 
   before_create :set_position
@@ -27,12 +25,28 @@ class Question
   #validates :compartion_type, :inclusion => {:in => ['result', 'expression']}
 
   belongs_to :exercise
-  has_many :tips, dependent: :delete
-  has_many :tips_counts, dependent: :delete
-  has_many :last_answers, dependent: :delete #one last answer for each user
+  has_many :tips, dependent: :destroy
+  has_many :tips_counts, dependent: :destroy
+  has_many :last_answers, dependent: :destroy #one last answer for each user
 
   def correct_answer=(correct_answer)
     super(correct_answer.downcase)
+  end
+
+  # return all tips with
+  # attempt number less then 
+  # number_of_tries tip
+  def tips_for(attempt)
+    self.tips.where(:number_of_tries.lte => attempt).desc(:number_of_tries)
+  end
+
+  def has_last_answer?(user)
+    return false unless user
+    last_answers.by_user(user).size > 0
+  end
+
+  def last_answer(user)
+    last_answers.by_user(user).try(:first)
   end
 
 private
