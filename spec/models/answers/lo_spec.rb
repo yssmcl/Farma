@@ -30,7 +30,7 @@ describe Answers::Lo do
   describe "Copy Lo, used when a soluction is create" do
 
     it "should copy the lo attributes" do 
-      answers_lo = Answers::Lo.create_from(@original_lo)
+      answers_lo = Answers::Lo.create_from(@original_lo, Answers::Soluction.new)
       answers_lo.reload
 
       answers_lo.from_id.should eql(@original_lo.id)

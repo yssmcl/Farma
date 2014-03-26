@@ -24,7 +24,7 @@ glue @answer do
 
       node :last_answer,
         if: lambda { |question| question.last_answer } do |question|
-        la = question.last_answer.answer
+        la = question.last_answer
         {
           id: la.id,
           response: la.response,

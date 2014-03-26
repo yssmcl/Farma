@@ -9,20 +9,17 @@ namespace :db do
        question.tips_counts.where(user_id: answer.user_id).try(:delete_all)
        answer.destroy
      end
-     #RetroactionAnswer.delete_all
+
      User.where(guest: true).destroy_all
   end
   task :delete_all_answers => :environment do
      answers = Answers::Soluction.all
      answers.each do |answer|
        question = answer.original_question
-       question.last_answers.where(user_id: answer.user_id).try(:delete_all)
-       question.tips_counts.where(user_id: answer.user_id).try(:delete_all)
+       question.last_answers.where(user_id: answer.user_id).try(:destroy_all)
+       question.tips_counts.where(user_id: answer.user_id).try(:destroy_all)
        answer.destroy
      end
-
-     #[Answers::Lo,Answers::Exercise, Answers::Question,
-     # Answers::Tip,Answers::LastAnswer].each(&:destroy_all)
   end
   #==============================================
 

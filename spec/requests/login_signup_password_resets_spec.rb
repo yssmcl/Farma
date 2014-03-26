@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe "LoginSignupPasswordResets", js: true do
 
-  #before(:each) do
-  #  Capybara.current_driver = Capybara.javascript_driver
-  #end
-
   describe "An unauthenticated request" do
     before do
       visit '/users/sign-in'
@@ -36,7 +32,6 @@ describe "LoginSignupPasswordResets", js: true do
         click_button 'Login'
 
         #assert_equal '/dashboard', page.current_path
-        click_button "show_menu_button"
         assert page.has_selector?('a[href="/users/sign_out"]')
       end
     end
@@ -47,11 +42,8 @@ describe "LoginSignupPasswordResets", js: true do
 
       it 'show logged in home page when signup succeeds'  do
 
-        click_button "show_menu_button"
         #wait_until { page.has_selector?('#sign_up_link', :visible => true) }
         click_link "sign_up_link"
-
-        #wait_until { page.has_selector?('#signup-form', :visible => true) }
 
         attrs = FactoryGirl.attributes_for(:user)
         within('#signup-form') do
@@ -62,13 +54,10 @@ describe "LoginSignupPasswordResets", js: true do
         end
         click_button 'sign_up_btn'
 
-        #assert_equal root_path, page.current_path
-        click_button "show_menu_button"
         assert page.has_selector?('a[href="/users/sign_out"]')
      end
 
      it 'show an error message when signup fails' do
-        click_button "show_menu_button"
         click_link "sign_up_link"
 
         within('#signup-form') do
@@ -77,7 +66,6 @@ describe "LoginSignupPasswordResets", js: true do
           fill_in 'password_confirmation', :with => '1234567'
         end
         click_button 'sign_up_btn'
-        click_button "show_menu_button"
         assert page.has_selector?('form#signup-form div.alert-error')
     end
   end
@@ -88,7 +76,7 @@ describe "LoginSignupPasswordResets", js: true do
     before {visit '/users/sign-in'}
 
     it 'show success message when reset submission succeeds' do
-      pending
+      pending("do with mock ans stup")
       user = FactoryGirl.create(:user)
       click_link 'retrieve_password'
 

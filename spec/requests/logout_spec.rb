@@ -15,7 +15,6 @@ describe "Logout", js: true do
   end
 
   it "render login form when clicked on logout link" do
-    click_button "show_menu_button"
     click_link 'link-sign-out'
     assert page.has_selector?('div#headerCarousel')
   end

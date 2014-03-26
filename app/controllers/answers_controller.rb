@@ -21,9 +21,9 @@ class AnswersController < ApplicationController
 
   # search in teams created
   def search_in_teams_created
-    @answers = Answer.search_in_teams_created(current_user,
-                                              params[:search]).
-                                              page(params[:page]).per(20)
+    @answers = Answers::Soluction.search_in_teams_created(current_user,
+                                                         params[:search]).
+                                                         page(params[:page]).per(20)
   end
 
   def create

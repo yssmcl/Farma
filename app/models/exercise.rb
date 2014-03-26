@@ -24,8 +24,8 @@ class Exercise
 
   def delete_last_answers_of(user_id)
     self.questions.each  do |question|
-      question.last_answers.where(user_id: user_id).try(:delete_all)
-      question.tips_counts.where(user_id: user_id).try(:delete_all)
+      question.last_answers.where(user_id: user_id).try(:destroy_all)
+      question.tips_counts.where(user_id: user_id).try(:destroy_all)
     end
   end
 

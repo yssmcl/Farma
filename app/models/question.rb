@@ -42,6 +42,9 @@ class Question
 
   def has_last_answer?(user)
     return false unless user
+    last_answers.each do |l|
+      puts "#{l.user.id} : #{user.id}"
+    end
     last_answers.by_user(user).size > 0
   end
 

@@ -9,7 +9,7 @@ describe "Los" do
   end
 
   describe "Dashboard", :js => true do
-    before { visit '/welcome' }
+    before { visit '/dashboard' }
 
     it { should have_link('Objetos de Aprendizagem') }
     it { should have_link('Meus Objetos de Aprendizagem') }

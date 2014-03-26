@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Answers::Soluction, focus: true do
+describe Answers::Soluction do
 
   let(:user) { FactoryGirl.create(:user) }
 
@@ -68,8 +68,8 @@ describe Answers::Soluction, focus: true do
       cla = cq.last_answer
       ola = question.last_answer(user)
 
-      ola.answer.id.should eql(cla.answer.id)
-      ola.answer.response.should eql(cla.answer.response)
+      ola.answer.response.should eql(cla.response)
+      ola.answer.attempt_number.should eql(cla.attempt_number)
     end
   end
 
@@ -100,6 +100,9 @@ describe Answers::Soluction, focus: true do
     before do
       user.answers.create from_question_id: @question.id, to_test: true,
         response: "x + 2", team_id: @team.id
+      user.answers.create from_question_id: @question.id, to_test: true,
+        response: "x + 2", team_id: nil 
+
       2.times do
         create_valid_answer(user)
         user.answers.create from_question_id: @question.id,
@@ -127,7 +130,7 @@ describe Answers::Soluction, focus: true do
     end
 
     it "should see any answers when all answers" do
-      Answers::Soluction.all.should have(5).items
+      Answers::Soluction.all.should have(6).items
     end
 
     it "does search as a regular user I should see his answers" do

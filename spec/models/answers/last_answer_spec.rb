@@ -7,5 +7,4 @@ describe Answers::LastAnswer do
     subject { @last_answer }
 
     it { should belongs_to(:question) }
-    it { should belongs_to(:answer) }
 end

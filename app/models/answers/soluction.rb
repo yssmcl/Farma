@@ -14,11 +14,13 @@ class Answers::Soluction
   index({ team_id: 1, to_test: 1}, { unique: true })
   index({ team_id: 1, to_test: 1, correct: 1})
 
-  attr_accessible :response, :from_question_id, :to_test, :team_id
+  attr_accessible :response, :from_question_id, :to_test, :team_id,
+                  :created_from, :answers_last_answer
 
   belongs_to :user
   belongs_to :team, inverse_of: :answers
-  has_one :last_answer, dependent: :destroy
+
+  belongs_to :last_answer, class_name: "LastAnswer", inverse_of: :answer, dependent: :destroy
 
   has_one :lo, class_name: "Answers::Lo", inverse_of: :soluction, dependent: :destroy
   has_one :question, class_name: "Answers::Question", inverse_of: :soluction, dependent: :destroy
@@ -40,7 +42,6 @@ class Answers::Soluction
   scope :every, excludes(team_id: nil, to_test: true)
   scope :wrong, every.where(correct: false)
   scope :corrects, every.where(correct: true)
-
 
   def original_question
     @original_question ||= ::Question.find(self.from_question_id)
@@ -104,7 +105,6 @@ private
   end
 
   def set_question_answered
-    #self.question= Answers::Question.copy_for_soluction(original_question, self)
     cquestion = exercise.questions.where(from_id: self.from_question_id).first
     cquestion.update_attributes(soluction_id: self.id)
     self.question= cquestion
@@ -144,17 +144,20 @@ private
 
   def register_last_answer
     unless self.to_test
-      @last_answer = self.user.last_answers.find_or_create_by(:question_id => self.from_question_id)
-      @last_answer.set(:answer_id, self.id)
+      @last_answer = self.user.last_answers.
+                          find_or_create_by(:question_id => self.from_question_id)
+      @last_answer.update_answer(self)
     end
   end
 
   def copy_last_answers
     exercise.questions.each do |q|
       la = ::Question.find(q.from_id).last_answer(user)
-      if la
+      if la && (ans = la.answer)
         Answers::LastAnswer.create question_id: q.id,
-                                   answer_id: la.answer.id
+                                   response: ans.response,
+                                   attempt_number: ans.attempt_number,
+                                   correct: ans.correct
       end
     end
   end
