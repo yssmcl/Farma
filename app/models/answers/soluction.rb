@@ -59,7 +59,8 @@ class Answers::Soluction
 
   # return only answers of specific user
   def self.search_of_user(user, conditions = {})
-    Answers::Soluction.includes(:user).every.
+    Answers::Soluction.includes(:user, :question, :exercise).
+                       every.
                        where(user_id: user.id).where(conditions).
                        desc(:created_at)
   end
@@ -67,7 +68,8 @@ class Answers::Soluction
   # return only answers of a teams grup
   def self.search_in_teams_enrolled(user, conditions = {})
     conditions.delete('correct') if conditions
-    Answers::Soluction.includes(:user).wrong.where(conditions).
+    Answers::Soluction.includes(:user, :question, :exercise).
+      wrong.where(conditions).
       in(team_id: Team.ids_enrolled_by_user(user)).
       excludes(user_id: user.id).
       desc(:created_at)
@@ -75,11 +77,12 @@ class Answers::Soluction
 
   # return only answers of a teams created
   def self.search_in_teams_created(user, conditions = {})
+    ans = Answers::Soluction.includes(:user, :question, :exercise)
     if user.admin?
-      ans = Answers::Soluction.includes(:user).every.where(conditions)
+      ans = ans.every.where(conditions)
     else
-      ans = Answers::Soluction.includes(:user).every.where(conditions).
-        in(team_id: Team.ids_created_by_user(user))
+      ans = ans.every.where(conditions).
+                in(team_id: Team.ids_created_by_user(user))
     end
     ans.desc(:created_at)
   end

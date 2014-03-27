@@ -20,6 +20,7 @@ class Answers::Question
   has_one :last_answer, class_name: "Answers::LastAnswer",
            inverse_of: :question, dependent: :destroy
 
+  default_scope includes(:last_answer)
 
   # return all tips with
   # attempt number less then 

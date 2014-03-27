@@ -40,8 +40,17 @@ class AnswersController < ApplicationController
 
   def retroaction
     # store al retroaction for reports
-    @answer = Answers::Soluction.find(params[:id])
+    @answer = Answers::Soluction.includes([:user,
+                                          :question,
+                                          :team,
+                                          :exercise,
+                                          :question]).find(params[:id])
+
     session.delete(@answer.question.id)
+
+    # Register access
+    Reports::RetroactionView.create! answer_id: @answer.id,
+                                     user_id: current_user.id
   end
 
 end
