@@ -30,7 +30,13 @@ Carrie.CKEDITOR =
 
   show: (el, config) ->
     el = '#ckeditor' unless el
-    config = {language: 'pt-br', toolbar: Carrie.CKEDITOR.toolbar.full} unless config
+    unless config
+      config =
+        language: 'pt-br',
+        toolbar: Carrie.CKEDITOR.toolbar.full
+        extraPlugins: 'tliyoutube'
+        scayt_autoStartup: true
+
     setTimeout ( ->
       $(el).ckeditor(config)
     ), 100
@@ -60,6 +66,7 @@ Carrie.CKEDITOR =
         { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
         { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+        { name: 'Video',       items : [ 'tliyoutube', 'youtube' ] }
       ]
 
 Carrie.Bootstrap =
