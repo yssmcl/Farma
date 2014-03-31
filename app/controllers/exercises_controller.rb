@@ -18,7 +18,7 @@ class ExercisesController < ApplicationController
   end
 
   def show
-    @exercise = @lo.exercises.find(params[:id])
+    @exercise = @lo.exercises.includes(:questions).find(params[:id])
     clear_test_answers
     respond_with(@lo, @exercise)
   end

@@ -55,7 +55,16 @@ class Carrie.Views.Question extends Backbone.Marionette.CompositeView
     answer.save answer.attributes,
       wait: true
       success: (model, response) =>
-        @view = new Carrie.Views.Answer model: new Carrie.Models.AnswerShow(model.attributes)
+        # Because
+        # Uncaught Error: Cannot instantiate more than one Backbone.RelationalModel
+        # with the same id per type!
+        answerShow = Carrie.Models.AnswerShow.findOrCreate(model.attributes.id)
+        if not answerShow
+          answerShow = new Carrie.Models.AnswerShow(model.attributes)
+        else
+          answerShow.set(model.attributes)
+
+        @view = new Carrie.Views.Answer model: answerShow
         $(@el).find('.answer-group').html @view.render().el
 
       error: (model, resp) ->

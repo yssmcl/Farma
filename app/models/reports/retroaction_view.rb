@@ -4,4 +4,6 @@ class Reports::RetroactionView
 
   field :answer_id, type: Moped::BSON::ObjectId
   field :user_id, type: Moped::BSON::ObjectId
+
+  attr_accessible :answer_id, :user_id
 end

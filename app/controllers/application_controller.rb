@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user
+    @user ||= User.where(email: "carlaborille@gmail.com").first
+  end
+
   def call_rake(task, options = {})
     options[:rails_env] ||= Rails.env
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }

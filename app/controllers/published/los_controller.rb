@@ -16,6 +16,6 @@ class Published::LosController < ApplicationController
 #  end
 
   def show
-    @lo = Lo.find(params[:id])
+    @lo = Lo.includes(:introductions, :exercises).find(params[:id])
   end
 end
