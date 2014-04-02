@@ -34,6 +34,7 @@ Carrie.Routers.load = ->
   new Carrie.Routers.Home          controller: new Carrie.Controllers.Home()
   new Carrie.Routers.User          controller: new Carrie.Controllers.User()
   new Carrie.Routers.Los           controller: new Carrie.Controllers.Los()
+  new Carrie.Routers.LoContents    controller: new Carrie.Controllers.LoContents()
   new Carrie.Routers.Introductions controller: new Carrie.Controllers.Introductions()
   new Carrie.Routers.Exercises     controller: new Carrie.Controllers.Exercises()
   new Carrie.Routers.Answers       controller: new Carrie.Controllers.Answers()

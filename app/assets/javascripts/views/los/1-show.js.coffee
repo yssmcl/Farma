@@ -10,24 +10,28 @@ class Carrie.Views.Lo extends Backbone.Marionette.ItemView
   events:
     'click .edit-lo' : 'edit_lo'
     'click .destroy-lo' : 'destroy_lo'
-    'click .introductions-btn' : 'viewIntroductions'
-    'click .exercises-btn' : 'viewExercises'
     'click .view-lo-btn' : 'viewLo'
+    'click .contents-btn' : 'viewContents'
 
   viewLo: (ev) ->
     ev.preventDefault()
     url = "/published/los/#{@model.get('id')}"
     Backbone.history.navigate(url, true)
 
-  viewIntroductions: (ev) ->
+  viewContents: (ev) ->
     ev.preventDefault()
-    url = "/my-los/#{@model.get('id')}/introductions"
+    url = "/lo-contents/#{@model.get('id')}"
     Backbone.history.navigate(url, true)
 
-  viewExercises: (ev) ->
-    ev.preventDefault()
-    url = "/my-los/#{@model.get('id')}/exercises"
-    Backbone.history.navigate(url, true)
+  #viewIntroductions: (ev) ->
+  #  ev.preventDefault()
+  #  url = "/my-los/#{@model.get('id')}/introductions"
+  #  Backbone.history.navigate(url, true)
+
+  #viewExercises: (ev) ->
+  #  ev.preventDefault()
+  #  url = "/my-los/#{@model.get('id')}/exercises"
+  #  Backbone.history.navigate(url, true)
 
   edit_lo: (ev) ->
     ev.preventDefault()

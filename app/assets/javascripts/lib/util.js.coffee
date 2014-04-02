@@ -36,6 +36,7 @@ Carrie.CKEDITOR =
         toolbar: Carrie.CKEDITOR.toolbar.full
         extraPlugins: 'tliyoutube'
         scayt_autoStartup: true
+        allowedContent: true
 
     setTimeout ( ->
       $(el).ckeditor(config)

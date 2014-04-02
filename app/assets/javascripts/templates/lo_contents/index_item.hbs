@@ -1,0 +1,44 @@
+<header class="lo-content">
+  <div class="row-fluid">
+     <div class="span9">
+        <span class="move left">
+          <i rel="tooltip" data-original-title="Clique e arraste para ordernar" class="icon-move"></i>
+        </span>
+
+        <span class='icon left'>
+          {{#if available }}
+            <i rel="tooltip" data-original-title="Publicado" class='left icon-certificate icon-green'></i>
+          {{else}}
+            <i rel="tooltip" data-original-title="Não Publicado" class='left icon-certificate icon-red'></i>
+          {{/if}}
+        </span>
+        <h4 class='left'>{{type}}</h4>
+        <p class="content-title">{{title}}</p>
+     </div>
+
+     <span class='span3 text-right icons'>
+       {{#ifCond instance "Exercise"}}
+        <a href='#' data-id='{{id}}' class="show_questions">
+          <i class="icon-tasks"></i> Questões
+        </a> | 
+       {{/ifCond}}
+       <a href='#' data-id='{{id}}' class="show_content">
+         <i rel="tooltip" data-original-title="Detalhes" class="icon-plus"></i>
+       </a>
+       <a href='#' data-id='{{id}}' class='edit'>
+         <i rel="tooltip" data-original-title="Editar" class="icon-edit"></i>
+       </a>
+       <a href='#' data-id='{{id}}' class='destroy'>
+         <i rel="tooltip" data-original-title="Remover" class="icon-trash"></i>
+       </a>
+     </span>
+  </div>
+</header>
+
+<div class='text-right date-info'>
+   Criado em {{created_at}}
+   Atualizado em {{updated_at}}
+</div>
+
+<div class='content hide'>{{safe content}}</div>
+<hr>

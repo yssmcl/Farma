@@ -25,8 +25,12 @@ class Lo
 
   has_and_belongs_to_many :teams
 
+  def contents
+    @contents ||= (introductions + exercises).sort {|a,b| a.position <=> b.position}
+  end
+
   def pages
-    self.introductions_avaiable + self.exercises_avaiable
+    @pages ||= (self.introductions_avaiable + self.exercises_avaiable).sort {|a,b| a.position <=> b.position}
   end
 
   def pages_count

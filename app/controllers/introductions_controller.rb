@@ -3,9 +3,9 @@ class IntroductionsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :find_lo
 
-  def index
-    @introductions = @lo.introductions
-  end
+  #def index
+  #  @introductions = @lo.introductions
+  #end
 
   def create
     @introduction = @lo.introductions.build(params[:introduction])
@@ -35,16 +35,6 @@ class IntroductionsController < ApplicationController
     @introduction = @lo.introductions.find(params[:id])
     @introduction.destroy
     respond_with(@lo, @introduction)
-  end
-
-  def sort
-    #size = params[:ids].size
-    #TODO: Verificar size-index
-    params[:ids].each_with_index do |id, index|
-      intro = @lo.introductions.find(id)
-      intro.update_attribute(:position, index) if intro
-    end
-    render nothing: true
   end
 
 private

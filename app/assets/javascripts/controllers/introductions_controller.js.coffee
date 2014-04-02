@@ -1,32 +1,9 @@
 class Carrie.Routers.Introductions extends Backbone.Marionette.AppRouter
   appRoutes:
-    'my-los/:lo_id/introductions': 'index'
     'my-los/:lo_id/introductions/new': 'new'
     'my-los/:lo_id/introductions/edit/:id': 'edit'
 
 class Carrie.Controllers.Introductions
-
-  index: (lo_id) ->
-    Carrie.Helpers.Session.Exists
-      func: =>
-        Carrie.Utils.Menu.highlight 'my-los-link'
-        lo = @findLo(lo_id)
-
-        Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
-          2: name: "Introduções do OA #{lo.get('name')}", url: ''
-
-        lo.get('introductions').fetch
-          wait: true
-          success: (collection, response, options) =>
-            index = new Carrie.CompositeViews.IntroductionIndex
-              collection: lo.get('introductions')
-              model: lo
-
-            Carrie.layouts.main.content.show index
-          error: (model, response, options) ->
-            Carrie.Helpers.Notifications.Flash.error('Problema para carregar introduções')
-
 
   new: (lo_id) ->
     Carrie.Helpers.Session.Exists
@@ -36,7 +13,7 @@ class Carrie.Controllers.Introductions
 
         Carrie.layouts.main.loadBreadcrumb
           1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
-          2: name: "Introduções do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/introductions"
+          2: name: "Conteúdos do OA #{lo.get('name')}", url: "/lo-contents/#{lo.get('id')}"
           3: name: 'nova', url: ''
 
         Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveIntroduction(lo: lo)
@@ -52,7 +29,7 @@ class Carrie.Controllers.Introductions
           success: (model, response, options) =>
             Carrie.layouts.main.loadBreadcrumb
               1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
-              2: name: "Introduções do OA #{lo.get('name')}", url: "/my-los/#{lo.get('id')}/introductions"
+              2: name: "Conteúdos do OA #{lo.get('name')}", url: "/lo-contents/#{lo.get('id')}"
               3: name: "Editar introdução #{model.get('title')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveIntroduction(lo: lo, model: model)

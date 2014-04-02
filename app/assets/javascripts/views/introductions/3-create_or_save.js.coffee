@@ -15,7 +15,6 @@ class Carrie.Views.CreateOrSaveIntroduction extends Backbone.Marionette.ItemView
     @modelBinder.bind(this.model, this.el)
     Carrie.CKEDITOR.show('textarea')
 
-
   create: (ev) ->
     ev.preventDefault()
     Carrie.Helpers.Notifications.Form.clear()
@@ -29,8 +28,8 @@ class Carrie.Views.CreateOrSaveIntroduction extends Backbone.Marionette.ItemView
       success: (model, response, options) =>
         Carrie.Helpers.Notifications.Form.resetSubmit()
 
-        Backbone.history.navigate "/my-los/#{@options.lo.get('id')}/introductions", true
-        Carrie.Helpers.Notifications.Top.success 'OA salva com sucesso!', 4000
+        Backbone.history.navigate "/lo-contents/#{@options.lo.get('id')}", true
+        Carrie.Helpers.Notifications.Top.success 'Introdução atualizada/registrada com sucesso!', 4000
 
       error: (model, response, options) =>
         result = $.parseJSON(response.responseText)

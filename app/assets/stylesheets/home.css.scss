@@ -14,9 +14,10 @@
 .separator{padding: 10px 0px;}
 .separator-top{padding-top: 10px;}
 .clear {clear:both;}
+
 .date-info {
   color: #999;
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .logged-in {
@@ -225,6 +226,9 @@
     position: relative;
     top: 10px;
   }
+  p.content-title {
+    clear: both;
+  }
 }
 
 #introductions .page-header, #exercises .page-header {
@@ -232,3 +236,10 @@
     line-height: 25px !important;
   }
 }
+
+
+/* Lo contents */
+.lo-content .icons {
+  font-size: 16px;
+}
+

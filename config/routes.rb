@@ -16,6 +16,9 @@ Carrie::Application.routes.draw do
     match '/requests/:id/authorize' => "request_los#authorize", via: :post
     match '/requests/:id/not-authorize' => "request_los#not_authorize", via: :post
 
+    match '/lo-contents/:id' => "lo_contents#index", via: :get
+    match '/lo-contents/:id/sort' => "lo_contents#sort", via: :post
+
     resources :retroaction_answers, only: :create
     resources :contacts, only: :create
 
@@ -49,16 +52,13 @@ Carrie::Application.routes.draw do
       get 'shared', on: :collection
       get 'shared/page/:page', :action => :shared, :on => :collection
       get 'exercises', on: :collection
-      resources :introductions do
-        collection {post :sort}
-      end
+      resources :introductions
       resources :exercises do
         delete 'delete_last_answers', :on => :member
         resources :questions do
           resources :tips
           collection {post :sort}
         end
-        collection { post :sort }
       end
     end
   end

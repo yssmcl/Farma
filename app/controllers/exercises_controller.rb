@@ -4,9 +4,9 @@ class ExercisesController < ApplicationController
   before_filter :authenticate_user!, except: :delete_last_answers
   before_filter :find_lo, except: :delete_last_answers
 
-  def index
-    @exercises = @lo.exercises
-  end
+  #def index
+  #  @exercises = @lo.exercises
+  #end
 
   def create
     @exercise = @lo.exercises.build(params[:exercise])
@@ -44,15 +44,6 @@ class ExercisesController < ApplicationController
     @exercise = @lo.exercises.find(params[:id])
     @exercise.delete_last_answers_of(current_or_guest_user.id)
     respond_with(@lo, @exercise)
-  end
-
-  def sort
-    # size = params[:ids].size # size-index
-    params[:ids].each_with_index do |id, index|
-      intro = @lo.exercises.find(id)
-      intro.update_attribute(:position, index) if intro
-    end
-    render nothing: true
   end
 
 private

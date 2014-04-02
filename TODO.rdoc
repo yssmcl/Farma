@@ -1,0 +1,71 @@
+## TODO
+
+## Urgentes
+Alterações:
+
+  3. Quando um comentário é enviado a um erro, todos os alunos da turma devem receber uma notificação.
+  4. Professor determinar o número de casas decimais a ser considerado na avaliação, da resposta;
+  5. Colocar o acesso aos erros junto dos exercícios do OA(Últimos erros cometidos pelos aprendizes) 
+  6. Opção para o professor determinar a ordem das respostas quando existe mais de uma reposta;
+  7. Opção para o professor fechar(ocultar) a turma, ela fechada nenhum aluno poderá se matricular na turma;
+
+Pensar:
+  Não mostrar o nome dos participantes para outros aprendizes
+  Não deixa o usuário se matricular na sua própria turma
+  Possibilitar a desmatricula do aluno.
+  Não permitir remover OA da turma se tiver erro.
+  Vincular erro junto a turma e o OA não somente ao OA
+
+## Complexas
+   Avaliação de objetos de aprendizagem
+   Criação de objetos com uso de fractais
+
+   Histórico da Retroação
+    cada erro cometido pelo aprendiz fica registrado em associação à sua chave
+    de acesso e não é eliminado de seu histórico mesmo que esse aprediz
+    retroceda à situação de erro e resolva o exercício de maneira correta (**
+    TEMOS QUE PENSAR MELHOR NISSO, LEMBRA? TALVEZ SEJA O CASO DE ELIMINAR O
+    REGISTRO DO ERRO DA VISÃO DO ALUNO, MESMO QUE ELE FIQUE REGISTRADO PRA
+    SEMPRE EM SEU NOME);
+
+    Neste ponto teríamos que discutir como ficaria melhor, acho interessante que
+    depois que o aprendiz corrigiu seu erro, ele seja separado em áreas distintas,
+    sendo uma para apresentar os que ele solucionou e os que ele não solucionou
+    ainda, isso também poderia virar em dados estatísticos apresentados ao
+    professor.
+
+## Futuras Versões
+   Documentar o Sistema
+   Redefinir a criação de OAs.
+   Categorização dos erros de acordo com o trabalho do Gustavo
+   Possibilidade de criar vários tipos de OA
+      e.g multipla escolha com limite de tentativas
+      Fractal
+      Programação
+
+## Concluídas Recentementes
+  Página Inicial
+  Fale conosco
+  Sobre
+  CronTab
+  Ao criar questão ou dica inserir no final da lista
+  Verificar nomes grandes para o título de introduções
+  Atualizar ckeditor                                     14-06-2013
+  Após matriculado redirecionar para turmas matriculadas 14-06-2013
+  Verificar link do perfil e outros links                14-06-2013
+  Ordenar apendizes por odem alfebética                  14-06-2013
+  Verificar se o dono da turma ve as respostas certas    14-06-2013
+  Dividir busca em:
+  Erros e Acertos
+    Meus erros
+    Erros das das minhas turmas
+    Erros dos meu colegadas de turmas
+
+  Compartilhamento de Objetos de Aprendizagem                   02-10-2013
+  Professor(dono da turma), recebe email de cada comentário.    02-10-2013
+  Possibilidade de o aprendiz ver todas as dicas apresentadas.
+  Gravar histórico do uso da retroação.                         27-03-2013
+  Deixar a opção de correção ortográfica habilitada por padrão. 31-03-2014 
+  Facilitar a adição do uso de vídeos nas introduções;          31-03-2014
+  Intercalar introduções e exercícios;                          01-04-2014
+
