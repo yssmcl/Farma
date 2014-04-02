@@ -16,26 +16,37 @@ task :send_request_not_authorized => :environment do
 end
 
 task :send_message_mailing => :environment do
-  answer = Answer.find(ENV["ANSWER_ID"])
-  team_onwer_id = answer.team.owner.id
+  answer = Answers::Soluction.find(ENV["ANSWER_ID"])
 
-  users_ids = answer.comments.distinct(:user_id)
-  users_ids = users_ids | [answer.user.id, team_onwer_id]
+  default_url = "http://#{APP_CONFIG[:host][Rails.env.to_sym]}/answers"
 
-  default_url = "http://#{APP_CONFIG[:host][Rails.env.to_sym]}/answers/my/#{answer.id}"
+  ids = []
+  user_id = answer.user.id
+  owner_id = answer.team.owner_id
 
-  users_ids.each do |id|
+  # If the answer is correct then just the team onwer and
+  # the user who made the erros receive a email
+  # Other size:
+  # The other and all the users of the same team receive
+  # a email
+  unless (answer.correct?)
+    ids = answer.team.users.pluck(:id)
+  end
+
+  # Send a email to the team owner
+  url = "#{default_url}/teams-created/#{answer.id}"
+  user = User.find(owner_id)
+  CommentMailer.send_message(answer, user, url, "team_owner").deliver
+
+  # Send a email to the answer owner
+  url = "#{default_url}/my/#{answer.id}"
+  user = User.find(user_id)
+  CommentMailer.send_message(answer, user, url, "answer_owner").deliver
+
+  # Send a email to the learner of same team
+  url = "#{default_url}/teams-enrolled/#{answer.id}"
+  ids.each do |id|
     user = User.find(id)
-
-    if answer.user.id === id
-      params = "my"
-    elsif answer.can_see_user?(user)
-      params = "teams-created"
-    else
-      params = "teams-enrolled"
-    end
-
-    url = default_url.gsub('my', params)
-    CommentMailer.send_message(answer, user, url).deliver
+    CommentMailer.send_message(answer, user, url, "collegue_learner").deliver
   end
 end

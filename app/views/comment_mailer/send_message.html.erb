@@ -1,11 +1,33 @@
-<p>Você recebeu um novo comentário</p>
+<% if @user_type.eql?("team_owner") %>
+  Olá professor <%= @user.name %>
+  <p>
+    Um novo comentário foi enviado para o OA <%= @answer.lo.name %> da
+    turma <%= @answer.team.name %>
+  </p>
+<% elsif @user_type.eql?("answer_owner") %>
+  Olá <%= @user.name  %>
+  <p>
+    Um novo comentário foi enviado para sua resposta na questão
+    <strong><%= @answer.question.title %></strong>  exercício
+    <strong><%= @answer.exercise.title %></strong>  do OA
+    <strong><%= @answer.lo.name %></strong>.
+  </p>
+<% else  %>
+  Olá <%= @user.name  %>
+  <p>
+    Um novo comentário foi enviado para o exercício
+    <strong><%= @answer.exercise.title %></strong> do OA
+    <strong><%= @answer.lo.name %></strong>.
+  </p>
+<% end  %>
 
-<p><strong>Turma: </strong> <%= @answer.team.name %> </p>
-<p><strong>OA: </strong> <%= @answer.lo.name %> </p>
-<p><strong>Exercício: </strong> <%= @answer.exercise.title %> </p>
-<p><strong>Questão: </strong> <%= @answer.question.title %> </p>
-
-<br />
+<div>
+  <h4>Informações sobre o comentário</h4>
+  <p><strong>Turma: </strong> <%= @answer.team.name %> </p>
+  <p><strong>OA: </strong> <%= @answer.lo.name %> </p>
+  <p><strong>Exercício: </strong> <%= @answer.exercise.title %> </p>
+  <p><strong>Questão: </strong> <%= @answer.question.title %> </p>
+</div>
 
 <p>
   <strong>Comentário: </strong>
@@ -14,4 +36,4 @@
 
 <br />
 
-<%= link_to 'Ver comentátio na FARMA', @url %>
+<%= link_to 'Ver comentário na FARMA', @url %>

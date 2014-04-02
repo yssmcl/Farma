@@ -50,19 +50,19 @@ class Team
     end
   end
 
-  # return the ids where the user is owner or
+  # Return the team ids where the user is owner or
   # enrolled in a team
   def self.ids_by_user(user)
     Team.or({owner_id: user.id} , {user_ids: user.id}).distinct(:id)
   end
 
-  # return the team ids where the user is
+  # Return the team ids where the user is
   # enrolled
   def self.ids_enrolled_by_user(user)
     Team.where(user_ids: user.id).distinct(:id)
   end
 
-  # return the team ids created by a user
+  # Return the team ids created by a user
   def self.ids_created_by_user(user)
     Team.where(owner_id: user.id).distinct(:id)
   end
