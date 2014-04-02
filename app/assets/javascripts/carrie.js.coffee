@@ -31,6 +31,7 @@ Carrie.addRegions
 
 Carrie.Routers.load = ->
   # Define Routers
+  # Url matching order is reverse of router initialization order
   new Carrie.Routers.Home          controller: new Carrie.Controllers.Home()
   new Carrie.Routers.User          controller: new Carrie.Controllers.User()
   new Carrie.Routers.Los           controller: new Carrie.Controllers.Los()
@@ -41,6 +42,7 @@ Carrie.Routers.load = ->
   new Carrie.Routers.Fractais      controller: new Carrie.Controllers.Fractais()
   new Carrie.Routers.Teams         controller: new Carrie.Controllers.Teams()
   new Carrie.Published.Routers.Los controller: new Carrie.Published.Controllers.Los()
+
 
 Carrie.bind 'initialize:after', ->
   Carrie.layouts.main = new Carrie.Views.Layouts.Main()

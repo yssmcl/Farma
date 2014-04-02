@@ -25,7 +25,8 @@ class Carrie.Views.Unauthenticated.Login extends Backbone.Marionette.ItemView
         el.find('input.btn-primary').button('reset')
         Carrie.currentUser = new Carrie.Models.User(response)
         Carrie.vent.trigger("authentication:logged_in")
-        Backbone.history.navigate '/dashboard', true
+        url = Carrie.Helpers.Session.pageBeforeLogin || '/dashboard'
+        Backbone.history.navigate url, true
 
       error: (model, response, options) ->
         result = $.parseJSON(response.responseText)
