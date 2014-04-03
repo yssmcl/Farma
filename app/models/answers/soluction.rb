@@ -118,7 +118,9 @@ private
   end
 
   def verify_response
-    options = { variables: original_question.exp_variables }
+    options = { variables: original_question.exp_variables,
+                cmas_order: original_question.cmas_order,
+                precision: original_question.precision}
 
     self.correct= right_response?(original_question.correct_answer, self.response, options)
     true # continue before_create callbacks

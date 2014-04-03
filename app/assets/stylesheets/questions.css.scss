@@ -12,6 +12,12 @@
   }
 }
 
+.question-form .precision_group select { width: 50px;}
+.question-form div.answer_group { 
+  border: 1px solid rgba(128, 128, 128, 0.27);
+  padding-left: 5px;
+}
+
 .question {
 
   .answer-group {

@@ -1,11 +1,16 @@
 class Carrie.Views.CreateOrSaveQuestion extends Backbone.Marionette.ItemView
   template: 'questions/form'
+  className: 'question-form'
 
   events:
     'submit form': 'create'
     'click .btn-cancel': 'cancel'
 
   initialize: ->
+    @prepareCkeditor()
+    @modelBinder = new Backbone.ModelBinder()
+
+  prepareCkeditor: ->
     if not @model
       Carrie.CKEDITOR.clearWhoHas("ckeditor-new")
       @cked = "ckeditor-new"
@@ -16,7 +21,7 @@ class Carrie.Views.CreateOrSaveQuestion extends Backbone.Marionette.ItemView
       @editing = true
 
     Carrie.CKEDITOR.clearWhoHas("#{@cked}-tip")
-    @modelBinder = new Backbone.ModelBinder()
+
 
   beforeClose: ->
     $(@el).find("\##{@cked}").ckeditorGet().destroy()
@@ -24,6 +29,24 @@ class Carrie.Views.CreateOrSaveQuestion extends Backbone.Marionette.ItemView
   onRender: ->
     @modelBinder.bind(this.model, this.el)
     Carrie.CKEDITOR.show "\##{@cked}"
+    @addShowHideOrderOptionEvent()
+    @showHideOrderOption()
+
+  # When a answers have multiple answers
+  # show option to consider its order
+  addShowHideOrderOptionEvent: ->
+    @cmas_group = $(@el).find(".cmas_order_group")
+    @answer_input = $(@el).find(".correct_answer_group input")
+    @answer_input.bind "change paste keyup", () =>
+      @showHideOrderOption()
+
+  showHideOrderOption: ->
+    val = @answer_input.val()
+    if val.indexOf(";") == -1
+      @cmas_group.hide()
+    else
+      @cmas_group.show()
+
 
   cancel: (ev) ->
     ev.preventDefault()

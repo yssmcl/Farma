@@ -19,6 +19,12 @@ Handlebars.registerHelper 'ifCond', (e1, e2, options) ->
 
   return options.inverse(this)
 
+Handlebars.registerHelper 'showBoolean', (bol) ->
+  if bol
+    return "Sim"
+
+  return "Não"
+
 Handlebars.registerHelper 'UnlessCond', (e1, e2, options) ->
   if e1 != e2
     return options.fn(this)

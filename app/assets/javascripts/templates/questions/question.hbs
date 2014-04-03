@@ -13,9 +13,9 @@
     </span>
     <h4 class='left'>{{title}}</h4>
     <div class='right'>
-      <a href='' class='edit-question-link' ><i class="icon-edit"></i> Editar </a>
-      <a href='' class='destroy-question-link' ><i class="icon-remove-circle"></i> Remover </a>
-      <a href='' class='show-tips-link'><i class="icon-eye-open"></i> Dicas </a>
+      <a href="#" class='edit-question-link' ><i class="icon-edit"></i> Editar </a>
+      <a href="#" class='destroy-question-link' ><i class="icon-remove-circle"></i> Remover </a>
+      <a href="#" class='show-tips-link'><i class="icon-eye-open"></i> Dicas </a>
     </div>
   </div>
 </header>
@@ -25,6 +25,14 @@
 
 <div class='well' >
   <p><strong>Resposta Correta:</strong> {{correct_answer}}</p>
+  <p><strong>Precisão de comparação:</strong> {{precision}} casas decimais</p>
+
+  {{#if many_answers }}
+    <p>
+      <strong>Múltiplas repostas:</strong> {{showBoolean many_answers}}
+      <strong>Considerar ordem:</strong> {{showBoolean cmas_order}}
+    </p>
+  {{/if}}
 
    <div>
      <label for="answer">Teste sua resposta:</label>
@@ -38,7 +46,7 @@
         <h4>Dicas:</h4>
       </div>
       <div class='right'>
-        <a href='' class='new-tip-link' ><i class="icon-plus-sign"></i> Criar nova dica </a>
+        <a href="#" class='new-tip-link' ><i class="icon-plus-sign"></i> Criar nova dica </a>
       </div>
     </div>
     <section>

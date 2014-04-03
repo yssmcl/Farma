@@ -5,7 +5,7 @@
     <h4>Nova questão</h4>
   {{/if}}
 </header>
-<form class="form-vertical" novalidate>
+<form class="form-vertical" action="#" novalidate>
   <input name="id" type="hidden" />
 
   <fieldset>
@@ -21,18 +21,41 @@
       <label class="control-label" for="content">Enunciado *</label>
       <div class="controls">
         {{#if id}}
-          <textarea id='ckeditor-{{id}}' name="content" required="required"></textarea>
+          <textarea id="ckeditor-{{id}}" name="content" required="required"></textarea>
         {{else}}
-          <textarea id='ckeditor-new' name="content" required="required"></textarea>
+          <textarea id="ckeditor-new" name="content" required="required"></textarea>
         {{/if}}
       </div>
     </div>
 
-    <div class="control-group correct_answer_group">
-      <label class="control-label" for="correct_answer">Resposta correta *</label>
-      <div class="controls">
-        <input name="correct_answer" type="text" required="required" />
-        <span class="help-block">A resposta correta deve ser um expressão matemática.</span>
+    <div class="answer_group">
+      <div class="control-group correct_answer_group">
+        <label class="control-label" for="correct_answer">Resposta correta *</label>
+        <div class="controls">
+          <input name="correct_answer" type="text" required="required" />
+          <span class="help-inline">A resposta correta pode ser um número, expressão aritmética ou algébrica.</span>
+        </div>
+      </div>
+
+      <div class="control-group precision_group">
+        Considerar 
+          <select name="precision">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        casas decimais para avaliar a resposta.
+      </div>
+
+      <div class="control-group cmas_order_group hide">
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox" name='cmas_order'> Considerar a ordem das respostas
+          </label>
+        </div>
       </div>
     </div>
 

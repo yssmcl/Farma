@@ -28,6 +28,8 @@ class Carrie.Models.Question extends Backbone.RelationalModel
     'title': ''
     'content': ''
     'comparation_type': 'expression'
+    'cmas_order': true
+    'precision': 5
 
   toJSON: ->
     id: @get('id')
@@ -35,7 +37,9 @@ class Carrie.Models.Question extends Backbone.RelationalModel
     content: @get('content')
     correct_answer: @get('correct_answer')
     available: @get('available')
-    comparation_type: @get('comparation_type')
+    precision: @get('precision')
+    cmas_order: @get('cmas_order')
+    many_answers: @get('many_answers')
     lo_id: @get('exercise').get('lo').get('id')
     exercise_id: @get('exercise').get('id')
 

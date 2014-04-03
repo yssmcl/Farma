@@ -13,6 +13,8 @@ describe Answers::Question do
   it { should respond_to(:exp_variables) }
   it { should respond_to(:many_answers) }
   it { should respond_to(:eql_sinal) }
+  it { should respond_to(:cmas_order) }
+  it { should respond_to(:precision) }
 
   it { should belongs_to(:soluction) }
   it { should belongs_to(:exercise) }

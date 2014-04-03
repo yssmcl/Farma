@@ -10,6 +10,8 @@ class Answers::Question
   field :exp_variables, type: Array, default: []
   field :many_answers, type: Boolean, default: false
   field :eql_sinal, type: Boolean, default: false
+  field :cmas_order, type: Boolean, default: true # cmas_order = consider_multiple_answers_order
+  field :position, type: Integer
 
   belongs_to :soluction, class_name: "Answers::Soluction",  inverse_of: :question
   belongs_to :exercise, class_name: "Answers::Exercise",  inverse_of: :question
@@ -47,7 +49,9 @@ private
                           position: oq.position,
                           exp_variables: oq.exp_variables,
                           many_answers: oq.many_answers,
-                          eql_sinal: oq.eql_sinal
+                          eql_sinal: oq.eql_sinal,
+                          cmas_order: oq.cmas_order,
+                          precision: oq.precision
   end
 
   def self.copy_tips(question, oq)
