@@ -8,10 +8,24 @@ class RetroactionAnswersController < ApplicationController
 
     # temporary attempt for retroaction answers
     @question_id = @retroaction.question.id
-    session[@question_id] = @retroaction.answer.attempt_number unless session[@question_id]
-    session[@question_id] = session[@question_id] + 1
+    store_atempt_number
 
     # get tips
-    @tips = @retroaction.question.tips_for(session[@question_id])
+    @tips = @retroaction.question.tips_for(session[:retroaction][@question_id])
   end
+
+private
+  def store_atempt_number
+    session[:retroaction] ||= {}
+    unless session[:retroaction][@question_id]
+      if (la = @retroaction.question.last_answer)
+        session[:retroaction][@question_id] = la.attempt_number + 1
+      else
+        session[:retroaction][@question_id] = 1
+      end
+    else
+      session[:retroaction][@question_id] = session[:retroaction][@question_id] + 1
+    end
+  end
+
 end

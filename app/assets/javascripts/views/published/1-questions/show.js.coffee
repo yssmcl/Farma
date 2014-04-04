@@ -4,10 +4,14 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
   className: 'question'
 
   initialize: ->
+    @loadAnswerView()
+    @answersView = new Carrie.Published.CompositeViews.QuestionAnswers
+      question_id: @model.get('id')
+
+  loadAnswerView: ->
     if @model.get('last_answer')
       model = Carrie.Models.AnswerShow.findOrCreate(@model.get('last_answer'))
-      unless model
-        model = new Carrie.Models.AnswerShow(@model.get('last_answer'))
+      model = model || new Carrie.Models.AnswerShow(@model.get('last_answer'))
       @view = new Carrie.Views.Answer model: model
     else
       @view = new Carrie.Views.Answer()
@@ -36,20 +40,36 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
     answer.save answer.attributes,
       wait: true
       success: (model, response, options) =>
-        @view = new Carrie.Views.Answer model: Carrie.Models.AnswerShow.findOrCreate(model.attributes)
-        $(@el).find('.answer-group').html @view.render().el
+        @view = new Carrie.Views.Answer
+          model: Carrie.Models.AnswerShow.findOrCreate(model.attributes)
 
-        last_answer =
-          tip: model.get('tip')
-          correct: model.get('correct')
-          response: model.get('response')
-          try_number: model.get('try_number')
-        @model.set('last_answer', last_answer)
+        @renderAnswerView()
+        @renderLastAnswerView(model)
+        @addModelToAnswersView(model)
 
       error: (model, response, options) ->
         alert resp.responseText
 
+  renderAnswerView: ->
+    $(@el).find('.answer-group').html @view.render().el
+
+  renderLastAnswerView: (la) ->
+    last_answer =
+      tip: la.get('tip')
+      correct: la.get('correct')
+      response: la.get('response')
+      try_number: la.get('try_number')
+    @model.set('last_answer', last_answer)
+
+  renderQuestionAnswers: ->
+    if @options.team_id # just show for a OA published in a team
+      $(@el).find("#question-#{@model.get('id')}-answers").html @answersView.render().el
+
+  addModelToAnswersView: (model) ->
+    if @options.team_id # just add for OA published in a team
+      @answersView.addAnswer(model)
 
   onRender: ->
-    $(@el).find('.answer-group').html @view.render().el
+    @renderAnswerView()
+    @renderQuestionAnswers()
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])

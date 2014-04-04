@@ -10,8 +10,9 @@ class Answers::Question
   field :exp_variables, type: Array, default: []
   field :many_answers, type: Boolean, default: false
   field :eql_sinal, type: Boolean, default: false
-  field :cmas_order, type: Boolean, default: true # cmas_order = consider_multiple_answers_order
   field :position, type: Integer
+  field :cmas_order, type: Boolean, default: true # cmas_order = consider_multiple_answers_order
+  field :precision, type: Integer, default: 5
 
   belongs_to :soluction, class_name: "Answers::Soluction",  inverse_of: :question
   belongs_to :exercise, class_name: "Answers::Exercise",  inverse_of: :question

@@ -16,6 +16,7 @@ Carrie.Published.Collections = {}
 Carrie.Published.Routers = {}
 Carrie.Published.Controllers = {}
 Carrie.Published.Views = {}
+Carrie.Published.CompositeViews = {}
 
 Carrie.Models.Retroaction = {}
 Carrie.Views.Retroaction = {}

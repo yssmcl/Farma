@@ -5,6 +5,12 @@ class AnswersController < ApplicationController
   def index
   end
 
+  def for_question
+    @answers = current_user.answers.every.
+      where(from_question_id: params[:question_id]).
+      desc(:created_at)
+  end
+
   # search only in current user answers
   def search_in_my
     @answers =  Answers::Soluction.search_of_user(current_user,
@@ -45,9 +51,7 @@ class AnswersController < ApplicationController
                                           :team,
                                           :exercise,
                                           :question]).find(params[:id])
-
-    session.delete(@answer.question.id)
-
+    session.delete :retroaction
     # Register access
     Reports::RetroactionView.create! answer_id: @answer.id,
                                      user_id: current_user.id

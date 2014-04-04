@@ -18,6 +18,101 @@
   padding-left: 5px;
 }
 
+/******************************************************/
+/*  Answers beside a question                        */
+/******************************************************/
+.question-answers {
+  overflow-x: auto;
+  background: white;
+  font-size: 12px;
+  margin-bottom: 15px;
+  padding: 10px;
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+  @include border-radius(5px);
+
+  .title {
+    padding: 4px 10px;
+    margin: 0 0 5px 0;
+    font-weight: normal;
+    line-height: 18px;
+    background-color: #F7F7F7;
+    border-bottom: 1px solid #EBEBEB;
+    @include border-radius(5px);
+  }
+
+  table {
+    width: 460px;
+    font-size: 12px;
+
+    .response, .correct, .attempt_number, .time, .comments_size {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .response { width: 200px; }
+    .correct { width: 45px; }
+    .attempt_number { width: 55px }
+    .time { width: 115px; }
+    .comments_size {width: 21px}
+
+    th,td { padding: 2px; }
+    thead { display:block; left:0px; }
+    tbody {
+      display:block;
+      max-height: 120px;
+      overflow: auto;
+      tr:hover {
+        background-color: rgba(221, 221, 221, 0.36);
+        cursor: pointer;
+      }
+    }
+  }
+
+//  table {
+//    width: 100%;
+//    min-width: 460px;
+//    font-size: 12px;
+//    th,td {padding: 2px;}
+//    .response { width: 44.468546637744033%; /* 205 / 461 */; }
+//    .correct { width: 9.761388286334056%; /* 45 / 461 */; text-align: center;}
+//    .attempt_number { width: 11.496746203904555%; /* 53 / 461 */ text-align: center;}
+//    .time { width: 26.03036876355748%; /* 120 / 461 */ }
+//    .comments_size { width: 2.6030368763557483%; /* 12 / 461 */}
+//  }
+//
+//  thead, tbody, tr, td, th { display: block; }
+//
+//  tr:after {
+//    content: ' ';
+//    display: block;
+//    visibility: hidden;
+//    clear: both;
+//  }
+//
+//  thead {
+//    border-bottom: 1px solid #EBEBEB;
+//    th {
+//      height: 25px;
+//      /*text-align: left;*/
+//    }
+//  }
+//
+//  tbody {
+//    max-height: 120px;
+//    overflow-y: auto;
+//    tr:hover {
+//      background-color: rgba(221, 221, 221, 0.36);
+//      cursor: pointer;
+//    }
+//  }
+//
+//  tbody td, thead th {
+//    float: left;
+//  }
+}
+
+/**********************************************/
+
 .question {
 
   .answer-group {
