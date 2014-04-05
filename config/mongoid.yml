@@ -71,7 +71,7 @@ test:
 production:
   sessions:
     default:
-      database: farma_production_2014_1
+      database: farma_production_2014_2
       hosts:
         - localhost:27017
       options:
