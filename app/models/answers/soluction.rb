@@ -13,6 +13,7 @@ class Answers::Soluction
 
   index({ team_id: 1, to_test: 1}, { unique: true })
   index({ team_id: 1, to_test: 1, correct: 1})
+  index({ team_id: 1, to_test: 1, from_question_id: 1})
 
   attr_accessible :response, :from_question_id, :to_test, :team_id,
                   :created_from, :answers_last_answer
@@ -140,9 +141,6 @@ private
 
   def set_tip
     tips_count = original_question.tips_counts.find_or_create_by(:user_id => self.user_id)
-    self.attempt_number= tips_count.tries
-    return if self.correct?
-
     tips_count.inc(:tries, 1)
     self.attempt_number= tips_count.tries
   end
@@ -159,10 +157,9 @@ private
     exercise.questions.each do |q|
       la = ::Question.find(q.from_id).last_answer(user)
       if la && (ans = la.answer)
-        Answers::LastAnswer.create question_id: q.id,
-                                   response: ans.response,
-                                   attempt_number: ans.attempt_number,
-                                   correct: ans.correct
+        q.create_last_answer response: ans.response,
+                             attempt_number: ans.attempt_number,
+                             correct: ans.correct
       end
     end
   end

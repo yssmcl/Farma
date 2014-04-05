@@ -9,6 +9,8 @@ class Answers::Exercise
   has_many :questions, class_name: "Answers::Question", inverse_of: :exercise, dependent: :delete
   belongs_to :soluction, class_name: "Answers::Soluction",  inverse_of: :exercise
 
+  index({ from_id: 1})
+
   validates_presence_of :title, :content
 
   # Create Answers::Exercise from other exercise

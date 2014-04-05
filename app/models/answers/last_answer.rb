@@ -6,7 +6,7 @@ class Answers::LastAnswer
   field :correct, type: Boolean, default: false
   field :attempt_number, type: Integer
 
-  belongs_to :question, class_name: "Answers::Question",  inverse_of: :last_answer
+  embedded_in :question, class_name: "Answers::Question",  inverse_of: :last_answer
 
   attr_accessible :question_id, :response, :correct, :attempt_number
 

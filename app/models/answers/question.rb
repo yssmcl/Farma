@@ -17,13 +17,13 @@ class Answers::Question
   belongs_to :soluction, class_name: "Answers::Soluction",  inverse_of: :question
   belongs_to :exercise, class_name: "Answers::Exercise",  inverse_of: :question
 
-  has_many :tips, class_name: "Answers::Tip",  inverse_of: :question, dependent: :destroy
   has_many :retroaction_answers, inverse_of: :question, dependent: :destroy
 
-  has_one :last_answer, class_name: "Answers::LastAnswer",
-           inverse_of: :question, dependent: :destroy
+  embeds_many :tips, class_name: "Answers::Tip",  inverse_of: :question
+  embeds_one :last_answer, class_name: "Answers::LastAnswer",
+              inverse_of: :question
 
-  default_scope includes(:last_answer)
+  index({ from_id: 1})
 
   # return all tips with
   # attempt number less then 

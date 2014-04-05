@@ -6,6 +6,6 @@ class Answers::Tip
   field :content, type: String
   field :number_of_tries, type: Integer
 
-  belongs_to :question, class_name: "Answers::Question",  inverse_of: :tips
+  embedded_in :question, class_name: "Answers::Question",  inverse_of: :tips
 end
 

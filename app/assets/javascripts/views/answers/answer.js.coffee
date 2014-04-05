@@ -32,6 +32,8 @@ class Carrie.Views.Answer extends Backbone.Marionette.ItemView
       return ""
 
   onRender: ->
+    if @model && @tips.length > 0
+      $(@el).find('.content .tip-number').html("Dica: " + @tips[@current_tip_index].number_of_tries)
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
 
   previousTip: (ev) ->
