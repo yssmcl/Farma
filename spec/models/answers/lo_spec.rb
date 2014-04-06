@@ -15,7 +15,7 @@ describe Answers::Lo do
   it { should respond_to(:name) }
   it { should respond_to(:description) }
 
-  it { should belongs_to(:soluction) }
+  it { should embedded_in(:soluction) }
 
   describe "Answers::Lo validations" do
     before do
@@ -27,17 +27,5 @@ describe Answers::Lo do
     it { should have(1).error_on(:description) }
   end
 
-  describe "Copy Lo, used when a soluction is create" do
-
-    it "should copy the lo attributes" do 
-      answers_lo = Answers::Lo.create_from(@original_lo, Answers::Soluction.new)
-      answers_lo.reload
-
-      answers_lo.from_id.should eql(@original_lo.id)
-      answers_lo.name.should eql(@original_lo.name)
-      answers_lo.description.should eql(@original_lo.description)
-    end
-
-  end
 end
 

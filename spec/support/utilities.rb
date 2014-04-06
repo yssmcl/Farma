@@ -62,3 +62,17 @@ RSpec::Matchers.define :has_and_belongs_to_many do |association|
     "expected that #{model} has_and_belongs_to_many #{association}"
   end
 end
+
+[:embedded_in, :embeds_one, :embeds_many].each do |relation|
+  RSpec::Matchers.define relation do |association|
+    match do |model|
+      model = model.class
+      model.reflect_on_all_associations(relation).find { |a| a.name == association }
+    end
+    failure_message_for_should do |model|
+      "expected that #{model} #{relation} #{association}"
+    end
+  end
+end
+
+

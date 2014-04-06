@@ -11,14 +11,18 @@ class Carrie.CompositeViews.WrongCorrectAnswersIndex extends Backbone.Marionette
        root_url: @options.url
        collection: @collection
        fecth_array: 'answers'
+       call_back: =>
+         @updateAfterRequest()
 
     @loadFilters()
-    @collection.on 'add', ->
-      el = @el
-      setTimeout ( ->
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub, el])
-      ), 100
-    , @
+
+
+  updateAfterRequest: ->
+    @updatePageInfo()
+    el = @el
+    setTimeout ( ->
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub, el])
+    ), 100
 
   onRender: ->
     @endless.load()

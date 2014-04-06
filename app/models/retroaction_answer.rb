@@ -5,22 +5,24 @@ class RetroactionAnswer
   include Mongoid::Timestamps
   include MathEvaluate
 
+  field :question_id, type: Moped::BSON::ObjectId
   field :response
   field :correct, type: Boolean
 
+  index({ question_id: 1})
+
   belongs_to :user
   belongs_to :answer, class_name: "Answers::Soluction"
-  belongs_to :question, class_name: "Answers::Question"
 
   attr_accessible :id, :response, :user_id, :answer_id, :question_id
+  before_create  :verify_response
 
-  before_save :load_question, :verify_response
-
-private
-  def load_question
-    self.question = Answers::Question.find(self.question_id)
+  def question
+    @question ||= Answers::Soluction.find(self.answer_id).
+                                       exercise.questions.find(self.question_id)
   end
 
+private
   def verify_response
     options = { variables:  question.exp_variables,
                 cmas_order: question.cmas_order,

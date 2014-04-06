@@ -11,9 +11,11 @@ class Answers::Soluction
   field :to_test, type: Boolean, default: false
   field :attempt_number, type: Integer
 
-  index({ team_id: 1, to_test: 1}, { unique: true })
-  index({ team_id: 1, to_test: 1, correct: 1})
-  index({ team_id: 1, to_test: 1, from_question_id: 1})
+  index({ to_test: 1}, {background: true})
+  index({ to_test: 1, correct: 1}, {background: true})
+  index({ team_id: 1, to_test: 1}, { unique: true,background: true })
+  index({ team_id: 1, to_test: 1, correct: 1}, {background: true})
+  index({ team_id: 1, to_test: 1, from_question_id: 1}, {background: true})
 
   attr_accessible :response, :from_question_id, :to_test, :team_id,
                   :created_from, :answers_last_answer
@@ -23,20 +25,16 @@ class Answers::Soluction
 
   belongs_to :last_answer, class_name: "LastAnswer", inverse_of: :answer, dependent: :destroy
 
-  has_one :lo, class_name: "Answers::Lo", inverse_of: :soluction, dependent: :destroy
-  has_one :question, class_name: "Answers::Question", inverse_of: :soluction, dependent: :destroy
-  has_one :exercise, class_name: "Answers::Exercise", inverse_of: :soluction, dependent: :destroy
+  embeds_one :lo, class_name: "Answers::Lo", inverse_of: :soluction
+  embeds_one :exercise, class_name: "Answers::Exercise", inverse_of: :soluction
 
   has_many :retroaction_answers, inverse_of: :answer, dependent: :destroy
 
   embeds_many :comments, :as => :commentable
 
-  before_create :copy_datas,  # order is relevant
-                :verify_response,
-                :set_tip
+  before_create :verify_response, :set_tip
 
-  after_create :register_last_answer,
-               :copy_last_answers
+  after_create :register_last_answer, :copy_datas
 
   # Excludes temp answers
   #   temp answers are used by professer to test your answers
@@ -46,6 +44,10 @@ class Answers::Soluction
 
   def original_question
     @original_question ||= ::Question.find(self.from_question_id)
+  end
+
+  def question
+    @question ||= exercise.questions.where(soluction_id: self.id).first
   end
 
   def tips
@@ -60,8 +62,7 @@ class Answers::Soluction
 
   # return only answers of specific user
   def self.search_of_user(user, conditions = {})
-    Answers::Soluction.includes(:user, :question, :exercise).
-                       every.
+    Answers::Soluction.every.
                        where(user_id: user.id).where(conditions).
                        desc(:created_at)
   end
@@ -69,8 +70,7 @@ class Answers::Soluction
   # return only answers of a teams grup
   def self.search_in_teams_enrolled(user, conditions = {})
     conditions.delete('correct') if conditions
-    Answers::Soluction.includes(:user, :question, :exercise).
-      wrong.where(conditions).
+    Answers::Soluction.wrong.where(conditions).
       in(team_id: Team.ids_enrolled_by_user(user)).
       excludes(user_id: user.id).
       desc(:created_at)
@@ -78,12 +78,9 @@ class Answers::Soluction
 
   # return only answers of a teams created
   def self.search_in_teams_created(user, conditions = {})
-    ans = Answers::Soluction.includes(:user, :question, :exercise)
-    if user.admin?
-      ans = ans.every.where(conditions)
-    else
-      ans = ans.every.where(conditions).
-                in(team_id: Team.ids_created_by_user(user))
+    ans = Answers::Soluction.every.where(conditions)
+    unless user.admin?
+      ans = ans.in(team_id: Team.ids_created_by_user(user))
     end
     ans.desc(:created_at)
   end
@@ -93,30 +90,73 @@ class Answers::Soluction
   def can_see_user?(user)
     (user.id === self.user.id) || (user.id === self.team.owner_id) || user.admin?
   end
+
 private
 
+  # ============================================================ #
   # For each soluction its necessary
   # to copy its context
   def copy_datas
-    copy_lo_datas
-    copy_exercise_datas
-    set_question_answered
+    copy_lo
+    copy_exercise
   end
 
-  def copy_lo_datas
+  def copy_lo
     original_lo = original_question.exercise.lo
-    self.lo= Answers::Lo.create_from(original_lo, self)
+    self.create_lo from_id: original_lo.id,
+                   name: original_lo.name,
+                   description: original_lo.description
   end
 
-  def set_question_answered
-    cquestion = exercise.questions.where(from_id: self.from_question_id).first
-    cquestion.update_attributes(soluction_id: self.id)
-    self.question= cquestion
+  def copy_exercise
+    copied_exercise = self.create_exercise from_id: original_question.exercise.id,
+                         title:   original_question.exercise.title,
+                         content: original_question.exercise.content
+
+    copy_exercise_questions(copied_exercise)
   end
 
-  def copy_exercise_datas
-    self.exercise= Answers::Exercise.create_from(original_question.exercise, self)
+  def copy_exercise_questions(copied_exercise)
+    original_question.exercise.questions.each do |question|
+
+    s_id = (question.id == self.from_question_id) ? self.id : nil
+
+    copied_question = copied_exercise.questions.create from_id: question.id,
+                                       title: question.title,
+                                       content: question.content,
+                                       correct_answer: question.correct_answer,
+                                       position: question.position,
+                                       exp_variables: question.exp_variables,
+                                       many_answers: question.many_answers,
+                                       eql_sinal: question.eql_sinal,
+                                       cmas_order: question.cmas_order,
+                                       precision: question.precision,
+                                       soluction_id: s_id
+
+
+      copy_question_tips(question, copied_question)
+      copy_question_last_answer(question, copied_question)
+    end
   end
+
+  def copy_question_last_answer(question, copied_question)
+    la = question.last_answer(user)
+    if la && (ans = la.answer)
+      copied_question.create_last_answer response: ans.response,
+                                         attempt_number: ans.attempt_number,
+                                         correct: ans.correct
+    end
+  end
+
+  def copy_question_tips(question, copied_question)
+    question.tips.each do |tip|
+      copied_question.tips.create from_id: tip.id,
+                                  content: tip.content,
+                                  number_of_tries: tip.number_of_tries
+    end
+  end
+
+  # ============================================================ #
 
   def verify_response
     options = { variables: original_question.exp_variables,
@@ -153,14 +193,4 @@ private
     end
   end
 
-  def copy_last_answers
-    exercise.questions.each do |q|
-      la = ::Question.find(q.from_id).last_answer(user)
-      if la && (ans = la.answer)
-        q.create_last_answer response: ans.response,
-                             attempt_number: ans.attempt_number,
-                             correct: ans.correct
-      end
-    end
-  end
 end

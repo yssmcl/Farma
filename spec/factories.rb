@@ -71,23 +71,19 @@ FactoryGirl.define do
     #owner_id must be defined in runtime
   end
 
-  #factory :answer do
-  #  response    "x"
-  #  for_test    false
-    #team_id     team.id      - must be defined in runtime
-    #lo_id       lo.id        - must be defined in runtime
-    #exercise_id exercise.id  - must be defined in runtime
-    #question_id question.id  - must be defined in runtime
-  #  user
-  #end
-
+  # ====================================================== #
   # Answers Factories
+  # ====================================================== #
   factory :soluction, class: Answers::Soluction do
     response    "x + 10"
     to_test    false
-    attempt_number 2
-    current_tip "Pay Atention!!"
     user
+  end
+
+  factory :answers_tip, class: Answers::Tip do
+    from_id { FactoryGirl.create(:tip).id }
+    content { |n| "Dica #{n}" }
+    number_of_tries { (1..5).to_a.sample }
   end
 
 end

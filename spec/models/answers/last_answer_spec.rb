@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe Answers::LastAnswer do
 
-    before { @last_answer = Answers::LastAnswer.new }
+    subject { @last_answer = Answers::LastAnswer.new }
 
-    subject { @last_answer }
+    it { should respond_to(:response) }
+    it { should respond_to(:correct) }
+    it { should respond_to(:attempt_number) }
 
-    it { should belongs_to(:question) }
+    it { should embedded_in(:question) }
 end

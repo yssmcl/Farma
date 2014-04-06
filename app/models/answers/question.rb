@@ -3,6 +3,7 @@ class Answers::Question
   include Mongoid::Timestamps
 
   field :from_id, type: Moped::BSON::ObjectId
+  field :soluction_id, type: Moped::BSON::ObjectId
   field :title, type: String
   field :content, type: String
   field :correct_answer, type: String
@@ -14,10 +15,7 @@ class Answers::Question
   field :cmas_order, type: Boolean, default: true # cmas_order = consider_multiple_answers_order
   field :precision, type: Integer, default: 5
 
-  belongs_to :soluction, class_name: "Answers::Soluction",  inverse_of: :question
-  belongs_to :exercise, class_name: "Answers::Exercise",  inverse_of: :question
-
-  has_many :retroaction_answers, inverse_of: :question, dependent: :destroy
+  embedded_in :exercise, class_name: "Answers::Exercise",  inverse_of: :question
 
   embeds_many :tips, class_name: "Answers::Tip",  inverse_of: :question
   embeds_one :last_answer, class_name: "Answers::LastAnswer",
@@ -32,36 +30,5 @@ class Answers::Question
     self.tips.where(:number_of_tries.lte => attempt).desc(:number_of_tries)
   end
 
-  # Create Answers::Question from
-  # the original question
-  def self.copy_for_exercise(oq, exercise) # oq is original_question
-    question = self.build_from(oq)
-    question.exercise_id= exercise.id
-    question.save!
-    self.copy_tips(question, oq)
-  end
-
-private
-  def self.build_from(oq)
-    Answers::Question.new from_id: oq.id,
-                          title: oq.title,
-                          content: oq.content,
-                          correct_answer: oq.correct_answer,
-                          position: oq.position,
-                          exp_variables: oq.exp_variables,
-                          many_answers: oq.many_answers,
-                          eql_sinal: oq.eql_sinal,
-                          cmas_order: oq.cmas_order,
-                          precision: oq.precision
-  end
-
-  def self.copy_tips(question, oq)
-    oq.tips.each do |tip|
-      question.tips.create from_id: tip.id,
-                           content: tip.content,
-                           number_of_tries: tip.number_of_tries
-    end
-    question
-  end
 end
 

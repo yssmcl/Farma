@@ -12,6 +12,7 @@ namespace :db do
 
      User.where(guest: true).destroy_all
   end
+
   task :delete_all_answers => :environment do
      answers = Answers::Soluction.all
      answers.each do |answer|

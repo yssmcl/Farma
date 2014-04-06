@@ -10,7 +10,8 @@ describe Answers::Soluction do
     @exercise = FactoryGirl.create(:exercise, lo: @lo)
     @question = FactoryGirl.create(:question, exercise: @exercise)
     @team = FactoryGirl.create(:team, owner_id: @user_admin.id)
-    @soluction = Answers::Soluction.new
+
+    @soluction = FactoryGirl.build(:soluction)
   end
 
   subject { @soluction }
@@ -21,19 +22,9 @@ describe Answers::Soluction do
   it { should respond_to(:attempt_number) }
   it { should respond_to(:to_test) }
 
-  it { should have_one(:lo) }
-  it { should have_one(:question) }
-  it { should have_one(:exercise) }
+  it { should embeds_one(:lo) }
+  it { should embeds_one(:exercise) }
   it { should belongs_to(:team) }
-
-  describe "Answers::Soluction association" do
-    it "should have one lo with dependet destroy" do
-      answer_lo = Answers::Lo.create_from(@lo, @soluction)
-      @soluction.lo = answer_lo
-      @soluction.destroy.should be_true
-      expect { answer_lo.reload }.to raise_error(Mongoid::Errors::DocumentNotFound)
-    end
-  end
 
   describe "Copy of soluction context" do
     before do
@@ -46,35 +37,75 @@ describe Answers::Soluction do
       @soluction.lo.from_id.should eql(@lo.id)
     end
 
-    it "should copy the Question" do
-      @soluction.from_question_id.should eql(@question.id)
-      @soluction.question.from_id.should eql(@question.id)
-    end
-
     it "should copy the Exercise" do
       @soluction.exercise.from_id.should eql(@question.exercise.id)
+      @soluction.exercise.title.should eql(@question.exercise.title)
+      @soluction.exercise.content.should eql(@question.exercise.content)
     end
 
-    it "should copy the questions's last answers" do
-      team = FactoryGirl.create(:team, owner_id: user.id)
-      team.enroll(user, '1234')
-      question = FactoryGirl.create(:question)
+    it "should copy the exercise questions" do
+      o_qs = @question.exercise.questions
+      s_qs = @soluction.exercise.questions
 
-      a = user.answers.create from_question_id: question.id,
-                              response: "x + 1", team_id: team.id
+      s_qs.count.should eql(o_qs.count)
 
-      cq = a.exercise.questions.where(from_id: question.id).first
-
-      cla = cq.last_answer
-      ola = question.last_answer(user)
-
-      ola.answer.response.should eql(cla.response)
-      ola.answer.attempt_number.should eql(cla.attempt_number)
+      s_qs.each_with_index do |s_q,i|
+        s_q.from_id.should        eql(o_qs[i].id)
+        s_q.content.should        eql(o_qs[i].content)
+        s_q.correct_answer.should eql(o_qs[i].correct_answer)
+        s_q.position.should       eql(o_qs[i].position)
+        s_q.exp_variables.should  eql(o_qs[i].exp_variables)
+        s_q.many_answers.should   eql(o_qs[i].many_answers)
+        s_q.eql_sinal.should      eql(o_qs[i].eql_sinal)
+        s_q.cmas_order.should     eql(o_qs[i].cmas_order)
+        s_q.precision.should      eql(o_qs[i].precision)
+      end
     end
+
+    it "should copy the questions tips" do
+      o_qs = @question.exercise.questions
+      s_qs = @soluction.exercise.questions
+
+      s_qs.each_with_index do |s_q,i|
+        oq_tips = o_qs[i].tips
+        s_q.tips.count.should eql(oq_tips.count)
+
+        s_q.tips.each_with_index do |s_tip, j|
+          s_tip.from_id.should eql(oq_tips[j].id)
+          s_tip.content.should eql(oq_tips[j].content)
+          s_tip.number_of_tries.should eql(oq_tips[j].number_of_tries)
+        end
+      end
+    end
+
+    it "should copy the questions last answer" do
+      o_qs = @question.exercise.questions
+      s_qs = @soluction.exercise.questions
+
+      s_qs.each_with_index do |s_q,i|
+        if la = o_qs[i].last_answer(user)
+          s_q.last_answer.response.should       eql(la.answer.response)
+          s_q.last_answer.correct.should        eql(la.answer.correct)
+          s_q.last_answer.attempt_number.should eql(la.answer.attempt_number)
+        end
+      end
+    end
+
+    it "should set question answered" do
+      @soluction.question.from_id.should        eql(@question.id)
+      @soluction.question.content.should        eql(@question.content)
+      @soluction.question.correct_answer.should eql(@question.correct_answer)
+      @soluction.question.position.should       eql(@question.position)
+      @soluction.question.exp_variables.should  eql(@question.exp_variables)
+      @soluction.question.many_answers.should   eql(@question.many_answers)
+      @soluction.question.eql_sinal.should      eql(@question.eql_sinal)
+      @soluction.question.cmas_order.should     eql(@question.cmas_order)
+      @soluction.question.precision.should      eql(@question.precision)
+    end
+
   end
 
   describe "Verify response" do
-
     it "should set correct attribute as true when a correct response is send" do
       answer = user.answers.create from_question_id: @question.id,
         response: "x + 1"
@@ -97,6 +128,7 @@ describe Answers::Soluction do
   end
 
   describe "Search answers" do
+
     before do
       user.answers.create from_question_id: @question.id, to_test: true,
         response: "x + 2", team_id: @team.id
@@ -166,21 +198,6 @@ describe Answers::Soluction do
 
       Answers::Soluction.search_in_teams_created(user).should have(4).items
       Answers::Soluction.search_in_teams_enrolled(@user_a).should have(0).items
-    end
-  end
-
-  describe "Delete Answers::Soluction" do
-    it "when delete Answers::Slouction should delete dependents" do
-      2.times {create_valid_answer(user)} # corrects
-      2.times {create_valid_answer(user, response = "x")} # wrongs
-
-      Answers::Soluction.destroy_all
-
-      Answers::Lo.count.should eql(0)
-      Answers::Exercise.count.should eql(0)
-      Answers::Question.count.should eql(0)
-      Answers::Tip.count.should eql(0)
-      Answers::LastAnswer.count.should eql(0)
     end
   end
 
