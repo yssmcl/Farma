@@ -11,7 +11,7 @@ class Carrie.Controllers.Exercises
       func: =>
         Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
-
+        return unless lo
         Carrie.layouts.main.loadBreadcrumb
           1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
           2: name: "Conteúdos do OA #{lo.get('name')}", url: "/lo-contents/#{lo.get('id')}"
@@ -24,6 +24,7 @@ class Carrie.Controllers.Exercises
       func: =>
         Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
+        return unless lo
         exercise = @findExer(lo, id)
 
         exercise.fetch
@@ -34,16 +35,17 @@ class Carrie.Controllers.Exercises
               3: name: "Editar exercício #{model.get('title')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveExercise(lo: lo, model: model)
-          error: (model, response, options)->
-            Carrie.Helpers.Notifications.Flash.error('Exercício não encontrado')
+          error: (model, response, options) ->
+            alert('Exercício não encontrado!')
+            Backbone.history.navigate("/lo-contents/#{lo.get('id')}", true)
 
   show: (lo_id, id) ->
     Carrie.Helpers.Session.Exists
       func: =>
         Carrie.Utils.Menu.highlight 'my-los-link'
         lo = @findLo(lo_id)
+        return unless lo
         exercise = @findExer(lo, id)
-
         exercise.fetch
           success: (model, response, options) =>
             Carrie.layouts.main.loadBreadcrumb
@@ -52,8 +54,10 @@ class Carrie.Controllers.Exercises
               3: name: "Visualizando exercício #{model.get('title')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.CompositeViews.ExerciseShow(lo: lo, model: exercise)
-          error: (model, response, options)->
-            Carrie.Helpers.Notifications.Flash.error('Exercício não encontrado')
+          error: (model, response, options) ->
+            alert('Exercício não encontrado!')
+            Backbone.history.navigate("/lo-contents/#{lo.get('id')}", true)
+
 
   findLo: (id) ->
     lo = Carrie.Models.Lo.findOrCreate(id)
@@ -62,7 +66,9 @@ class Carrie.Controllers.Exercises
       lo.fetch
         async: false
         error: (model, response, options) ->
-          Carrie.Helpers.Notifications.Flash.error('Objeto de aprendizagem não encontrado')
+          lo = null
+          alert('Objeto de aprendizagem não encontrado!')
+          Backbone.history.navigate('/my-los', true)
     return lo
 
   findExer: (lo, id) ->

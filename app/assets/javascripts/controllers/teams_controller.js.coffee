@@ -68,4 +68,5 @@ class Carrie.Controllers.Teams
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveTeam(model: model)
 
           error: (model, response, options) ->
-            Carrie.Helpers.Notifications.Flash.error 'Turma não encontrada'
+            alert('Turma não encontrada!')
+            Backbone.history.navigate('/teams/created', true)

@@ -58,7 +58,8 @@ class Carrie.Controllers.Los
             Carrie.layouts.main.content.close()
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveLo(model: lo)
           error: ->
-            Carrie.Helpers.Notifications.Flash.error('Objeto de aprendizagem não encontrado')
+            alert('Objeto de aprendizagem não encontrado!')
+            Backbone.history.navigate('/my-los', true)
 
 
   showHelp: ->

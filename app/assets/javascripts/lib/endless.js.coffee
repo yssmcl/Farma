@@ -11,7 +11,6 @@ class Carrie.Models.Endless extends Backbone.Model
     @loading = null
 
   fetchData: ->
-    console.log "1:"
     @fetch
       #async: false
       data: @data

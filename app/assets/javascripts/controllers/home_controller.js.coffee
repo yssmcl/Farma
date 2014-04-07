@@ -40,8 +40,8 @@ class Carrie.Controllers.Home
 
         Carrie.layouts.main.content.show new Carrie.Published.Views.Lo(model: lo, page: page)
       error: (model, response, options) =>
-        Carrie.Helpers.Notifications.Flash.error('Objeto de aprendizagem não encontrado')
-        Backbone.history.navigate('')
+        alert('Objeto de Aprendizagme não encontrado!')
+        Backbone.history.navigate('/', true)
 
   #The `*options` catchall route is a well known value in Backbone's Routing
   #internals that represents any route that's not listed before it. It should to

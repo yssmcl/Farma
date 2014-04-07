@@ -2,7 +2,6 @@
 
 ## Alterações Urgentes
 
-  9.  Mundar maneira de compartilhar OAs
   10. Documentar o Sistema
   11. Atualizar versão do Rails e demais bibliotecas
 

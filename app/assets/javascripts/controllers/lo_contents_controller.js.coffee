@@ -11,6 +11,9 @@ class Carrie.Controllers.LoContents
         contents.fetch
           async: false
           url: "/api/lo-contents/#{lo_id}"
+          error: ->
+            alert('Objeto de aprendizagem não encontrado')
+            Backbone.history.navigate('/my-los', true)
 
         contentsView = new Carrie.CompositeViews.LoContentsIndex
           collection: contents

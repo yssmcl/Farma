@@ -35,7 +35,8 @@ class Carrie.Controllers.Introductions
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveIntroduction(lo: lo, model: model)
 
           error: (model, response, options)->
-            Carrie.Helpers.Notifications.Flash.error('Introdução não encontrada')
+            alert('Introdução não encontrada!')
+            Backbone.history.navigate('/my-los', true)
 
   findLo: (id) ->
     lo = Carrie.Models.Lo.findOrCreate(id)
@@ -44,7 +45,8 @@ class Carrie.Controllers.Introductions
       lo.fetch
         async: false
         error: (model, response, options) ->
-          Carrie.Helpers.Notifications.Flash.error('Objeto de aprendizagem não encontrado')
+          alert('Objeto de aprendizagem não encontrado!')
+          Backbone.history.navigate('/my-los', true)
     return lo
 
   findIntro: (lo, id) ->

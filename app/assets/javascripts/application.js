@@ -33,6 +33,7 @@
 //= require parser
 //= require visualsearch
 //= require_tree ./lib
+//= require_tree ./helpers
 //= require_tree ./templates
 //= require_tree ./models
 //= require_tree ./collections

@@ -24,8 +24,8 @@ class Carrie.Published.Controllers.Los
             Carrie.layouts.main.content.show view
             Carrie.layouts.main.hideMenu()
           error: (model, response, options) ->
-            Carrie.Notifications.Top.error 'Objeto de aprendizagem não encontrado', 3000
-            Backbone.history.navigate('')
+            alert('Objeto de aprendizagem não encontrado!')
+            Backbone.history.navigate('/my-los', true)
 
   showPageWithTeam: (team_id, id, page) ->
     Carrie.Helpers.Session.Exists
@@ -50,8 +50,8 @@ class Carrie.Published.Controllers.Los
                 Carrie.layouts.main.content.show view
                 Carrie.layouts.main.hideMenu()
               error: (model, response, options) ->
-                Carrie.Notifications.Top.error 'Objeto de aprendizagem não encontrado', 3000
-                Backbone.history.navigate('')
+                alert('Objeto de aprendizagem não encontrado!')
+                Backbone.history.navigate('/teams/enrolled', true)
           error: (model, response, options) ->
-            Carrie.Notifications.Top.error 'Turma não encontrada', 3000
-            Backbone.history.navigate('')
+            alert('Turma não encontrada!')
+            Backbone.history.navigate('/teams/enrolled', true)
