@@ -17,7 +17,7 @@ class Carrie.Controllers.Answers
         Carrie.Utils.Menu.highlight 'my-answers-link'
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
           2: name: 'Minhas Respostas', url: ''
 
         collection = new Carrie.Collections.WrongCorrectAnswers([], url: '/api/answers/my')
@@ -39,7 +39,7 @@ class Carrie.Controllers.Answers
         Carrie.Utils.Menu.highlight 'teams-enrolled-answers-link'
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
           2: name: 'Respostas das turmas que participo', url: ''
 
         collection = new Carrie.Collections.WrongCorrectAnswers([], url: '/api/answers/search-in-teams-enrolled')
@@ -63,7 +63,7 @@ class Carrie.Controllers.Answers
         Carrie.Utils.Menu.highlight 'teams-created-answers-link'
 
         Carrie.layouts.main.loadBreadcrumb
-          1: name: 'Objetos de Aprendizagem', url: '/los'
+          1: name: 'Meus Objetos de Aprendizagem', url: '/my-los'
           2: name: 'Respostas das turmas que criei', url: ''
 
         collection = new Carrie.Collections.WrongCorrectAnswers([], url: '/api/answers/search-in-teams-created')
