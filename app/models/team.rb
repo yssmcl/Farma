@@ -21,6 +21,7 @@ class Team
   validates_uniqueness_of :name
 
   before_destroy :allow_destroy
+  before_save :allow_remove_los
 
   scope :available, where(available: true)
 
@@ -79,4 +80,20 @@ private
     can_destroy
   end
 
+  def allow_remove_los
+   return true if self.new_record?
+   saved_lo_ids = Team.only(:lo_ids).find(self.id).lo_ids
+
+   diff = saved_lo_ids - lo_ids
+   return true if diff.empty?
+
+   diff.each do |lo_id|
+     has = Answers::Soluction.where(team_id: self.id, :"lo.from_id" => lo_id).count > 0
+     if has
+       errors[:lo_ids] << "Não é permitido remover um OA da turma quando existe repostas atreladas a ele!"
+       return false
+     end
+   end
+   true
+  end
 end

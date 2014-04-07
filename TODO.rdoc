@@ -2,7 +2,6 @@
 
 ## Alterações Urgentes
 
-  8.  Não permitir remover OA da turma se tiver erro.
   9.  Mundar maneira de compartilhar OAs
   10. Documentar o Sistema
   11. Atualizar versão do Rails e demais bibliotecas
@@ -49,3 +48,5 @@
     erros cometidos pelos aprendizes) 
   * Opção para o professor fechar(ocultar) a turma, ela fechada   07-04-2014
     nenhum aluno poderá se matricular na turma;
+  * Não permitir remover um OA da turma se este já tiver erros
+    atrelados ao OA na turma.
