@@ -6,10 +6,10 @@ class Carrie.Views.CreateOrSaveTeam extends Backbone.Marionette.ItemView
 
   initialize: ->
     @model = new Carrie.Models.Team() if not @model
-    this.modelBinder = new Backbone.ModelBinder()
+    @modelBinder = new Backbone.ModelBinder()
 
   onRender: ->
-    @modelBinder.bind(this.model, this.el)
+    @modelBinder.bind(@model, @el)
     @checkboxes()
 
   create: (ev) ->
@@ -22,6 +22,10 @@ class Carrie.Views.CreateOrSaveTeam extends Backbone.Marionette.ItemView
       el.value
 
     @model.set('lo_ids', lo_ids)
+    if @model.isNew()
+      msg = 'Turma criada com sucesso!'
+    else
+      msg = 'Turma atualizada com sucesso!'
 
     @model.save @model.attributes,
       wait: true
@@ -29,7 +33,7 @@ class Carrie.Views.CreateOrSaveTeam extends Backbone.Marionette.ItemView
         Carrie.Helpers.Notifications.Form.resetSubmit()
 
         Backbone.history.navigate "/teams/created", true
-        Carrie.Helpers.Notifications.Top.success 'Turma criada com sucesso!', 4000
+        Carrie.Helpers.Notifications.Top.success msg, 4000
 
       error: (model, response, options) =>
         result = $.parseJSON(response.responseText)
@@ -47,10 +51,10 @@ class Carrie.Views.CreateOrSaveTeam extends Backbone.Marionette.ItemView
     los.fetch
       success: (collection, resp) ->
         column = $('<div class="span4"></div>')
-
+        amount = parseInt(collection.length / 3) + 1
         $.each collection.models, (index, el) ->
           checkbox = self.checkbox(el.get('name'), el.get('id'), lo_ids)
-          if index != 0 && index % 5 == 0
+          if index != 0 && index % amount == 0
             obj.append column
             column = $('<div class="span4"></div>')
           column.append checkbox

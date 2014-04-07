@@ -6,8 +6,11 @@ class Team
   field :code, :type => String
   field :name, :type => String
   field :owner_id, :type => Moped::BSON::ObjectId
+  field :available, type: Boolean, default: true
 
-  attr_accessible :name, :code, :owner_id, :lo_ids
+  index({ available: 1}, {background: true})
+
+  attr_accessible :name, :code, :owner_id, :lo_ids, :available
 
   has_and_belongs_to_many :los
   has_and_belongs_to_many :users, order: "name ASC"
@@ -18,6 +21,8 @@ class Team
   validates_uniqueness_of :name
 
   before_destroy :allow_destroy
+
+  scope :available, where(available: true)
 
   def owner
     @owner ||= User.find(self.owner_id)
@@ -44,9 +49,9 @@ class Team
   # Return scope not the records
   def self.search(search)
     if search
-      any_of(:name => /.*#{search}.*/i).desc(:created_at)
+      available.any_of(:name => /.*#{search}.*/i).desc(:created_at)
     else
-      all.desc(:created_at)
+      available.desc(:created_at)
     end
   end
 

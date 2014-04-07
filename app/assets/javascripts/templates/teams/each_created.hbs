@@ -3,7 +3,12 @@
    <div class='left'>
       <h4>{{name}}</h4>
     </div>
-    <span class='right'>
+    <span class="right">
+      {{#if available}}
+        <span class="btn btn-small btn-success disabled available-info">Turma Aberta</span>
+      {{else}}
+        <span class="btn btn-small btn-danger disabled available-info">Turma Fechada</span>
+      {{/if}}
       <a href='#' data-id='{{id}}' id='edit_team'><i class="icon-edit"></i> Editar </a>
       {{#ifCond numbers_of_enrolled 0}}
         <a href='#' data-id='{{id}}' id='destroy_team' ><i class="icon-remove-circle"></i> Remover </a>
@@ -19,7 +24,7 @@
          {{numbers_of_enrolled}} aprendizes matriculados
       {{/ifCond}}
       |
-      <a href='' class='view-learners'><i class='icon-eye-close'></i> Ver Aprendizes</a>
+      <a href="#" class='view-learners'><i class='icon-eye-close'></i> Ver Aprendizes</a>
     </span>
 </header>
 
@@ -35,6 +40,5 @@
      </tbody>
   </table>
 </section>
-
 
 <hr>

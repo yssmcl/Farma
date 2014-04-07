@@ -1,6 +1,6 @@
 collection @teams, object_root: false
 
-attributes :id, :name
+attributes :id, :name, :available
 
 node(:created_at) { |lo| l lo.created_at }
 node(:numbers_of_enrolled) { |team| team.users.count }

@@ -22,6 +22,8 @@ describe Team do
   it { should respond_to(:code) }
   it { should respond_to(:name) }
   it { should respond_to(:owner_id) }
+  it { should respond_to(:available) }
+  it { expect(:available).to be_true }
 
   it { should has_and_belongs_to_many(:los) }
   it { should has_and_belongs_to_many(:users) }

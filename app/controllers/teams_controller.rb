@@ -33,7 +33,7 @@ class TeamsController < ApplicationController
   end
 
   def enroll
-    @team = Team.find(params[:id])
+    @team = Team.available.find(params[:id])
     if @team.enroll(current_user, params[:code])
       respond_with(@team)
     else

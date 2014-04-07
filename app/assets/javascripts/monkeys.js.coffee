@@ -19,6 +19,17 @@ Handlebars.registerHelper 'ifCond', (e1, e2, options) ->
 
   return options.inverse(this)
 
+Handlebars.registerHelper 'checkIf', (bol) ->
+  if bol
+    return "checked"
+  return ""
+
+Handlebars.registerHelper 'checkIfNot', (bol) ->
+  unless bol
+    return "checked"
+  return ""
+
+
 Handlebars.registerHelper 'showBoolean', (bol) ->
   if bol
     return "Sim"

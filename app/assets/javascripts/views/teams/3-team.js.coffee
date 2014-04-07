@@ -4,6 +4,13 @@ class Carrie.Views.Team extends Backbone.Marionette.ItemView
 
   events:
     'click .btn-enroll' : 'enroll'
+    'keypress input': 'keyPressed'
+
+  keyPressed: (ev) ->
+    if (ev.keyCode == 13)
+      ev.preventDefault()
+      @enroll(ev)
+      return false
 
   enroll: (ev) ->
     ev.preventDefault()

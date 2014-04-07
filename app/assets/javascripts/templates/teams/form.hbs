@@ -5,7 +5,7 @@
         <h4>Nova turma</h4>
       {{/if}}
 </header>
-<form id="team-form" class="form-vertical" novalidate>
+<form id="team-form" action="#" class="form-vertical" novalidate>
   <input name="id" type="hidden" />
   <fieldset>
 
@@ -22,6 +22,22 @@
         <input id="code" name="code" type="text" required="required" />
       </div>
     </div>
+
+    <div class="control-group available_group">
+      <label class="control-label" for="available">Turma: *</label>
+      <div class="controls">
+        <label class="radio">
+          <input type="radio" name="available" value="true" {{checkIf available}}>
+          Aberta: Aprendizes podem se inscreverem na turma.
+        </label>
+        <label class="radio">
+          <input type="radio" name="available" value="false" {{checkIfNot available}}>
+          Fechada: Não permite novas matrículas, porém fica disponível para os alunos matriculados.
+        </label>
+      </div>
+    </div>
+
+    <hr />
 
     <div class="control-group los_group">
       <label class="control-label" for="los">Selecione os objetos que deseja adicionar *</label>
