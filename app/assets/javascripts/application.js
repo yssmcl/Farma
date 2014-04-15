@@ -32,6 +32,7 @@
 //= require carrie
 //= require parser
 //= require visualsearch
+//= require timelineJS/embed
 //= require_tree ./lib
 //= require_tree ./helpers
 //= require_tree ./templates

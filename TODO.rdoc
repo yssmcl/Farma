@@ -1,7 +1,7 @@
 ## TODO
 
 ## Alterações Urgentes
-
+  09. Não permitir deletar OA if there is a answers
   10. Documentar o Sistema
   11. Atualizar versão do Rails e demais bibliotecas
 

@@ -44,6 +44,7 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
         @renderAnswerView()
         @renderLastAnswerView(model)
         @addModelToAnswersView(model)
+        @updateProgressBar(model);
 
       error: (model, response, options) ->
         alert resp.responseText
@@ -68,6 +69,11 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
   addModelToAnswersView: (model) ->
     if @options.team_id # just add for OA published in a team
       @answersView.addAnswer(model)
+
+  updateProgressBar: (model) ->
+    progress = $('.progress-success .bar')
+    progress.html("#{model.get('completeness')}% Concluído")
+    progress.attr('style', "width: #{model.get('completeness')}%")
 
   onRender: ->
     @renderAnswerView()

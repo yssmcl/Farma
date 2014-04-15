@@ -42,7 +42,9 @@ Carrie.Routers.load = ->
   new Carrie.Routers.Answers       controller: new Carrie.Controllers.Answers()
   new Carrie.Routers.Fractais      controller: new Carrie.Controllers.Fractais()
   new Carrie.Routers.Teams         controller: new Carrie.Controllers.Teams()
+  new Carrie.Routers.Reports       controller: new Carrie.Controllers.Reports()
   new Carrie.Published.Routers.Los controller: new Carrie.Published.Controllers.Los()
+  new Carrie.Routers.LearnerReportTimeline   controller: new Carrie.Controllers.LearnerReportTimeline()
 
 
 Carrie.bind 'initialize:after', ->

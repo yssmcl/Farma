@@ -1,3 +1,7 @@
+node(:completeness, :if => lambda { |e| ( not(@team.nil?) && @answer.correct? ) } ) do
+  current_user.completeness_of(@team, @lo)
+end
+
 glue @answer do
   attributes :id, :response, :attempt_number, :correct
 

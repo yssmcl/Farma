@@ -11,5 +11,4 @@ class Answers::Lo
   validates_presence_of :from_id, :name, :description
 
   index({ name: 1}, { unique: true })
-
 end

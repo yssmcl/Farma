@@ -34,7 +34,7 @@ FactoryGirl.define do
 
   factory :exercise do
     lo
-    title "Exercise"
+    sequence(:title) { |n| "Exercise #{n}"}
     content "Exercise enunciation"
     available true
     sequence(:position) {|n| n }
@@ -46,7 +46,7 @@ FactoryGirl.define do
 
   factory :question do
     exercise
-    title "Question"
+    sequence(:title) { |n| "Question #{n}"}
     content "Question enunciation"
     correct_answer "x + 1"
     available true

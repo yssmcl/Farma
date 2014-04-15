@@ -1,5 +1,30 @@
 namespace :db do
 
+  desc "fixe lo.from_id for each answer"
+  task :fixed_lo_id_for_answer => :environment do
+    Answers::Soluction.every.each do |answer|
+      question = Question.find(answer.from_question_id)
+      if answer.lo
+        answer.lo.update_attribute(:from_id, question.exercise.lo.id)
+      end
+    end
+  end
+
+  desc "update team available attribute"
+  task :update_teams_available => :environment do
+    Team.each {|t| t.update_attribute(:available, true)}
+  end
+
+  desc "created learners progress"
+  task :create_progress => :environment do
+    Answers::Soluction.corrects.each do |ans|
+      rts = Reports::LearnerReport.find_or_create_by user_id: ans.user_id,
+        team_id: ans.team_id,
+        lo_id: ans.original_question.exercise.lo.id
+      rts.calculate
+    end
+  end
+
   desc "Clear temporary data of answers"
   task :clear_tmp_data => :environment do
      answers = Answers::Soluction.or({team_id: nil}, {to_test: true})

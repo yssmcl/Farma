@@ -39,8 +39,8 @@ class User
 
   has_many :los, dependent: :delete
 
-  #has_many :answers, dependent: :delete
   has_many :answers, class_name: "Answers::Soluction", dependent: :destroy
+  has_many :reports, class_name: "Reports::LearnerReport", dependent: :destroy
 
   has_many :retroaction_answers, dependent: :destroy
   has_many :last_answers, dependent: :destroy
@@ -58,6 +58,13 @@ class User
 
   def owner_teams
     @owner_teams = Team.where(owner_id: self.id)
+  end
+
+  # Exercises completeness of lo belongs to a team
+  # in percentage
+  def completeness_of(team, lo)
+    r = self.reports.where(team_id: team.id, lo_id: lo.id).first
+    r.nil? ? 0.0 : r.percentage_completed
   end
 
   def self.guest

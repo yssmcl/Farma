@@ -1,6 +1,13 @@
 <header class='center'>
   <h2>Objeto de Aprendizagem {{name}}</h2>
-  <div class='navigator'><div>
+  <div class='navigator'></div>
+  {{#UnlessNil completeness}}
+  <div class="progress progress-success">
+    <div class="bar" style="width: {{completeness}}%">
+      {{completeness}}% Concluído
+    </div>
+  </div>
+  {{/UnlessNil}}
 </header>
 
 <section class='page' >

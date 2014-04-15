@@ -6,6 +6,9 @@ class Lo
   field :description, type: String
   field :available, type: Boolean, default: false
 
+  # cache for amount of questions
+  field :questions_available_count, type: Integer, default: 0
+
   attr_accessible :id, :name, :description, :available
 
   validates_presence_of :name, :description

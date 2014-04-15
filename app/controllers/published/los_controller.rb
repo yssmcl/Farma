@@ -15,6 +15,7 @@ class Published::LosController < ApplicationController
 
   # Its use by, preview, publihesd and shared view
   def show
+    @team = current_user.teams.find(params[:team_id]) if params[:team_id]
     @lo = Lo.includes(:introductions, :exercises).find(params[:id])
   end
 end

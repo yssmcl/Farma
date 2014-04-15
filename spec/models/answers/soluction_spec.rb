@@ -201,6 +201,22 @@ describe Answers::Soluction do
     end
   end
 
+  describe "Reports::LearnerReport" do
+    it "should register a asscioation on answer create" do
+      @team.enroll user, '1234'
+      create_valid_answer(user)
+      rs = Reports::LearnerReport.where(user_id: user.id, team_id: @team.id, lo_id: @lo.id)
+      rs.count.should == 1
+    end
+
+    it "should not register more then one asscioation by, user, team and lo" do
+      @team.enroll user, '1234'
+      2.times {create_valid_answer(user)}
+      rs = Reports::LearnerReport.where(user_id: user.id, team_id: @team.id, lo_id: @lo.id)
+      rs.count.should == 1
+    end
+  end
+
   #helpers
   def create_valid_answer(user, response = "x + 1")
     user.answers.create from_question_id: @question.id,

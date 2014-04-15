@@ -1,6 +1,7 @@
 class Question
   include Mongoid::Document
   include Mongoid::Timestamps
+  #include Mongoid::QuestionCounterCache
 
   field :title, type: String
   field :content, type: String
@@ -28,6 +29,7 @@ class Question
   validates :precision, :inclusion => {:in => 1..6}
 
   belongs_to :exercise
+
   has_many :tips, dependent: :destroy
   has_many :tips_counts, dependent: :destroy
   has_many :last_answers, dependent: :destroy #one last answer for each user
@@ -56,6 +58,7 @@ class Question
     super(val)
     set_exp_variables
   end
+
 private
   def set_position
     self.position = Time.now.to_i
@@ -66,4 +69,5 @@ private
     self.many_answers = correct_answer.to_s.include?(';')
     self.exp_variables = correct_answer.scan(/[a-z][a-z0-9_]*/).uniq
   end
+
 end

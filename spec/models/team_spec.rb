@@ -14,9 +14,6 @@ describe Team do
 
     team = FactoryGirl.create(:team, owner_id: @user_a.id)
     team_b = FactoryGirl.create(:team, owner_id: @user_a.id)
-
-    team.enroll(@user, '1234')
-    @ids.push team.id
   end
 
   it { should respond_to(:code) }

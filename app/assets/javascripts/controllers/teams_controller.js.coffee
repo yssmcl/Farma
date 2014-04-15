@@ -38,6 +38,7 @@ class Carrie.Controllers.Teams
           1: name: 'Turmas que criei', url: ''
 
         created = new Carrie.Collections.TeamsCreated()
+        created.fetch()
         view = new Carrie.CompositeViews.TeamsCreated collection: created
         Carrie.layouts.main.content.show view
 

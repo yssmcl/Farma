@@ -1,0 +1,71 @@
+<section>
+  <header class="clearfix">
+    <div class="left">
+      <h4><%= @answer.question.exercise.title %></h4>
+    </div>
+    <div class="right">
+      <button data-answer-id="<%= @answer.id %>"  class="btn btn-large btn-primary btn-retroaction" type="button">
+        <i class="icon-share-alt"></i> Retroceder a reposta
+      </button>
+    </div>
+  </header>
+  <br />
+  <br />
+
+  <div>
+    <%= @answer.question.exercise.content %>
+  </div>
+
+  <article class="question"><hr>
+    <header>
+      <h4><%= @answer.question.title  %></h4>
+    </header>
+
+    <%= @answer.question.content %>
+
+    <div class="well">
+      <label for="answer">Resposta:</label>
+
+      <div class="row-fluid">
+        <div class="show-grid answer-group">
+          <div>
+            <div class="span3 answer" data-toggle="modal">
+              <% if @answer.correct? %>  
+                <span class="text-in-border-right">Correto</span>
+              <div class="right-answer">
+                $<%= @answer.response %>$
+              </div>
+            <% else %>
+                <span class="text-in-border-wrong">Incorreto</span>
+              <div class="wrong-answer">
+                $<%= @answer.response %>$
+              </div>
+            <% end %>
+            </div>
+
+            <% tips = @answer.question.tips_for(@answer.attempt_number) %>
+            <% if not(@answer.correct?) && tips.count > 0 %>
+            <%
+              tip_count = tips.count
+              tip = tips.last
+            %>
+            <div class="span4 answer-tip">
+                <i class="left-icon icon-caret-left"></i>
+                <div class="title">Resposta Incorreta, análise a dica e tente novamente</div>
+                <div class="content">
+                  <div class="clearfix">
+                    <span class="left"><strong>Tentativa: <%= @answer.attempt_number %></strong></span>
+                    <span class="tip-number right">Dica: <%= tip_count %></span>
+                  </div>
+                  <div class="tip">
+                    <%= tip.content %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>

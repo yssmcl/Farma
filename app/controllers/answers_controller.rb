@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_filter :authenticate_user!, except: :create
+  before_filter :prepare_search_params, only: [:search_in_my, :search_in_teams_enrolled, :search_in_teams_created]
   respond_to :json
 
   def index
@@ -42,6 +43,9 @@ class AnswersController < ApplicationController
     unless (@answer && @answer.response == ap[:response])
       @answer = current_or_guest_user.answers.create(ap)
     end
+
+    @team = @answer.team
+    @lo = Lo.find(@answer.lo.from_id)
   end
 
   def retroaction
@@ -52,6 +56,18 @@ class AnswersController < ApplicationController
     # Register access
     Reports::RetroactionView.create! answer_id: @answer.id,
                                      user_id: current_user.id
+  end
+
+private
+  def prepare_search_params
+    if params[:search] && (lo_id = params[:search][:lo_id])
+      params[:search]["lo.from_id"] = Moped::BSON::ObjectId.from_string(lo_id)
+      params[:search].delete :lo_id
+    end
+    if params[:search] && (exercise_id = params[:search][:exercise_id])
+      params[:search]["exercise.from_id"] = Moped::BSON::ObjectId.from_string(exercise_id)
+      params[:search].delete :exercise_id
+    end
   end
 
 end

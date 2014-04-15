@@ -15,7 +15,7 @@ class Carrie.Views.Layouts.Main extends Backbone.Marionette.Layout
   toggleMenu: (ev) ->
     ev.preventDefault()
     @menu.toggle()
-
+ 
     if @container.hasClass('span9')
       @container.removeClass('span9')
     else
@@ -31,6 +31,10 @@ class Carrie.Views.Layouts.Main extends Backbone.Marionette.Layout
       title = 'Esconder menu'
 
     @toggle.attr('data-original-title', title).tooltip('fixTitle').tooltip('show')
+    #resize timeline
+    VMM.fireEvent(global, 'resize')
+
+
 
   hideMenu: ->
     @menu.hide()

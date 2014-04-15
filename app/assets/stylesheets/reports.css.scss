@@ -1,0 +1,20 @@
+.learners-reports {
+  .reports_select_group {
+    select, label {
+      float: left;
+      margin-right: 10px;
+    }
+    label {line-height: 30px}
+  }
+}
+
+#timeline {
+  .vco-storyjs img {
+    border: none;
+  }
+  .btn {
+    padding: 4px 12px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+  } 
+}

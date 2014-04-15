@@ -1,6 +1,19 @@
 Backbone.Marionette.Renderer.render = (template, data) ->
   HandlebarsTemplates[template](data)
 
+Handlebars.registerHelper 'options_selected', (models, selected_id) ->
+    options = ''
+    for model in models
+      option = '<option value="' + model.get('id') + '"'
+      if model.get('id') == selected_id
+        option += ' selected="selected"'
+
+      option += '>'+ Handlebars.Utils.escapeExpression(model.get('name')) + '</option>'
+      options += option
+
+    return new Handlebars.SafeString(options)
+
+
 Handlebars.registerHelper 'each_with_index', (array, fn) ->
   buffer = ''
   for i in array
@@ -16,7 +29,11 @@ Handlebars.registerHelper 'safe', (text) ->
 Handlebars.registerHelper 'ifCond', (e1, e2, options) ->
   if e1 == e2
     return options.fn(this)
+  return options.inverse(this)
 
+Handlebars.registerHelper 'UnlessNil', (e1, options) ->
+  if (e1 || (e1 == 0))
+    return options.fn(this)
   return options.inverse(this)
 
 Handlebars.registerHelper 'checkIf', (bol) ->

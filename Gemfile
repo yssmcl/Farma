@@ -25,6 +25,7 @@ gem 'redcarpet'
 gem 'whenever', require: false
 
 gem 'request-log-analyzer', require: false
+gem 'timelineJS-rails', '~> 1.1.5'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.5'

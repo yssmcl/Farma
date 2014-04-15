@@ -12,5 +12,6 @@
  *= require_tree .
  *= require visualsearch
  *= require bootstrap-modal
+ *= require timelineJS/timeline
  *= require_self
 */

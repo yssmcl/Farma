@@ -34,7 +34,7 @@ class Answers::Soluction
 
   before_create :verify_response, :set_tip
 
-  after_create :register_last_answer, :copy_datas
+  after_create :register_last_answer, :copy_datas, :register_progress
 
   # Excludes temp answers
   #   temp answers are used by professer to test your answers
@@ -70,6 +70,7 @@ class Answers::Soluction
   # return only answers of a teams grup
   def self.search_in_teams_enrolled(user, conditions = {})
     conditions.delete('correct') if conditions
+
     Answers::Soluction.wrong.where(conditions).
       in(team_id: Team.ids_enrolled_by_user(user)).
       excludes(user_id: user.id).
@@ -190,6 +191,16 @@ private
       @last_answer = self.user.last_answers.
                           find_or_create_by(:question_id => self.from_question_id)
       @last_answer.update_answer(self)
+    end
+  end
+
+  # ============================================================ #
+  def register_progress
+    if team_id
+      rts = Reports::LearnerReport.find_or_create_by user_id: self.user_id,
+                                                     team_id: self.team_id,
+                                                     lo_id: original_question.exercise.lo.id
+      rts.calculate
     end
   end
 

@@ -4,6 +4,10 @@ glue @lo do
   node(:pages_count) { |lo| lo.pages_count }
   node(:pages) {|lo| lo.pages_with_name}
 
+  node(:completeness, :if => lambda { |el| not(@team.nil?) } ) do |lo|
+    current_user.completeness_of(@team, lo)
+  end
+
   node :introductions do |parent|
     parent.introductions_avaiable.map do |introduction|
       result = {}
