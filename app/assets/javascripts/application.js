@@ -43,10 +43,33 @@
 //= require_tree .
 
 
-$(this).scroll(function() {
-   if ($(this).scrollTop() > 120){
-      $('.sidebar-nav').addClass('sidebar-nav-fixed');
-   } else {
-      $('.sidebar-nav').removeClass('sidebar-nav-fixed');
-   }
-});
+//$(this).scroll(function() {
+//   if ($(this).scrollTop() > 120){
+//      $('.sidebar-nav').addClass('sidebar-nav-fixed');
+//      console.log(">")
+//   } else {
+//      console.log("<")
+//      $('.sidebar-nav').removeClass('sidebar-nav-fixed');
+//   }
+//});
+
+//$(function() {
+//
+//    var $sidebar   = $(".sidebar-nav"), 
+//        $window    = $(window),
+//        offset     = $sidebar.offset(),
+//        topPadding = 40;
+//
+//    $window.scroll(function() {
+//        if ($window.scrollTop() > offset.top) {
+//            $sidebar.stop().animate({
+//                marginTop: $window.scrollTop() - offset.top + topPadding
+//            });
+//        } else {
+//            $sidebar.stop().animate({
+//                marginTop: 0
+//            });
+//        }
+//    });
+//    
+//});

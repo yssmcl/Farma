@@ -1,5 +1,5 @@
 class Carrie.CompositeViews.LearnersReportTable extends Backbone.Marionette.CompositeView
-  template: 'reports/learners_report_table'
+  template: 'reports/learner-progress/learners_report_table'
   tagName: 'section'
   itemView: Carrie.CompositeViews.LearnersReportRow
   itemViewContainer: 'tbody'
@@ -10,4 +10,4 @@ class Carrie.CompositeViews.LearnersReportTable extends Backbone.Marionette.Comp
   initialize: ->
     @collection = new Carrie.Collections.Learners
     @collection.fetch
-      url: "/api/reports/teams/#{@options.team_id}/los/#{@options.lo_id}"
+      url: "/api/reports/progress/teams/#{@options.team_id}/los/#{@options.lo_id}"

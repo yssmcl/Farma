@@ -1,5 +1,5 @@
 class Carrie.Views.LearnersReport extends Backbone.Marionette.ItemView
-  template: 'reports/learners_report'
+  template: 'reports/learner-progress/learners_report'
   tagName: 'section'
   className: 'learners-reports'
 

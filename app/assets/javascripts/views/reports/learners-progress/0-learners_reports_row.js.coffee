@@ -1,5 +1,5 @@
 class Carrie.CompositeViews.LearnersReportRow extends Backbone.Marionette.ItemView
-  template: 'reports/learners_report_row'
+  template: 'reports/learner-progress/learners_report_row'
   tagName: 'tr'
 
   events: 

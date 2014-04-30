@@ -6,3 +6,4 @@
  Mime::Type.register "font/opentype", :font
 # Mime::Type.register "application/x-font-woff", :woff, [], %w(.woff)
  Mime::Type.register "application/font-woff", :woff, [], %w(.woff)
+ Mime::Type.register 'application/vnd.ms-excel', :xls

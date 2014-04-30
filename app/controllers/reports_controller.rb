@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   respond_to :json
+  before_filter :authenticate_user!
   before_filter :load_teams, except: :current_user_los
 
   def current_user_teams_los
@@ -13,7 +14,23 @@ class ReportsController < ApplicationController
     @los = @teams.find(params[:team_id]).los
   end
 
-  def learners
+  def learners_and_los_from_team
+    team = @teams.find(params[:team_id])
+    @los = team.los
+    @learners = team.users.asc(:name)
+  end
+
+  def learner_report
+    @team = @teams.find(params[:team_id])
+    @lo = @team.los.find(params[:lo_id])
+    @learner = @team.users.find(params[:learner_id])
+    respond_to do |format|
+      format.xls
+      format.json
+    end
+  end
+
+  def learners_progress
     @team = @teams.find(params[:team_id])
     @lo = @team.los.find(params[:lo_id])
     @learners = @team.users.asc(:name)
@@ -25,7 +42,7 @@ class ReportsController < ApplicationController
     @user = @team.users.find(params[:user_id])
 
     @answers = @user.answers.every.
-                     where(team_id: params[:team_id], 
+                     where(team_id: params[:team_id],
                            :"lo.from_id" => Moped::BSON::ObjectId.from_string(params[:lo_id])).
                      asc(:created_at)
   end
