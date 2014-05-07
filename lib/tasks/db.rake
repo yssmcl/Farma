@@ -1,5 +1,31 @@
 namespace :db do
 
+  desc "fix database because tipsCounts for test answers"
+  task :fixed_tips_count => :environment do
+    LastAnswer.each do |la|
+      if la.answer.nil?
+        la.destroy
+        next
+      end
+      # update last answer team_id
+      team_id = la.answer.team_id
+      la.set(:team_id, team_id)
+    end
+    TipsCount.each do |tc|
+      if tc.user.nil?
+        tc.destroy
+        next
+      end
+      answer = Answers::Soluction.where(from_question_id: tc.question.id,
+                                        user_id: tc.user.id).last
+      if answer.nil?
+        tc.destroy
+        next
+      end
+      tc.set(:team_id, answer.team_id)
+    end
+  end
+
   desc "fixe lo.from_id for each answer"
   task :fixed_lo_id_for_answer => :environment do
     Answers::Soluction.every.each do |answer|
@@ -28,27 +54,13 @@ namespace :db do
   desc "Clear temporary data of answers"
   task :clear_tmp_data => :environment do
      answers = Answers::Soluction.or({team_id: nil}, {to_test: true})
-     answers.each do |answer|
-       question = answer.question
-       question.last_answers.where(user_id: answer.user_id).try(:delete_all)
-       question.tips_counts.where(user_id: answer.user_id).try(:delete_all)
-       answer.destroy
-     end
-
+     answers.destroy_all
+     TipsCount.where(team_id: nil).destroy_all
      User.where(guest: true).destroy_all
   end
 
-  task :delete_all_answers => :environment do
-     answers = Answers::Soluction.all
-     answers.each do |answer|
-       question = answer.original_question
-       question.last_answers.where(user_id: answer.user_id).try(:destroy_all)
-       question.tips_counts.where(user_id: answer.user_id).try(:destroy_all)
-       answer.destroy
-     end
-  end
-  #==============================================
 
+  #==============================================
   desc "This populate database"
   task :populate => :environment do
     require 'faker'

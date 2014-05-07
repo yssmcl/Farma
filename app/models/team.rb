@@ -15,6 +15,10 @@ class Team
   has_and_belongs_to_many :los
   has_and_belongs_to_many :users, order: "name ASC"
 
+  # A answer is unique for a user, question, and team
+  has_many :tips_counts, dependent: :destroy
+  has_many :last_answers, dependent: :destroy
+
   has_many :answers, class_name: "Answers::Soluction" # For see the answers a long term
 
   validates_presence_of :name, :code

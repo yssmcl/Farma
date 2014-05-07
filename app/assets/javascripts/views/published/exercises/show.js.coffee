@@ -3,8 +3,10 @@ class Carrie.Published.Views.Exercise extends Backbone.Marionette.CompositeView
   tagName: 'article'
   itemView: Carrie.Published.Views.Question
 
-  events:
-    'click a.reset-exercise' : 'clearLastAnswers'
+  # Removed on 07/05/2014
+  # Because its no long allowed a user clear your answers
+  #events:
+  #  'click a.reset-exercise' : 'clearLastAnswers'
 
   itemViewOptions: ->
     team_id: @options.team_id
@@ -16,14 +18,16 @@ class Carrie.Published.Views.Exercise extends Backbone.Marionette.CompositeView
   onRender: ->
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
 
-  clearLastAnswers: (ev) ->
-    ev.preventDefault()
-    obj = new Carrie.Published.Models.ExerciseLastAnswersDelete
-      lo_id: @model.get('lo_p').get('id')
-      id: @model.get('id')
+  # Removed on 07/05/2014
+  # Because its no long allowed a user clear your answers  
+  # clearLastAnswers: (ev) ->
+  #  ev.preventDefault()
+  #  obj = new Carrie.Published.Models.ExerciseLastAnswersDelete
+  #    lo_id: @model.get('lo_p').get('id')
+  #    id: @model.get('id')
 
-    obj.destroy
-      success: =>
-         _(@collection.models).each (question) ->
-           question.unset('last_answer')
-         @render()
+  #  obj.destroy
+  #    success: =>
+  #       _(@collection.models).each (question) ->
+  #         question.unset('last_answer')
+  #       @render()

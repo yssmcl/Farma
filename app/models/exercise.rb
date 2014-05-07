@@ -22,12 +22,14 @@ class Exercise
 
   has_many :questions, dependent: :destroy
 
-  def delete_last_answers_of(user_id)
-    self.questions.each  do |question|
-      question.last_answers.where(user_id: user_id).try(:destroy_all)
-      question.tips_counts.where(user_id: user_id).try(:destroy_all)
-    end
-  end
+  # Removed on 07/05/2014
+  # Because its no long allowed a user clear your answers
+  #def delete_last_answers_of(user_id)
+  #  self.questions.each  do |question|
+  #    question.last_answers.where(user_id: user_id).try(:destroy_all)
+  #    question.tips_counts.where(user_id: user_id).try(:destroy_all)
+  #  end
+  #end
 
   def questions_avaiable
     self.questions.where(available: true)

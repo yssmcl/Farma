@@ -38,7 +38,8 @@ class AnswersController < ApplicationController
     ap[:from_question_id] = ap.delete(:question_id)
 
     @answer = LastAnswer.answer_where user_id: current_or_guest_user.id,
-                                      question_id: ap[:from_question_id]
+                                      question_id: ap[:from_question_id],
+                                      team_id: ap[:team_id]
 
     unless (@answer && @answer.response == ap[:response])
       @answer = current_or_guest_user.answers.create(ap)
@@ -49,7 +50,7 @@ class AnswersController < ApplicationController
   end
 
   def retroaction
-    # store al retroaction for reports
+    # store all retroaction for reports
     @answer = Answers::Soluction.includes([:user, :team]).find(params[:id])
 
     session.delete :retroaction

@@ -41,17 +41,18 @@ class Question
   # return all tips with
   # attempt number less then 
   # number_of_tries tip
-  def tips_for(attempt)
-    self.tips.where(:number_of_tries.lte => attempt).desc(:number_of_tries)
+  def tips_for(attempt, team_id)
+    self.tips.where(team_id: team_id,
+                    :number_of_tries.lte => attempt).desc(:number_of_tries)
   end
 
-  def has_last_answer?(user)
+  def has_last_answer?(user, team)
     return false unless user
-    last_answers.by_user(user).size > 0
+    last_answers.by_user(user, team).size > 0
   end
 
-  def last_answer(user)
-    last_answers.by_user(user).try(:first)
+  def last_answer(user, team)
+    last_answers.by_user(user, team).try(:first)
   end
 
   def correct_answer=(val)

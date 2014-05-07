@@ -71,9 +71,10 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
       @answersView.addAnswer(model)
 
   updateProgressBar: (model) ->
-    progress = $('.progress-success .bar')
-    progress.html("#{model.get('completeness')}% Concluído")
-    progress.attr('style', "width: #{model.get('completeness')}%")
+    if model.get('completeness')
+      progress = $('.progress-success .bar')
+      progress.html("#{model.get('completeness')}% Concluído")
+      progress.attr('style', "width: #{model.get('completeness')}%")
 
   onRender: ->
     @renderAnswerView()

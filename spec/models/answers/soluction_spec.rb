@@ -6,10 +6,15 @@ describe Answers::Soluction do
 
   before do
     @user_admin = FactoryGirl.create(:admin)
+
     @lo = FactoryGirl.create(:lo, user: @user_admin)
     @exercise = FactoryGirl.create(:exercise, lo: @lo)
     @question = FactoryGirl.create(:question, exercise: @exercise)
     @team = FactoryGirl.create(:team, owner_id: @user_admin.id)
+
+    @team = FactoryGirl.create(:team)
+    @team.lo_ids << @lo.id
+    @team.enroll(user, '1234')
 
     @soluction = FactoryGirl.build(:soluction)
   end
@@ -28,7 +33,7 @@ describe Answers::Soluction do
 
   describe "Copy of soluction context" do
     before do
-      params = {response: 10, from_question_id: @question.id}
+      params = {response: 10, from_question_id: @question.id, team_id: @team.id}
       @soluction = user.answers.create(params)
       @soluction.reload
     end
@@ -83,7 +88,7 @@ describe Answers::Soluction do
       s_qs = @soluction.exercise.questions
 
       s_qs.each_with_index do |s_q,i|
-        if la = o_qs[i].last_answer(user)
+        if la = o_qs[i].last_answer(user, @team)
           s_q.last_answer.response.should       eql(la.answer.response)
           s_q.last_answer.correct.should        eql(la.answer.correct)
           s_q.last_answer.attempt_number.should eql(la.answer.attempt_number)

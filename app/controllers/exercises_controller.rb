@@ -39,21 +39,21 @@ class ExercisesController < ApplicationController
     respond_with(@lo, @exercise)
   end
 
-  def delete_last_answers
-    @lo = Lo.find(params[:lo_id])
-    @exercise = @lo.exercises.find(params[:id])
-    @exercise.delete_last_answers_of(current_or_guest_user.id)
-    respond_with(@lo, @exercise)
-  end
+  # Removed on 07/05/2014
+  # Because its no long allowed a user clear your answers
+  #def delete_last_answers
+  #  @lo = Lo.find(params[:lo_id])
+  #  @exercise = @lo.exercises.find(params[:id])
+  #  @exercise.delete_last_answers_of(current_or_guest_user.id)
+  #  respond_with(@lo, @exercise)
+  #end
 
 private
  # Its necessary for clean the database and the tests
  def clear_test_answers
-   current_user.answers.where(to_test: true).each do |answer|
-      tips_counts = answer.original_question.tips_counts.where(user_id: current_user.id)
-      tips_counts.destroy
-      answer.destroy
-   end
+    answers = current_user.answers.or({team_id: nil}, {to_test: true})
+    answers.destroy_all
+    TipsCount.where(user_id: current_user.id, team_id: nil).destroy_all
  end
 
  def find_lo

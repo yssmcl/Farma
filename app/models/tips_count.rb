@@ -5,5 +5,6 @@ class TipsCount
   field :tries, type: Integer, default: 0
 
   belongs_to :question
+  belongs_to :team
   belongs_to :user
 end

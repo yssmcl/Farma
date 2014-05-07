@@ -1,8 +1,8 @@
 attributes :id, :title, :content, :exp_variables, :many_answers, :eql_sinal
 
 node :last_answer,
-  if: lambda { |question| question.has_last_answer?(current_user)} do |question|
-  la = question.last_answer(current_user).answer
+  if: lambda { |question| question.has_last_answer?(current_user, @team)} do |question|
+  la = question.last_answer(current_user, @team).answer
   {
     id: la.id,
     response: la.response,

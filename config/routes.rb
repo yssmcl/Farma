@@ -73,7 +73,9 @@ Carrie::Application.routes.draw do
       get 'exercises', on: :collection
       resources :introductions
       resources :exercises do
-        delete 'delete_last_answers', :on => :member
+        # Removed on 07/05/2014
+        # Because its no long allowed a user clear your answers
+        # delete 'delete_last_answers', :on => :member
         resources :questions do
           resources :tips
           collection {post :sort}

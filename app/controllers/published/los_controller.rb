@@ -15,7 +15,15 @@ class Published::LosController < ApplicationController
 
   # Its use by, preview, publihesd and shared view
   def show
+    clear_user_temp_answers
     @team = current_user.teams.find(params[:team_id]) if params[:team_id]
     @lo = Lo.includes(:introductions, :exercises).find(params[:id])
+  end
+
+private
+  def clear_user_temp_answers
+    answers = current_user.answers.or({team_id: nil}, {to_test: true})
+    answers.destroy_all
+    TipsCount.where(user_id: current_user.id, team_id: nil).destroy_all
   end
 end
