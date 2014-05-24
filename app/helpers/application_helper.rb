@@ -9,7 +9,6 @@ module ApplicationHelper
   def user_belongs_to_control_group 
     control = [ "ale_diniz98@hotmail.com",
                 "gustavogta20@hotmail.com",
-                "dmarczal@gmail.com",
                 "lucasnunesme@gmail.com",
                 "luisfelippeflores@gmail.com",
                 "annacarazzai@hotmail.com",

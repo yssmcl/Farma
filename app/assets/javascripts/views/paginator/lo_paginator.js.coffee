@@ -11,6 +11,7 @@ class Carrie.Published.Views.LoPaginator extends Backbone.Marionette.ItemView
     @parentView = @options.parentView
     @team = @options.team
     @team_id = @team.get('id') if @team
+    @retroaction_id = @options.retroaction_id
 
   events:
     'change #page-select': 'changePage'
@@ -64,6 +65,7 @@ class Carrie.Published.Views.LoPaginator extends Backbone.Marionette.ItemView
       view = new Carrie.Published.Views.Exercise
         model: @model.get('exercises').at(@pageCollection())
         team_id: @team_id
+        retroaction_id: @retroaction_id
 
     $(@parentView.el).find('section.page').html(view.render().el)
 
