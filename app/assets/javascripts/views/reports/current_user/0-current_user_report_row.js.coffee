@@ -11,4 +11,8 @@ class Carrie.CompositeViews.CurrentUserReportRow extends Backbone.Marionette.Ite
     url = "/reports/my-timeline/teams/#{@model.get('team').id}/los/#{@model.get('id')}"
     Backbone.history.navigate url, true
 
+  onRender: ->
+    #TODO: remover após o experimento
+    if $('body').data('control-group') == true
+      $(@el).find('[data-hide="true"]').remove()
 

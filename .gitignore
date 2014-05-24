@@ -16,3 +16,4 @@ db/dump
 doc/*.svg
 doc/*.png
 lib/tasks/test.rake
+spec/data

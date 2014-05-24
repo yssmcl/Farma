@@ -12,3 +12,7 @@ class Carrie.CompositeViews.CurrentUserReportTable extends Backbone.Marionette.C
   #  @collection.fetch
   #    url: "/api/reports/teams/#{@options.team_id}/los/#{@options.lo_id}"
 
+  onRender: ->
+    #TODO: remover após o experimento
+    if $('body').data('control-group') == true
+      $(@el).find('[data-hide="true"]').remove()

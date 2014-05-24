@@ -1,10 +1,11 @@
 ## TODO
 
 ## Alterações Urgentes
+  08. Simplificar Formulas Matemáticas: http://ckeditor.com/addon/mathjax
   09. Não permitir deletar OA if there is a answers
   10. Documentar o Sistema
   11. Atualizar versão do Rails e demais bibliotecas
-
+  
 ## Pensar:
 
   * Vincular erro junto a turma e o OA não somente ao OA
