@@ -35,6 +35,11 @@ Carrie::Application.routes.draw do
     match '/reports/my-teams-los' => "reports#current_user_teams_los", via: :get
     match '/reports/my-timeline/teams/:team_id/los/:lo_id' => "reports#my_timeline", via: :get
 
+    # Exercises sequence
+    namespace :sequence do
+      match '/teams/:team_id/los/:lo_id' => "sequence#calculates", via: :post
+    end
+
     resources :retroaction_answers, only: :create
     resources :contacts, only: :create
 

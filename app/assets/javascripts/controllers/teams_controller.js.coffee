@@ -2,6 +2,7 @@ class Carrie.Routers.Teams extends Backbone.Marionette.AppRouter
   appRoutes:
     'teams/enrolled': 'enrolled'
     'teams/created': 'created'
+    'teams/created/:id': 'showTeamDetails'
     'teams/edit/:id': 'edit'
     'teams/new': 'new'
     'teams': 'index'
@@ -67,6 +68,27 @@ class Carrie.Controllers.Teams
               2: name: "Editar turma #{model.get('name')}", url: ''
 
             Carrie.layouts.main.content.show new Carrie.Views.CreateOrSaveTeam(model: model)
+
+          error: (model, response, options) ->
+            alert('Turma não encontrada!')
+            Backbone.history.navigate('/teams/created', true)
+
+  showTeamDetails: (id) ->
+    Carrie.Helpers.Session.Exists
+      func: =>
+        Carrie.Utils.Menu.highlight 'created-link'
+
+        team = Carrie.Models.Team.findOrCreate(id)
+        team = new Carrie.Models.Team({id: id}) if not team
+
+        team.fetch
+          success: (model, response, options) =>
+            Carrie.layouts.main.loadBreadcrumb
+              1: name: 'Minhas turmas', url: '/teams/created'
+              2: name: "Detalhes da turma #{model.get('name')}", url: ''
+
+            view =  new Carrie.Views.TeamDetails(model: model)
+            Carrie.layouts.main.content.show view
 
           error: (model, response, options) ->
             alert('Turma não encontrada!')

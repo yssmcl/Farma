@@ -9,6 +9,7 @@
       {{else}}
         <span class="btn btn-small btn-danger disabled available-info">Turma Fechada</span>
       {{/if}}
+      <a href='#' id='team_details'><i class="icon-eye-open"></i> Detalhes </a>
       <a href='#' data-id='{{id}}' id='edit_team'><i class="icon-edit"></i> Editar </a>
       {{#ifCond numbers_of_enrolled 0}}
         <a href='#' data-id='{{id}}' id='destroy_team' ><i class="icon-remove-circle"></i> Remover </a>

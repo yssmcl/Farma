@@ -6,9 +6,14 @@ class Carrie.Views.TeamShow extends Backbone.Marionette.ItemView
     'click #edit_team' : 'edit'
     'click #destroy_team' : 'destroy'
     'click .view-learners': 'viewLearners'
+    'click #team_details' : 'team_details'
 
   initialize: ->
     @icon = 'icon-eye-close'
+
+  team_details: (ev) ->
+    ev.preventDefault()
+    Backbone.history.navigate("/teams/created/#{@model.get('id')}", true)
 
   edit: (ev) ->
     ev.preventDefault()
