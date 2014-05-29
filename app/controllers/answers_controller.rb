@@ -7,7 +7,9 @@ class AnswersController < ApplicationController
   end
 
   def for_question
-    @answers = current_user.answers.every.
+    user = User.find(params[:learner_id]) if params[:learner_id]
+    user ||= current_user
+    @answers = user.answers.every.
       where(from_question_id: params[:question_id]).
       desc(:created_at)
   end

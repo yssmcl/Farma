@@ -6,8 +6,12 @@ class Carrie.Published.CompositeViews.QuestionAnswers extends Backbone.Marionett
 
   initialize: ->
     @collection = new Carrie.Collections.WrongCorrectAnswers []
+    url = "/api/answers/for-question/#{@options.question_id}"
+    if @options.learner_id
+      url += "?learner_id=#{@options.learner_id}"
+
     @collection.fetch
-      url: "/api/answers/for-question/#{@options.question_id}"
+      url: url
       success: =>
         $(@el).find(".amount").html(@collection.length)
 
