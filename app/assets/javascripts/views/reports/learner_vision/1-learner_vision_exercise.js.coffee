@@ -10,3 +10,6 @@ class Carrie.Views.LearnerVisionExercise extends Backbone.Marionette.CompositeVi
   initialize: ->
     @collection = @model.get('questions')
     this
+
+  onRender: ->
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])

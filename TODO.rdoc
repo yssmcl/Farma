@@ -1,11 +1,28 @@
 ## TODO
 
-## Alterações Urgentes
-  08. Simplificar Formulas Matemáticas: http://ckeditor.com/addon/mathjax
-  09. Não permitir deletar OA if there is a answers
-  10. Documentar o Sistema
-  11. Atualizar versão do Rails e demais bibliotecas
-  
+Next gustavo maykel da silva seidel
+
+## Alterações Urgente
+ -02. Arrumar Mesagem Recebida
+ -03. Verificar erro no larner view ale_diniz98@hotmail.com
+ -02. Colocar loading para learner view
+ -01. Clear answers on show learner view
+  00. Colocar no dashboard comentários recebidos
+  01. Numerar automaticamente os exercícios
+  02. Melhorar a edição dos exercícios (colocar navegação entre os exercícios)
+  03. Counter cache para os los dos exercícios e questões
+  04. Definir um máximo de questões por exercícios
+  05. Enviar email após 10 minutos do comentário
+  06. Melhorar sistema de fórmulas para os comentários
+  07. Definir comentários por questões
+  08. Permitir editar comentários por um determinado tempo
+  09. Simplificar Fórmulas Matemáticas no ckeditor: http://ckeditor.com/addon/mathjax
+  10. Não permitir deletar OA caso já esteja vinculada a uma turma
+  11. Documentar o Sistema, construir diagrama de classes
+  12. Atualizar versão do Rails e demais bibliotecas
+  13. Fazer sistema de Backup da aplicação
+  14. Construir área administrativa
+
 ## Pensar:
 
   * Vincular erro junto a turma e o OA não somente ao OA

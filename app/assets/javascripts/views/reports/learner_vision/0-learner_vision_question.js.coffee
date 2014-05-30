@@ -3,19 +3,20 @@ class Carrie.Views.LearnerVisionQuestion extends Backbone.Marionette.ItemView
   tagName: 'article'
   className: 'question'
 
-  initialize: ->
-    @loadAnswerView()
-
   loadAnswerView: ->
     if @model.get('last_answer')
-      model = Carrie.Models.AnswerShow.findOrCreate(@model.get('last_answer'))
-      model = model || new Carrie.Models.AnswerShow(@model.get('last_answer'))
+      # TODO: Refactoring
+      model = Carrie.Models.AnswerShow.findOrCreate({id: @model.get('last_answer')})
+      model = model || new Carrie.Models.AnswerShow()
+      model.set(@model.get('last_answer'))
+      #model = new Carrie.Models.AnswerShow(@model.get('last_answer'))
       @view = new Carrie.Views.Answer model: model
     else
       @view = new Carrie.Views.Answer()
 
 
   renderAnswerView: ->
+    @loadAnswerView()
     $(@el).find('.answer-group').html @view.render().el
 
   renderQuestionAnswers: ->

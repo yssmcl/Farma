@@ -186,6 +186,10 @@
 /* loading
 ------------------------- */
 .loading {
+  margin: 8px -10px;
+  position: absolute;
+  padding: 2px 2px;
+  color: white;
   display: none;
   background: #000;
   @include border-radius(10px)

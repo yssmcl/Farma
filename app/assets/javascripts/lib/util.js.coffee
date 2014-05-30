@@ -96,3 +96,9 @@ Carrie.Utils.Pluralize = (amount, word_s, word_p) ->
   else
     s = "#{s} #{word_p}"
   s
+
+Carrie.Utils.clearBackboneRelationalCache = ->
+  oldReverseRelations = Backbone.Relational.store._reverseRelations
+  Backbone.Relational.store = new Backbone.Store()
+  Backbone.Relational.store._reverseRelations = oldReverseRelations
+  Backbone.Relational.eventQueue = new Backbone.BlockingQueue()

@@ -42,6 +42,13 @@
 // require_tree ./routers
 //= require_tree .
 
+// Show loading feedback on ajax
+$(document).ajaxStart(function () {
+  $('.loading').show();
+}).ajaxStop(function () {
+  $('.loading').hide();
+});
+
 
 //$(this).scroll(function() {
 //   if ($(this).scrollTop() > 120){
