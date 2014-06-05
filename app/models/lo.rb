@@ -36,6 +36,14 @@ class Lo
     @pages ||= (self.introductions_avaiable + self.exercises_avaiable).sort {|a,b| a.position <=> b.position}
   end
 
+  def page_of(content)
+    pages.index { |c| c.id == content.id }
+  end
+
+  def content_at(index)
+    pages.at(index)
+  end
+
   def pages_count
     self.pages.size
   end
