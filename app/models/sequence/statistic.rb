@@ -9,78 +9,34 @@ class Sequence::Statistic
 
   field :team_id, type: Moped::BSON::ObjectId
 
-  def calculate_statistics
-    team = Team.find(team_id)
-    users = team.users
-    total_users = users.count
-    puts "total de alunos: #{total_users}"
-    lo = Lo.find(lo_id)
+  def calculate_statistics   
     self.question_statistics = Hash.new 
-
-    difficulty_degree_exercise = Hash.new 
     self.order_exercises = Hash.new
 
+    difficulty_degree_exercise = Hash.new 
+
+    lo = Lo.find(lo_id)
     puts "numero de exercicios: #{lo.exercises.count}"
 
-    # Os exercícios são retornados na ordem correta
-    # lo.exercises.each_with_index do |exercise, index|
-    lo.exercises.each do |exercise|
-
+    lo.exercises.each_with_index do |exercise, index|
       difficulty_degree_vector = []
-
       exercise.questions.each do |question| 
-
-        attempts = []
-        self.question_statistics[question.id] = Hash.new 
-        self.question_statistics[question.id][:number_of_correct_response] = 0
-        self.question_statistics[question.id][:number_of_wrong_response] = 0
-        users.each do |user|
-
-          answer = user.answers.every.where(from_question_id: question.id).desc(:created_at).limit(1).first
-          if answer
-            attempts << answer.attempt_number
-          end
-          ans_correct = user.answers.corrects.where(from_question_id: question.id)              
-          unless ans_correct.empty?
-            self.question_statistics[question.id][:number_of_correct_response] += 1
-          end
-        end
-        self.question_statistics[question.id][:number_of_wrong_response] = total_users - self.question_statistics[question.id][:number_of_correct_response]
-        if self.question_statistics[question.id][:number_of_wrong_response] == 0
-          self.question_statistics[question.id][:number_of_wrong_response] = 1     
-        end
-        self.question_statistics[question.id][:difficulty_degree] = 10*self.question_statistics[question.id][:number_of_wrong_response] / (self.question_statistics[question.id][:number_of_wrong_response] + self.question_statistics[question.id][:number_of_correct_response])
+        calculate_statistics_question(question.id, team_id)
         difficulty_degree_vector << self.question_statistics[question.id][:difficulty_degree]
-        if attempts == []
-          self.question_statistics[question.id][:median] = 1
-        else
-          self.question_statistics[question.id][:median] = calculate_median(attempts)
-        end
       end
-
       # Se o exercício possui questões
       # TODO: Verificar
       unless exercise.questions.empty?
         difficulty_degree_exercise[exercise.id] =  difficulty_degree_vector.inject(0.0) { |sum, el| sum + el } / difficulty_degree_vector.size           
         puts "Exercicio: #{exercise.id} - Dificuldade: #{difficulty_degree_exercise[exercise.id]}"
       end
+      self.order_exercises[exercise.id] = Hash.new
+      self.order_exercises[exercise.id][:previous_position] = index
     end
-    exercises_ordered = difficulty_degree_exercise.keys.sort_by do |a|
-      difficulty_degree_exercise[a]
-    end
-    puts "exercicios ordenados: #{exercises_ordered}"
-    i = 0
-    exercises_ordered.each do |ex|
-      self.order_exercises[ex] = Hash.new
-      #puts "xxxxx ---#{lo.exercises.where(exercise_id: ex)[:position]}"
-      #position = lo.pages.index { |c| c.id == exercise_id}
-      self.order_exercises[ex][:previous_position] = 1
-      self.order_exercises[ex][:actual_position] = i
-      i = i + 1
-    end
+    calculate_new_order_exercises(difficulty_degree_exercise)
     puts self.order_exercises
     self.question_statistics.each {|key,value| puts "#{Question.find(key).title} = #{value}"}
-    self.calculate_rating
+    calculate_rating
     save
   end
 
@@ -91,7 +47,85 @@ class Sequence::Statistic
     (sorted[mid.floor] + sorted[mid.ceil]) / 2.0
   end
 
-  def calculate_rating ()
+# TODO: investigar modo de usar aggregation p/ otimizar a forma de calcular as estatísticas
+  def calculate_statistics_aggregation
+    team = Team.find(team_id)
+    users = team.users
+    total_users = users.count
+    puts "total de alunos: #{total_users}"
+    lo = Lo.find(lo_id)
+    self.question_statistics = Hash.new 
+    lo.exercises.each do |exercise|
+      exercise.questions.each do |question|
+
+        attempts = []
+        self.question_statistics[question.id] = Hash.new 
+        self.question_statistics[question.id][:number_of_correct_response] = 0
+        self.question_statistics[question.id][:number_of_wrong_response] = 0
+
+        pipeline =  [ { "$match" => { "from_question_id" => question.id,
+                                      "to_test" => false, 
+                                      "team_id" => {"$ne" => nil},
+                                      "correct" => true }},
+                                      { "$group" => {'_id' => '$user_id',
+                                                     'attempts_number' => {'$max' => '$attempt_number'}}}
+        ]
+        Answers::Soluction.collection.distinct()
+        #res = Answers::Soluction.collection.aggregate(pipeline)
+        Answers::Soluction.collection.aggregate(pipeline)
+      end
+    end  
+    self.question_statistics.each {|key,value| puts "#{key} = #{value}"}
+    self.calculate_rating
+  end
+
+
+  private
+
+  def calculate_statistics_question(question_id, team_id)
+    team = Team.find(team_id)
+    users = team.users
+    total_users = users.count
+    attempts = []
+    self.question_statistics[question_id] = Hash.new 
+    self.question_statistics[question_id][:number_of_correct_response] = 0
+    self.question_statistics[question_id][:number_of_wrong_response] = 0
+    users.each do |user|
+      answer = user.answers.every.where(from_question_id: question_id).desc(:created_at).limit(1).first
+      if answer
+        attempts << answer.attempt_number
+      end
+      ans_correct = user.answers.corrects.where(from_question_id: question_id)              
+      unless ans_correct.empty?
+        self.question_statistics[question_id][:number_of_correct_response] += 1
+      end
+    end
+    self.question_statistics[question_id][:number_of_wrong_response] = total_users - self.question_statistics[question_id][:number_of_correct_response]
+    if self.question_statistics[question_id][:number_of_wrong_response] == 0
+       self.question_statistics[question_id][:number_of_wrong_response] = 1     
+    end
+    if attempts == []
+       self.question_statistics[question_id][:median] = 1
+    else
+       self.question_statistics[question_id][:median] = calculate_median(attempts)
+    end
+    self.question_statistics[question_id][:difficulty_degree] = 10*self.question_statistics[question_id][:number_of_wrong_response] / (self.question_statistics[question_id][:number_of_wrong_response] + self.question_statistics[question_id][:number_of_correct_response])       
+  end
+
+  def calculate_new_order_exercises(difficulty_degree_exercise)
+ 
+      exercises_ordered = difficulty_degree_exercise.keys.sort_by do |a|
+         difficulty_degree_exercise[a]
+      end
+      puts "exercicios ordenados: #{exercises_ordered}"
+      i = 0
+      exercises_ordered.each do |ex|
+         self.order_exercises[ex][:actual_position] = i
+         i = i + 1
+      end
+  end    
+    
+def calculate_rating ()
     team = Team.find(team_id)
     users = team.users
     total_users = users.count
@@ -130,76 +164,19 @@ class Sequence::Statistic
           alfa =(1.0/self.question_statistics[question.id][:number_of_correct_response])
           beta =(1.0/self.question_statistics[question.id][:number_of_wrong_response])
           if self.question_statistics[question.id][:median] == 0
-            mediana = 1
+            median_rating = 1
           else
-            mediana = self.question_statistics[question.id][:median]
+            median_rating = self.question_statistics[question.id][:median]
           end
-          if user_attempts > mediana
-            user_attempts = mediana
+          if user_attempts > median_rating
+            user_attempts = median_rating
           end
-          actual_rating = previous_rating + a*k1*alfa*(10 - 9*(user_attempts/mediana)) - e*k2*beta*10*(user_attempts/mediana)
+          actual_rating = previous_rating + a*k1*alfa*(10 - 9*(user_attempts/median_rating)) - e*k2*beta*10*(user_attempts/median_rating)
           self.rating_user[user.id] = actual_rating
         end  
       end
     end    
     puts "rating:#{self.rating_user}"
-  end
-
-
-  def calculate_statistics_aggregation
-    team = Team.find(team_id)
-    users = team.users
-    total_users = users.count
-    puts "total de alunos: #{total_users}"
-    lo = Lo.find(lo_id)
-    self.question_statistics = Hash.new 
-    lo.exercises.each do |exercise|
-      exercise.questions.each do |question|
-
-        attempts = []
-        self.question_statistics[question.id] = Hash.new 
-        self.question_statistics[question.id][:number_of_correct_response] = 0
-        self.question_statistics[question.id][:number_of_wrong_response] = 0
-
-        pipeline =  [ { "$match" => { "from_question_id" => question.id,
-                                      "to_test" => false, 
-                                      "team_id" => {"$ne" => nil},
-                                      "correct" => true }},
-                                      { "$group" => {'_id' => '$user_id',
-                                                     'attempts_number' => {'$max' => '$attempt_number'}}}
-        ]
-        Answers::Soluction.collection.distinct()
-        #res = Answers::Soluction.collection.aggregate(pipeline)
-        Answers::Soluction.collection.aggregate(pipeline)
-
-        users.each do |user|
-          answer = user.answers.where(from_question_id: question.id).desc(:created_at).limit(1).first
-          if answer
-            attempts << answer.attempt_number
-          end
-          ans_correct = user.answers.corrects.where(from_question_id: question.id)
-          if ans_correct
-            self.question_statistics[question.id][:number_of_correct_response] += 1
-          end
-        end
-        self.question_statistics[question.id][:number_of_wrong_response] = total_users - self.question_statistics[question.id][:number_of_correct_response]
-        if self.question_statistics[question.id][:number_of_wrong_response] == 0
-          self.question_statistics[question.id][:number_of_wrong_response] = 1
-        end
-        self.question_statistics[question.id][:difficulty_degree] = 10*self.question_statistics[question.id][:number_of_wrong_response] / (self.question_statistics[question.id][:number_of_wrong_response] + self.question_statistics[question.id][:number_of_correct_response])
-        if attempts == []
-          self.question_statistics[question.id][:median] = 1
-        else
-          self.question_statistics[question.id][:median] = calculate_median(attempts)
-        end
-      end
-    end
-    self.question_statistics.each {|key,value| puts "#{key} = #{value}"}
-    self.calculate_rating
-    #  team = Team.find :team_id
-    #  team.users.each do |user|
-    #   user.answers.where("lo.from_id" => lo_id, :team_id => team_id)
-    #  end
   end
 
 
