@@ -3,15 +3,17 @@ class Carrie.Published.CompositeViews.QuestionAnswers extends Backbone.Marionett
   className: 'question-answers'
   itemView: Carrie.Published.Views.QuestionAnswer
   itemViewContainer: 'tbody'
+  itemViewOptions: ->
+    parentModel: @
 
   initialize: ->
     @collection = new Carrie.Collections.WrongCorrectAnswers []
-    url = "/api/answers/for-question/#{@options.question_id}"
+    @url = "/api/answers/for-question/#{@options.question_id}"
     if @options.learner_id
-      url += "?learner_id=#{@options.learner_id}"
+      @url += "?learner_id=#{@options.learner_id}"
 
     @collection.fetch
-      url: url
+      url: @url
       success: =>
         $(@el).find(".amount").html(@collection.length)
 

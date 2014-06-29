@@ -1,16 +1,15 @@
 Carrie.Helpers.Retroaction = {}
 
-Carrie.Helpers.Retroaction.open = (id) ->
+Carrie.Helpers.Retroaction.open = (id, callback) ->
   answer = Carrie.Models.Retroaction.Answer.findOrCreate(id)
   answer = new Carrie.Models.Retroaction.Answer(id: id) if not answer
   answer.clear()
   answer.set('id', id)
-  console.log id
 
   answer.fetch
     async: false
     success: (model, response, options) =>
-      view = new Carrie.Views.Retroaction.Answer(model: answer).render().el
+      view = new Carrie.Views.Retroaction.Answer(model: answer, callback: callback).render().el
       MathJax.Hub.Queue(["Typeset",MathJax.Hub, view])
       $(view).modal('show')
     error: (model, response, options) ->

@@ -247,3 +247,14 @@
   font-size: 16px;
 }
 
+/*
+* Ajust Bootstrap Popover width
+*/
+.popover {
+  width: auto;
+
+  .popover-content {
+    max-height: 250px;
+    overflow-y:scroll;
+  }
+}

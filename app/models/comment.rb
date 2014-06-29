@@ -24,6 +24,6 @@ class Comment
 
   private
   def notify_by_email
-    system "rake send_message_mailing ANSWER_ID=#{self.commentable.id} --trace 2>&1 >> #{Rails.root}/log/rake.log &"
+    #system "rake send_message_mailing ANSWER_ID=#{self.commentable.id} --trace 2>&1 >> #{Rails.root}/log/rake.log &"
   end
 end
