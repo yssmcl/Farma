@@ -51,52 +51,13 @@ task :send_message_mailing => :environment do
   user = User.find(user_id)
   CommentMailer.send_message(answer, user, url, "answer_owner").deliver
 
-
-  # ================================================
-  control = [ "ale_diniz98@hotmail.com",
-                "gustavogta20@hotmail.com",
-                "lucasnunesme@gmail.com",
-                "luisfelippeflores@gmail.com",
-                "annacarazzai@hotmail.com",
-                "re_nan_diego@hotmail.com",
-                "hector.iniesta@hotmail.com",
-                "andre.fernandes1997@hotmail.com",
-                "lucas.andre12451@gmail.com",
-                "matheus_martelotti@hotmail.com",
-                "gregor.lohan@hotmail.com",
-                "leonardo_cardosodossantos@hotmail.com",
-                "nathaliapb2008@hotmail.com",
-                "suellen_skc@hotmail.com",
-                "jonathanlus@hotmail.com",
-                "benjamim_fernando@hotmail.com",
-                "marialuiza_g@hotmail.com",
-                "saracristina.martins@hotmail.com",
-                "kekinha-mara@hotmail.com",
-                "lucastamarossi_@hotmail.com",
-                "giovannibs2013@gmail.com",
-                "mfkipper@hotmail.com",
-                "yuri.soares98@hotmail.com",
-                "camila_solivam@hotmail.com",
-                "theus.topolski@gmail.com",
-                "leonardo-santoss@outlook.com",
-                "durval_gab@hotmail.com",
-                "junior_phoda@live.com",
-                "dvs.olie@hotmail.com;dvs.olie@hormail.com",
-                "isa.bela_26@hotmail.com",
-                "leonardockeller@gmail.com",
-                "leonardo.simao@hotmail.com.br",
-                "leonardovitornunes@hotmail.com",
-                "viniciuspadilha_silva@hotmail.com"
-    ]
-  # ================================================
-
-  # Send a email to the learner of same team
-  url = "#{default_url}/answers/teams-enrolled/#{answer.id}"
+  # because other leaners should not see the answers of the other users
+  # TODO: It not should see answers that he not answered correct
+  url = nil # because other leaners should not see the answers of the other users
   ids.delete(owner_id)
   ids.delete(user_id)
   ids.each do |id|
     user = User.find(id)
-    next if control.include?(user.email)
     CommentMailer.send_message(answer, user, url, "collegue_learner").deliver
   end
 end

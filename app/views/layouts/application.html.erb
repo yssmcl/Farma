@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
   <%= javascript_include_tag 'application' %>
 </head>
-<body data-logged='<%= current_user.to_json %>' data-control-group="<%= user_belongs_to_control_group %>" >
+<body data-logged='<%= current_user.to_json %>'>
   <div class="page-container">
     <div id="alert-fixed">
       <span class="loading"><img  class='brand' src='/assets/spinner.gif'> Loading...</span>

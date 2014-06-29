@@ -3,9 +3,15 @@
 Next gustavo maykel da silva seidel
 
 ## Alterações Urgente
+ Colocar captcha no contato
+  - Comentários recebidos na pagina inicial
+ Relatório
+  -  Colocar dados do ultimo acesso 
+  -  Numero de respostas
+ -05. App monitor
+ -04. Visualizar retroação no learner view
+ -03. Retroação, aluno pode ver a resposta somente se já respondeu a questão
  -02. Arrumar Mesagem Recebida
- -03. Verificar erro no larner view ale_diniz98@hotmail.com
- -02. Colocar loading para learner view
  -01. Clear answers on show learner view
   00. Colocar no dashboard comentários recebidos
   01. Numerar automaticamente os exercícios
