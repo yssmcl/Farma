@@ -30,6 +30,7 @@ class Lo
 
   def contents
     @contents ||= (introductions + exercises).sort {|a,b| a.position <=> b.position}
+    define_number_method_for_contents
   end
 
   def pages
@@ -81,5 +82,27 @@ class Lo
 
   def introductions_avaiable
     self.introductions.where(available: true)
+  end
+
+private
+  # This is necessary to show exercise and introduction order independently
+  def define_number_method_for_contents
+    i, e = 0, 0
+    @contents.each do |el|
+      def el.number
+        @number
+      end
+      def el.number=(number)
+        @number = number
+      end
+
+      if el.instance_of? Introduction
+        i += 1
+        el.number= i
+      else
+        e += 1
+        el.number= e
+      end
+    end
   end
 end

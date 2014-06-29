@@ -15,4 +15,4 @@ elsif @object.is_a?(Exercise)
   node(:type) { "Exercício" }
 end
 
-
+node(:number) { |ob| ob.number }
