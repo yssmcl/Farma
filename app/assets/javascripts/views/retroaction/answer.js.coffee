@@ -17,3 +17,6 @@ class Carrie.Views.Retroaction.Answer extends Backbone.Marionette.ItemView
     $(@el).on 'hide', =>
       @exerciseView.close()
       @commentsView.close()
+
+      if @options.callback
+        @options.callback()

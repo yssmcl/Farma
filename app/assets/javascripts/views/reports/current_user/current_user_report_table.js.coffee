@@ -11,4 +11,3 @@ class Carrie.CompositeViews.CurrentUserReportTable extends Backbone.Marionette.C
   #  @collection = new Carrie.Collections.Learners
   #  @collection.fetch
   #    url: "/api/reports/teams/#{@options.team_id}/los/#{@options.lo_id}"
-

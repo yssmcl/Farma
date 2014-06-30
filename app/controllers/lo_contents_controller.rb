@@ -3,6 +3,8 @@ class LoContentsController < ApplicationController
   before_filter :authenticate_user!, :find_lo
 
   def index
+    @exer_count = 1
+    @intro_count = 1
   end
 
   def sort

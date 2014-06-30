@@ -26,6 +26,7 @@ class Carrie.Views.Unauthenticated.Login extends Backbone.Marionette.ItemView
         Carrie.currentUser = new Carrie.Models.User(response)
         Carrie.vent.trigger("authentication:logged_in")
         url = Carrie.Helpers.Session.pageBeforeLogin || '/dashboard'
+        # window.location = url with reload the page
         Backbone.history.navigate url, true
 
       error: (model, response, options) ->

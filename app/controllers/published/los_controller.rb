@@ -15,8 +15,14 @@ class Published::LosController < ApplicationController
 
   # Its use by, preview, publihesd and shared view
   def show
-    clear_user_temp_answers
-    @team = current_user.teams.find(params[:team_id]) if params[:team_id]
+    if params[:learner_id]
+      @user = User.find(params[:learner_id])
+      @team = Team.find(params[:team_id]) if params[:team_id]
+    else
+      @user = current_user
+      clear_user_temp_answers
+      @team = current_user.teams.find(params[:team_id]) if params[:team_id]
+    end
     @lo = Lo.includes(:introductions, :exercises).find(params[:id])
   end
 

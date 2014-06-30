@@ -53,7 +53,9 @@ module DeepCloneLo
                             correct_answer: question.correct_answer,
                             many_answers: question.many_answers,
                             exp_variables: question.exp_variables,
-                            eql_sinal: question.eql_sinal
+                            eql_sinal: question.eql_sinal,
+                            cmas_order: question.cmas_order,
+                            precision: question.precision
 
         question_clone.update_attribute(:position, question.position)
         clone_tips(question, question_clone)

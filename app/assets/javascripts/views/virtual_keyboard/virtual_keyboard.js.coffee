@@ -38,6 +38,10 @@ class Carrie.Views.VirtualKeyBoard extends Backbone.Marionette.ItemView
     @draggable()
     @el
 
+  closeWindown: (ev) ->
+    ev.preventDefault()
+    $(@el).modal('hide')
+
   keyUp: (ev) ->
     # Enter pressed
     if (ev.which == 13 )

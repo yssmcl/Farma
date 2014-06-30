@@ -48,5 +48,5 @@ class Carrie.Controllers.Home
   #be defined last if desired. We'll just have the presenter render a 404-style
   #error view.
   urlNotFound: ->
-    #Backbone.history.navigate('', true)
-    #Carrie.Helpers.Notifications.Top.error 'Página não encontrada! Redirecionado para Home', 4000
+    Backbone.history.navigate('', true)
+    Carrie.Helpers.Notifications.Top.error 'Página não encontrada! Redirecionado para Home', 4000

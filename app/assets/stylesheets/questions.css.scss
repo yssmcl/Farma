@@ -41,7 +41,7 @@
   }
 
   table {
-    width: 460px;
+    width: 440px;
     font-size: 12px;
 
     .response, .correct, .attempt_number, .time, .comments_size {
@@ -49,7 +49,7 @@
       text-align: center;
     }
 
-    .response { width: 200px; }
+    .response { width: 160px; }
     .correct { width: 45px; }
     .attempt_number { width: 55px }
     .time { width: 115px; }
@@ -61,6 +61,7 @@
       display:block;
       max-height: 120px;
       overflow: auto;
+      overflow-y: scroll;
       tr:hover {
         background-color: rgba(221, 221, 221, 0.36);
         cursor: pointer;

@@ -19,3 +19,25 @@
     line-height: 20px !important;
   } 
 }
+
+#table-learner-progress {
+
+  th:last-child, td:last-child {
+    text-align: center;
+    width: 140px;
+  }
+
+}
+
+#learner-vision-modal {
+  width: 98%;
+  min-height: 98%;
+  top: 1%;
+  margin: 0px 10px;
+  left: 0;
+  z-index: 1040;
+
+  .question .answer-group .answer {
+    cursor: inherit;
+  }
+}

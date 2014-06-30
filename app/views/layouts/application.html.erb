@@ -10,7 +10,7 @@
 <body data-logged='<%= current_user.to_json %>'>
   <div class="page-container">
     <div id="alert-fixed">
-      <span><img  class='brand loading' src='/assets/spinner.gif'></span>
+      <span class="loading"><img  class='brand' src='/assets/spinner.gif'> Loading...</span>
     </div>
     <section>
       <header>
@@ -52,14 +52,17 @@
   </div>
 
   <script type="text/javascript"
-	    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full">
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML">
   </script>
   <script type="text/x-mathjax-config">
 	//<![CDATA[
-	    MathJax.Hub.Config({
+      MathJax.Hub.Config({
 	      asciimath2jax: {
-		delimiters: [['`','`'], ['$','$']]
-	      }
+      		delimiters: [ ['$','$']]
+        },
+        tex2jax: {
+          inlineMath: [ ['`','`'],["\\(","\\)"] ]
+        }
 	    });
 	 //]]>
   </script>

@@ -6,6 +6,9 @@ class Carrie.Published.Routers.Los extends Backbone.Marionette.AppRouter
     'published/teams/:team_id/los/:id': 'showPageWithTeam'
     'published/teams/:team_id/los/:id/pages/:page': 'showPageWithTeam'
 
+    'published/teams/:team_id/los/:id/retroaction/:retroaction_id': 'showPageWithTeam'
+    'published/teams/:team_id/los/:id/pages/:page/retroaction/:retroaction_id': 'showPageWithTeam'
+
 class Carrie.Published.Controllers.Los
 
   showPage: (id, page) ->
@@ -27,7 +30,7 @@ class Carrie.Published.Controllers.Los
             alert('Objeto de aprendizagem não encontrado!')
             Backbone.history.navigate('/my-los', true)
 
-  showPageWithTeam: (team_id, id, page) ->
+  showPageWithTeam: (team_id, id, page, retroaction_id) ->
     Carrie.Helpers.Session.Exists
       func: =>
         Carrie.Utils.Menu.highlight ''
@@ -46,12 +49,13 @@ class Carrie.Published.Controllers.Los
               success: (model, response, options) =>
                 lo.set('url_page', "/published/teams/#{team_id}/los/#{model.get('id')}")
 
-                view = new Carrie.Published.Views.Lo(model: lo, page: page, team_id: team_id)
+                view = new Carrie.Published.Views.Lo(model: lo, page: page, team_id: team_id, retroaction_id: retroaction_id)
                 Carrie.layouts.main.content.show view
                 Carrie.layouts.main.hideMenu()
               error: (model, response, options) ->
                 alert('Objeto de aprendizagem não encontrado!')
                 Backbone.history.navigate('/teams/enrolled', true)
+
           error: (model, response, options) ->
             alert('Turma não encontrada!')
             Backbone.history.navigate('/teams/enrolled', true)

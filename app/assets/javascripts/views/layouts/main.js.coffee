@@ -61,7 +61,6 @@ class Carrie.Views.Layouts.Main extends Backbone.Marionette.Layout
 
   showView: (ev) ->
     ev.preventDefault()
-
     #if not $(ev.target).parent().hasClass('active')
     Backbone.history.navigate $(ev.target).data('url'), true
 
