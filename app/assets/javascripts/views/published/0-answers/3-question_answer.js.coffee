@@ -20,7 +20,7 @@ class Carrie.Published.Views.QuestionAnswer extends Backbone.Marionette.ItemView
         comments_in_html
       title: ->
         "#{comments.length} comentários recebidos"
-      placement: 'right'
+      placement: 'top'
       delay: {show: 50, hide: 400}
 
     $(@el).popover(options).mouseenter( ->
