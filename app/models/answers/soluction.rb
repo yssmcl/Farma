@@ -18,7 +18,7 @@ class Answers::Soluction
   index({ team_id: 1, to_test: 1, from_question_id: 1}, {background: true})
 
   attr_accessible :response, :from_question_id, :to_test, :team_id,
-                  :created_from, :answers_last_answer
+                  :created_from, :answers_last_answer, :user_id
 
   belongs_to :user
   belongs_to :team, inverse_of: :answers

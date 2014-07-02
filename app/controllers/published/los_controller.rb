@@ -26,6 +26,17 @@ class Published::LosController < ApplicationController
     @lo = Lo.includes(:introductions, :exercises).find(params[:id])
   end
 
+  # change to auto sequence
+  def next_page
+    @lo = Lo.find(params[:id])
+    @user = current_user
+    @team = current_user.teams.find(params[:team_id])
+    @sequence = Sequence::AutoSequence.find_or_create_by(lo_id: params[:id],
+                                                         team_id: params[:team_id],
+                                                         user_id: current_user.id) 
+    #@sequence.calculates
+  end
+
 private
   def clear_user_temp_answers
     answers = current_user.answers.or({team_id: nil}, {to_test: true})

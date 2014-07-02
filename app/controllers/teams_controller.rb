@@ -42,7 +42,8 @@ class TeamsController < ApplicationController
   end
 
   def show
-    @team = @owner_teams.find(params[:id])
+    #@team = @owner_teams.find(params[:id])
+    @team = Team.find(params[:id])
   end
 
   def create

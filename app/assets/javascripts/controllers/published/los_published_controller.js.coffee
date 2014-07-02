@@ -9,6 +9,9 @@ class Carrie.Published.Routers.Los extends Backbone.Marionette.AppRouter
     'published/teams/:team_id/los/:id/retroaction/:retroaction_id': 'showPageWithTeam'
     'published/teams/:team_id/los/:id/pages/:page/retroaction/:retroaction_id': 'showPageWithTeam'
 
+    'published/auto-sequence/teams/:team_id/los/:id': 'showPageWithAutoSequence'
+    'published/auto-sequence/teams/:team_id/los/:id/pages/:page': 'showPageWithAutoSequence'
+
 class Carrie.Published.Controllers.Los
 
   showPage: (id, page) ->
@@ -59,3 +62,34 @@ class Carrie.Published.Controllers.Los
           error: (model, response, options) ->
             alert('Turma não encontrada!')
             Backbone.history.navigate('/teams/enrolled', true)
+
+  showPageWithAutoSequence: (team_id, id, page) ->
+    Carrie.Helpers.Session.Exists
+      func: =>
+        Carrie.Utils.Menu.highlight ''
+        team = Carrie.Models.Team.findOrCreate(team_id)
+        team = new Carrie.Models.Team(id: team_id) if not team
+
+        lo = Carrie.Published.Models.Lo.findOrCreate(id)
+        lo = new Carrie.Published.Models.Lo(id: id, team_id: team_id) if not lo
+
+        team.fetch
+          async: false
+          success: (model) =>
+            lo.set('team', team)
+            lo.fetch
+              async: false
+              success: (model, response, options) =>
+                lo.set('url_page', "/published/auto-sequence/teams/#{team_id}/los/#{model.get('id')}")
+
+                view = new Carrie.Published.Views.LoAutoSequence(model: lo, page: page, team_id: team_id)
+                Carrie.layouts.main.content.show view
+                Carrie.layouts.main.hideMenu()
+              error: (model, response, options) ->
+                alert('Objeto de aprendizagem não encontrado!')
+                Backbone.history.navigate('/teams/enrolled', true)
+
+          error: (model, response, options) ->
+            alert('Turma não encontrada!')
+            Backbone.history.navigate('/teams/enrolled', true)
+

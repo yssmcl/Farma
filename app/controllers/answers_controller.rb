@@ -49,6 +49,13 @@ class AnswersController < ApplicationController
 
     @team = @answer.team
     @lo = Lo.find(@answer.lo.from_id)
+
+
+    # Go to next exercise
+    @sequence = Sequence::AutoSequence.find_or_create_by(lo_id: @lo.id,
+                                                         team_id: @team.id,
+                                                         user_id: current_user.id) 
+    @sequence.calculates
   end
 
   def retroaction

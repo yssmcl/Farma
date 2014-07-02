@@ -1,7 +1,7 @@
 class Carrie.Published.Models.Lo extends Backbone.RelationalModel
   urlRoot: ->
     if @get('team_id')
-      "/api/published/teams/#{@get('team_id')}/los"
+      "/api/published/auto-sequence/teams/#{@get('team_id')}/los"
     else
       "/api/published/los"
 

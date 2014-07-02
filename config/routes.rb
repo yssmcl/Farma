@@ -6,6 +6,7 @@ Carrie::Application.routes.draw do
     namespace :published do
       resources :los, only: :show
       match '/teams/:team_id/los/:id' => "los#show"
+      match '/auto-sequence/teams/:team_id/los/:id' => "los#next_page"
     end
 
     match '/home/lo_example' => "home#lo_example"

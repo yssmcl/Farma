@@ -2,6 +2,9 @@ node(:completeness, :if => lambda { |e| ( not(@team.nil?) && @answer.correct? ) 
   current_user.completeness_of(@team, @lo)
 end
 
+# Change for auto sequence
+node(:next_page) { @sequence.next_page? }
+
 glue @answer do
   attributes :id, :response, :attempt_number, :correct
 

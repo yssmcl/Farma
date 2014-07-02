@@ -19,15 +19,19 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
 
   verify_answer: (ev) ->
     ev.preventDefault()
-    keyboard = new Carrie.Views.VirtualKeyBoard(
-      currentResp: @view.resp()
-      variables: @model.get('exp_variables')
-      many_answers: @model.get('many_answers')
-      eql_sinal: @model.get('eql_sinal')
-      callback: (val) =>
-        @sendAnswer(val)
-    ).render().el
-    $(keyboard).modal('show')
+    # change for auto sequence
+    if not(@options.paginator) || (@options.paginator.canAnswer() == true)
+      keyboard = new Carrie.Views.VirtualKeyBoard(
+        currentResp: @view.resp()
+        variables: @model.get('exp_variables')
+        many_answers: @model.get('many_answers')
+        eql_sinal: @model.get('eql_sinal')
+        callback: (val) =>
+          @sendAnswer(val)
+      ).render().el
+      $(keyboard).modal('show')
+    else
+      alert "Você não pode mais responder essa questão"
 
   sendAnswer: (resp) ->
     answer = new Carrie.Models.Answer
@@ -45,6 +49,11 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
         @renderLastAnswerView(model)
         @addModelToAnswersView(model)
         @updateProgressBar(model);
+
+        # change for auto sequence
+        if model.get('next_page')
+          alert("Você concluiu esse exercício com êxito e será redirecionado para próxima página!")
+          @options.paginator.goToNextPage()
 
       error: (model, response, options) ->
         alert resp.responseText
