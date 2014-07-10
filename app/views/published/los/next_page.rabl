@@ -13,7 +13,7 @@ node :contents do
     result['content'] = page.content
     result['type'] = page.class.name
     if page.is_a?(Exercise)
-      result['questions'] = partial("published/los/questions", :object => page.questions_avaiable)
+      result['questions'] = partial("published/los/questions", :object => page.questions_available)
     end
     result
   end

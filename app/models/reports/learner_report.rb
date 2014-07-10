@@ -30,8 +30,8 @@ private
     @questions_amount = 0.0
     @caqa = 0.0 # correct_answers_questions_amount
     Lo.find(self.lo_id).exercises_avaiable.each do |exercise|
-      @questions_amount += exercise.questions_avaiable.count
-      exercise.questions_avaiable.each do |question|
+      @questions_amount += exercise.questions_available.count
+      exercise.questions_available.each do |question|
         ans = user.answers.corrects.where(from_question_id: question.id).limit(1).first
         @caqa += 1 if ans
       end

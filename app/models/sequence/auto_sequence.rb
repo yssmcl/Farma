@@ -8,6 +8,9 @@ class Sequence::AutoSequence
   field :page_ids, type: Array, default: []
   field :next_page, type: Boolean, default: false
 
+  embeds_one :exercises_ordering, class_name: "Sequence::ExercisesOrdering", inverse_of: :auto_sequence
+
+
   def lo
     @lo ||= Lo.find(self.lo_id)
   end
@@ -16,16 +19,22 @@ class Sequence::AutoSequence
     @user ||= User.find(self.user_id)
   end
 
+  before_create :insert_introduction_pages
+
+  after_create :insert_first_exercise
+
   # Realizar calculos do auto sequenciamento aqui
   def calculates
-    self.next_page = false
-    id = lo.exercises.sample.id
-    if not(page_ids.include?(id)) && user.answers.last.correct?
-      page_ids << id
+    self.next_page = true
+    id = exercises_ordering.nextExercise()
+    if not(page_ids.include?(id.to_s))
+      page_ids << id.to_s
       self.next_page = true
+    else
+      self.next_page = false
     end
     save!
-    self
+    id.nil?
   end
 
   def pages
@@ -60,5 +69,19 @@ class Sequence::AutoSequence
         page_collection: index
       }
     end
+  end
+
+  private
+    def insert_introduction_pages
+         self.page_ids += lo.introductions.pluck(:id)          
+    end
+
+  def insert_first_exercise
+         st = Sequence::Statistic.where(lo_id: lo_id).last
+         self.create_exercises_ordering statistic_id: st.id
+         id = self.exercises_ordering.nextExercise
+         self.page_ids << id.to_s
+         self.next_page = true
+         save
   end
 end

@@ -16,7 +16,9 @@ class Carrie.Views.Answer extends Backbone.Marionette.ItemView
       if not @model.get('correct')
         @model.set('classname', 'wrong')
         @model.set('title', 'Incorreto')
-        @model.set('tip', @tips[0])
+
+        if @model && @tips && @tips.length > 0 
+          @model.set('tip', @tips[0])
       else
         @model.set('classname', 'right')
         @model.set('title', 'Correto')
@@ -32,7 +34,7 @@ class Carrie.Views.Answer extends Backbone.Marionette.ItemView
       return ""
 
   onRender: ->
-    if @model && @tips.length > 0
+    if @model && @tips && @tips.length > 0
       $(@el).find('.content .tip-number').html("Dica: " + @tips[@current_tip_index].number_of_tries)
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, @el])
 

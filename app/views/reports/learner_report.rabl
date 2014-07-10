@@ -6,7 +6,7 @@ node(:completeness) { @learner.completeness_of(@team, @lo) }
 node :questions_answer do
   result = []
   @lo.exercises_avaiable.each do |exercise|
-    exercise.questions_avaiable.each do |question|
+    exercise.questions_available.each do |question|
       # primeira resposta correta
       answer = @learner.answers.where(from_question_id: question.id,
                                       correct: true).asc(:created_at).limit(1).first

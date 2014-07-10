@@ -2,8 +2,8 @@ namespace :sequence do
 
   desc "Generate a copy of a LO with new sequencing"
   task :generate_new_lo => :environment do
-    lo_id = "51a018ab759b7491ef00003d"   # OA Pitágoras Max - Senai - Curitiba/PR
-    team_id = "51b9eef3759b74dcc20000c5" # Turma Pitágoras Max - Senai
+    lo_id = "53b36b82454cd9128e000020"   # OA Pitágoras Max - Senai - Curitiba/PR
+    team_id = "53b36b81454cd9128e000002" # Turma Pitágoras Max - Senai
 
     lo = Lo.find(lo_id)
     to_user = lo.user

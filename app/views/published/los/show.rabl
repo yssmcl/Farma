@@ -24,7 +24,7 @@ glue @lo do
       result['id'] = exercise.id
       result['title'] = exercise.title
       result['content'] = exercise.content
-      result['questions'] = partial("published/los/questions", :object => exercise.questions_avaiable)
+      result['questions'] = partial("published/los/questions", :object => exercise.questions_available)
       result
     end
   end

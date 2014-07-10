@@ -4,6 +4,7 @@ end
 
 # Change for auto sequence
 node(:next_page) { @sequence.next_page? }
+node(:has_more_exercise) { @has_more_exercise }
 
 glue @answer do
   attributes :id, :response, :attempt_number, :correct

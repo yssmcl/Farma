@@ -55,7 +55,8 @@ class AnswersController < ApplicationController
     @sequence = Sequence::AutoSequence.find_or_create_by(lo_id: @lo.id,
                                                          team_id: @team.id,
                                                          user_id: current_user.id) 
-    @sequence.calculates
+
+    @has_more_exercise = @sequence.calculates
   end
 
   def retroaction

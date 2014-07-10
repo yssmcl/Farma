@@ -33,7 +33,11 @@ class Published::LosController < ApplicationController
     @team = current_user.teams.find(params[:team_id])
     @sequence = Sequence::AutoSequence.find_or_create_by(lo_id: params[:id],
                                                          team_id: params[:team_id],
-                                                         user_id: current_user.id) 
+                                                         user_id: current_user.id)  
+
+    puts "===================================="
+    puts "CHAMOU CHAMOU NEXT PAGE de LOS CONTROLLER"
+    puts "===================================="
     #@sequence.calculates
   end
 

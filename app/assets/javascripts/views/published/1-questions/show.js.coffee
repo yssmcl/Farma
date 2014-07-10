@@ -20,16 +20,17 @@ class Carrie.Published.Views.Question extends Backbone.Marionette.ItemView
   verify_answer: (ev) ->
     ev.preventDefault()
     # change for auto sequence
-    if not(@options.paginator) || (@options.paginator.canAnswer() == true)
-      keyboard = new Carrie.Views.VirtualKeyBoard(
-        currentResp: @view.resp()
-        variables: @model.get('exp_variables')
-        many_answers: @model.get('many_answers')
-        eql_sinal: @model.get('eql_sinal')
-        callback: (val) =>
-          @sendAnswer(val)
-      ).render().el
-      $(keyboard).modal('show')
+    if not(@options.paginator) || (@options.paginator.canAnswer() == true) 
+      if not(@view.model) || not(@view.model.get('correct'))
+        keyboard = new Carrie.Views.VirtualKeyBoard(
+          currentResp: @view.resp()
+          variables: @model.get('exp_variables')
+          many_answers: @model.get('many_answers')
+          eql_sinal: @model.get('eql_sinal')
+          callback: (val) =>
+            @sendAnswer(val)
+        ).render().el
+        $(keyboard).modal('show')
     else
       alert "Você não pode mais responder essa questão"
 

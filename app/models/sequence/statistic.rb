@@ -7,6 +7,8 @@ class Sequence::Statistic
   field :order_exercises, type: Hash
   field :rating_user, type: Hash
 
+  field :lo_id, type: Moped::BSON::ObjectId
+
   field :team_id, type: Moped::BSON::ObjectId
 
   def calculate_statistics   
@@ -16,8 +18,6 @@ class Sequence::Statistic
     difficulty_degree_exercise = Hash.new 
 
     lo = Lo.find(lo_id)
-    puts "numero de exercicios: #{lo.exercises.count}"
-
     lo.exercises.each_with_index do |exercise, index|
       difficulty_degree_vector = []
       exercise.questions.each do |question| 
@@ -28,7 +28,6 @@ class Sequence::Statistic
       # TODO: Verificar
       unless exercise.questions.empty?
         difficulty_degree_exercise[exercise.id] =  difficulty_degree_vector.inject(0.0) { |sum, el| sum + el } / difficulty_degree_vector.size           
-        puts "Exercicio: #{exercise.id} - Dificuldade: #{difficulty_degree_exercise[exercise.id]}"
       end
       self.order_exercises[exercise.id] = Hash.new
       self.order_exercises[exercise.id][:previous_position] = index
@@ -48,37 +47,6 @@ class Sequence::Statistic
   end
 
 # TODO: investigar modo de usar aggregation p/ otimizar a forma de calcular as estatísticas
-  def calculate_statistics_aggregation
-    team = Team.find(team_id)
-    users = team.users
-    total_users = users.count
-    puts "total de alunos: #{total_users}"
-    lo = Lo.find(lo_id)
-    self.question_statistics = Hash.new 
-    lo.exercises.each do |exercise|
-      exercise.questions.each do |question|
-
-        attempts = []
-        self.question_statistics[question.id] = Hash.new 
-        self.question_statistics[question.id][:number_of_correct_response] = 0
-        self.question_statistics[question.id][:number_of_wrong_response] = 0
-
-        pipeline =  [ { "$match" => { "from_question_id" => question.id,
-                                      "to_test" => false, 
-                                      "team_id" => {"$ne" => nil},
-                                      "correct" => true }},
-                                      { "$group" => {'_id' => '$user_id',
-                                                     'attempts_number' => {'$max' => '$attempt_number'}}}
-        ]
-        Answers::Soluction.collection.distinct()
-        #res = Answers::Soluction.collection.aggregate(pipeline)
-        Answers::Soluction.collection.aggregate(pipeline)
-      end
-    end  
-    self.question_statistics.each {|key,value| puts "#{key} = #{value}"}
-    self.calculate_rating
-  end
-
 
   private
 
@@ -178,6 +146,5 @@ def calculate_rating ()
     end    
     puts "rating:#{self.rating_user}"
   end
-
 
 end

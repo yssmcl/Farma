@@ -31,7 +31,7 @@ class Exercise
   #  end
   #end
 
-  def questions_avaiable
+  def questions_available
     self.questions.where(available: true)
   end
 

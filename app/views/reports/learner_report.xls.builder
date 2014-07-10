@@ -39,7 +39,7 @@ xml.Workbook({
 
       # Rows
       @lo.exercises_avaiable.each do |exercise|
-        exercise.questions_avaiable.each do |question|
+        exercise.questions_available.each do |question|
           xml.Row do
             # primeira resposta correta
             answer = @learner.answers.where(from_question_id: question.id,
