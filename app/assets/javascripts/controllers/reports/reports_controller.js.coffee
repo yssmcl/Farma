@@ -4,13 +4,30 @@ class Carrie.Routers.Reports extends Backbone.Marionette.AppRouter
     'my-learners-progress': 'myLearnersProgress'
     'my-learners-progress/teams/:team_id': 'myLearnersProgress'
     'my-learners-progress/teams/:team_id/los/:lo_id': 'myLearnersProgress'
-
+    
+    'my-oa-balancing' : 'myOABalancing'
+    'my-oa-balancing/teams/:team_id': 'myOABalancing'
+    'my-oa-balancing/teams/:team_id/los/:lo_id': 'myOABalancing'
+  
     'reports/my-learners': 'myLearners'
     'reports/my-learners/teams/:team_id': 'myLearners'
     'reports/my-learners/teams/:team_id/los/:lo_id': 'myLearners'
     'reports/my-learners/teams/:team_id/los/:lo_id/learners/:learner_id': 'myLearners'
 
+
+
 class Carrie.Controllers.Reports
+
+  myOABalancing:(team_id, lo_id) ->
+    Carrie.Helpers.Session.Exists
+      func: =>
+        obj = Carrie.Utils.Menu.highlight 'my-oa-balancing-link'
+        Carrie.layouts.main.loadBreadcrumb
+          1: name: obj.text(), url: obj.data('url')
+          2: name: "Balanceamento", url: "#"
+
+        view = new Carrie.Views.BalancingReport(team_id: team_id, lo_id: lo_id)
+        Carrie.layouts.main.content.show view
 
   myProgress: ->
     Carrie.Helpers.Session.Exists

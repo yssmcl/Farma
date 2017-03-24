@@ -16,11 +16,13 @@ class Carrie.Models.Exercise extends Backbone.RelationalModel
 
   defaults:
     'title': ''
+    'subtopic': ''
     'content': ''
 
   toJSON: ->
     id: @get('id')
     title: @get('title')
+    subtopic: @get('subtopic')
     content: @get('content')
     available: @get('available')
     lo_id: @get('lo').get('id')

@@ -27,6 +27,10 @@ gem 'whenever', require: false
 gem 'request-log-analyzer', require: false
 gem 'timelineJS-rails', '~> 1.1.5'
 
+
+gem 'execjs'
+gem 'therubyracer'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.5'
   gem 'coffee-rails', '~> 3.2.1'
@@ -61,6 +65,16 @@ group :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'factory_girl_rails',  "~> 4.2.1"
+  gem 'railroady'
+end
+
+#group :development do
+  #gem "rails-erd"
+#end
+
+group :development do
+   gem 'railroady'
+   gem 'debugger'
 end
 
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -73,7 +87,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Deploy with Capistrano
 gem 'capistrano'
-gem 'rvm-capistrano'
+gem 'rvm-capistrano',  require: false
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

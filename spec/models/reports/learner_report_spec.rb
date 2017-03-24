@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Reports::LearnerReport do
 
   it { should respond_to(:percentage_completed) }
+  it { should respond_to(:exercises_done_amount) }
+  it { should respond_to(:exercises_done_correctly_amount) }
   it { should respond_to(:user_id) }
   it { should respond_to(:team_id) }
   it { should respond_to(:lo_id) }

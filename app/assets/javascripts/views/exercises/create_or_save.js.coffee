@@ -7,6 +7,13 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
   initialize: ->
     @model = new Carrie.Models.Exercise({lo:@options.lo}) if not @model
     this.modelBinder = new Backbone.ModelBinder()
+    #@loadSubtopics
+
+  #loadSubtopics: ->
+  #  @subtopics = new Carrie.Collections.SubtopicsCreated()
+  #  @subtopics.fetch
+  #    async: false
+  #    url: '/api/my-created-subtopics'
 
   onRender: ->
     @modelBinder.bind(this.model, this.el)

@@ -3,6 +3,7 @@ class Sequence::ExercisesOrdering
   include Mongoid::Timestamps
 
  field :user_sequence, type: Array , default:[]
+ field :somp, type: Hash , default:[] #subtopics_outside_minimal_path
 
  field :statistic_id, type: Moped::BSON::ObjectId
 
@@ -13,6 +14,9 @@ class Sequence::ExercisesOrdering
 
  STEP_SIZE = 5 
 
+  def step_size()
+    return STEP_SIZE
+  end
 
   def statistic 
     @statistic ||= Sequence::Statistic.find(self.statistic_id)
@@ -25,22 +29,40 @@ class Sequence::ExercisesOrdering
      unless last_done_question.nil?     	 
         last_exerc = Question.find(last_done_question.from_question_id).exercise.id
         ind_last_exerc = index_of(last_exerc)
+        #debugger
+        # create subtopics list
+        if ind_last_exerc == 0
+           find_subtopics_outside_minimal_path()
+        end
+     
         user_sequence[ind_last_exerc][2] = true
         if last_done_question.correct?
-             # save as correct answer 
-             user_sequence[ind_last_exerc][3] = true
-             save
-          nxt_exerc = next_exercise_minimal_path_not_done
-          if nxt_exerc.nil?  # no more exercises
-             return last_exerc
-                # verify if the last exercise index + step size is before of the next exercise of the minimal path
-          elsif ind_last_exerc + STEP_SIZE < index_of(Moped::BSON::ObjectId.from_string(nxt_exerc))
-              # goes to first exercise not done after the last solved in minimal path
-              return first_not_done_exercise
-            else   
-              return  nxt_exerc
-          end
+            # save as correct answer 
+            user_sequence[ind_last_exerc][3] = true
+            self.somp = remove_subtopic_from_hash(self.somp ,ind_last_exerc)
+            save
+            nxt_exerc = next_exercise_minimal_path_not_done
+            if nxt_exerc.nil?  # no more exercises
+               return last_exerc
+                  # verify if the last exercise index + step size is before of the next exercise of the minimal path
+            elsif ind_last_exerc + STEP_SIZE < index_of(Moped::BSON::ObjectId.from_string(nxt_exerc))
+                # goes to first exercise not done after the last solved in minimal path
+                return first_not_done_exercise
+            else
+                # Utilizar nxt_exerc não funcionou (retornava nil).
+                ind_subtopic = have_subtopic_in_this_step(ind_last_exerc,index_of(Exercise.find(nxt_exerc).id))
+                if ind_subtopic != -1
+                    return user_sequence[ind_subtopic][0]
+                else
+                    return  nxt_exerc
+                end 
+            end
         else 
+          #debugger
+          subtopic = Exercise.find(self.user_sequence[ind_last_exerc][0]).subtopic
+          if self.somp.key?(subtopic)
+            find_next_exercise_from_subtopic(ind_last_exerc)
+          end
           save 
           nro_tentativas = last_attempt_number(auto_sequence.user)
           mediana = question_median(last_done_question.from_question_id)          
@@ -68,6 +90,78 @@ class Sequence::ExercisesOrdering
 
 
   private
+
+    def remove_subtopic_from_hash(hash, exercise_idx)
+      subtopic = Exercise.find(self.user_sequence[exercise_idx][0]).subtopic
+      if hash.key?(subtopic)
+          hash.delete(subtopic)
+      end
+      return hash
+    end
+
+    def have_subtopic_in_this_step(last_exercise_index, next_exercise_index)
+      keys = self.somp.keys
+      idx = 0
+      subtopicIndex = -1
+
+      while idx < keys.size()
+        value = self.somp[keys[idx]]
+        if value > last_exercise_index && value < next_exercise_index
+          if subtopicIndex == -1 || value < subtopicIndex
+            subtopicIndex = value
+          end
+        end
+        idx = idx + 1
+      end
+      return subtopicIndex
+    end
+
+    def find_next_exercise_from_subtopic(idx_last_exercise)
+      #debugger
+      i = idx_last_exercise + 1
+      subtopic_idx = -1
+      subtopic_to_find = Exercise.find(self.user_sequence[idx_last_exercise][0]).subtopic
+      while(i < self.user_sequence.size()) do
+        subtopic = Exercise.find(self.user_sequence[i][0]).subtopic
+        if subtopic_to_find == subtopic
+          subtopic_idx = i
+          break
+        end
+        i = i + 1
+       end
+       self.somp.delete(subtopic_to_find)
+       unless subtopic_idx == -1
+         self.somp[subtopic_to_find] = subtopic_idx
+       end
+    end
+
+    # verify exercises which subtopic is not in the minimal path
+    def find_subtopics_outside_minimal_path()
+      subtopics = get_subtopics()
+      i = 0
+
+      # remove subtopics that is in the minimal path
+      while (i < self.user_sequence.size())
+        subtopics = remove_subtopic_from_hash(subtopics, i)
+        i = i + STEP_SIZE
+      end
+      self.somp = subtopics  
+    end
+
+    def get_subtopics()
+      subtopics = Hash.new
+      i = 0
+      while(i < self.user_sequence.size()) do
+        subtopic = Exercise.find(self.user_sequence[i][0]).subtopic
+        unless subtopics.key?(subtopic)
+          subtopics[subtopic] = i
+        end
+        i = i + 1
+       end
+       return subtopics
+    end
+      
+
     # returns the last one question done by the user
      def last_question (user)
        return user.answers.every.desc(:created_at).limit(1).first

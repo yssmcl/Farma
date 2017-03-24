@@ -1,6 +1,6 @@
 collection @exercises, object_root: false
 
-attributes :id, :title, :content, :available
+attributes :id, :title, :subtopic, :content, :available
 
 child(:questions) do
   attributes :id, :title, :content, :available

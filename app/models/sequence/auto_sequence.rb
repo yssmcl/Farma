@@ -25,6 +25,7 @@ class Sequence::AutoSequence
 
   # Realizar calculos do auto sequenciamento aqui
   def calculates
+    #debugger
     self.next_page = true
     id = exercises_ordering.nextExercise()
     if not(page_ids.include?(id.to_s))

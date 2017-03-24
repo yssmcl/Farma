@@ -16,15 +16,16 @@ node :questions_answer do
         answer = @learner.answers.where(from_question_id: question.id).
                                   asc(:created_at).limit(1).last
       end
-
-      result << {
-          name: @learner.name,
-          exercise: exercise.title,
-          question: question.title,
-          response: (answer.nil? ? 'Não respondido' : "$#{answer.response}$"),
-          correct: (answer.nil? ? 'Não respondido' : (answer.correct ? 'Sim' : 'Não')),
-          attempt_number: (answer.nil? ? 'Não respondido' : answer.attempt_number),
-      }
+      if !answer.nil?
+        result << {
+            name: @learner.name,
+            exercise: exercise.title,
+            question: question.title,
+            response: (answer.nil? ? 'Não respondido' : "$#{answer.response}$"),
+            correct: (answer.nil? ? 'Não respondido' : (answer.correct ? 'Sim' : 'Não')),
+            attempt_number: (answer.nil? ? 'Não respondido' : answer.attempt_number),
+        }
+      end
     end
   end
   result

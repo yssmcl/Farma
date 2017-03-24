@@ -1,5 +1,6 @@
 Carrie::Application.routes.draw do
 
+
   mount Ckeditor::Engine => '/ckeditor'
 
   scope "api" do
@@ -28,6 +29,9 @@ Carrie::Application.routes.draw do
     # My learners progress
     match '/reports/progress/teams/:team_id/los/:lo_id' => "reports#learners_progress", via: :get
     match '/reports/teams/:team_id/los/:lo_id/timeline/:user_id' => "reports#timeline", via: :get
+    
+    # My OA balancing
+    match '/reports/balancing/teams/:team_id/los/:lo_id' => "reports#balancing_report", via: :get
 
     # Report from a user
     match '/reports/teams/:team_id/los/:lo_id/learners/:learner_id' => "reports#learner_report", via: :get
@@ -41,12 +45,25 @@ Carrie::Application.routes.draw do
       match '/teams/:team_id/los/:lo_id' => "sequence#calculates", via: :post
     end
 
+    namespace :reports do
+      match '/teams/:team_id/los/:lo_id' => "reports#update_progress", via: :post
+    end
+
+    # subtopics
+    #match '/my-created-subtopics' => "subtopics#current_user_created_teams", via: :get
+    #Para popular tag select de subtopicos para um exercicio
+    #Não funcionou :<
+
     resources :retroaction_answers, only: :create
     resources :contacts, only: :create
+     resources :subtopics
+
 
     resources :answers do
       get 'retroaction', on: :member
       get 'page/:page', :action => :index, :on => :collection
+
+      get 'subtopics-created', :action => :search_in_teams_created, :on => :collection
 
       get 'my', :action => :search_in_my, :on => :collection
       get 'my/page/:page', :action => :search_in_my, :on => :collection
@@ -77,7 +94,10 @@ Carrie::Application.routes.draw do
       get 'shared', on: :collection
       get 'shared/page/:page', :action => :shared, :on => :collection
       get 'exercises', on: :collection
-      resources :introductions
+      resources :introductions #do 
+        #resources :subtopics
+      #end
+      resources :subtopics
       resources :exercises do
         # Removed on 07/05/2014
         # Because its no long allowed a user clear your answers

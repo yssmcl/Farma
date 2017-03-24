@@ -67,6 +67,16 @@ class User
     r.nil? ? 0.0 : r.percentage_completed
   end
 
+  def exercises_done_of(team, lo)
+    r = self.reports.where(team_id: team.id, lo_id: lo.id).first
+    r.nil? ? 0.0 : r.exercises_done_amount
+  end
+
+  def exercises_correct_of(team, lo)
+    r = self.reports.where(team_id: team.id, lo_id: lo.id).first
+    r.nil? ? 0.0 : r.exercises_done_correctly_amount
+  end
+
   def self.guest
     @user ||= User.where(email: 'guest@farma.mat.br').first
     return @user
