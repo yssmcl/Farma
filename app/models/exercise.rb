@@ -15,7 +15,7 @@ class Exercise
 
   before_save :setSubtopicPattern
 
-  attr_accessible :id, :title, :content, :available, :questions_attributes, :subtopic
+  attr_accessible :id, :title, :content, :available, :questions_attributes, :subtopic, :introduction_ids
 
   validates_presence_of :title, :content, :subtopic
   validates :available, :inclusion => {:in => [true, false]}
@@ -26,6 +26,9 @@ class Exercise
   has_many :questions, dependent: :destroy
   #has_and_belongs_to_many :subtopics
   #Não funfou
+
+  # TODO: pré-requisitos
+  has_many :introductions
 
   # Removed on 07/05/2014
   # Because its no long allowed a user clear your answers

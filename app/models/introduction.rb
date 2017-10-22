@@ -17,6 +17,7 @@ class Introduction
   validates :available, :inclusion => {:in => [true, false]}
 
   belongs_to :lo
+  belongs_to :exercise
 
 private
   def set_position

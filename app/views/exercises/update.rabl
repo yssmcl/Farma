@@ -1,5 +1,5 @@
 glue @exercise do
-  attributes :id, :title, :subtopic, :content, :available
+  attributes :id, :title, :subtopic, :content, :available, :introduction_ids
   node(:created_at) { |exer| l exer.created_at }
   node(:updated_at) { |exer| l exer.updated_at }
 
@@ -8,5 +8,9 @@ glue @exercise do
     child(:tips) do
       attributes :id, :content, :number_of_tries
     end
+  end
+
+  child(:introductions) do
+    attributes :id, :title
   end
 end

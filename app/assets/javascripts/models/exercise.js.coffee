@@ -18,6 +18,7 @@ class Carrie.Models.Exercise extends Backbone.RelationalModel
     'title': ''
     'subtopic': ''
     'content': ''
+    'introduction_ids': []
 
   toJSON: ->
     id: @get('id')
@@ -30,5 +31,6 @@ class Carrie.Models.Exercise extends Backbone.RelationalModel
     created_at: @get('created_at')
     questions: @get('questions').toJSON()
     questions_attributes: @get('questions_attributes')
+    introduction_ids: @get('introduction_ids')
 
 Carrie.Models.Exercise.setup()

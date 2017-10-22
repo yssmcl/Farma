@@ -2,6 +2,7 @@ class IntroductionsController < ApplicationController
   respond_to :json
   before_filter :authenticate_user!
   before_filter :find_lo
+  before_filter :introductions
 
   #def index
   #  @introductions = @lo.introductions
@@ -44,5 +45,9 @@ private
     else
       @lo = current_user.los.find(params[:lo_id])
     end
+ end
+
+ def introductions
+   @introductions = @lo.introductions
  end
 end
