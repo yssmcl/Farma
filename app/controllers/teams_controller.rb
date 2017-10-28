@@ -44,6 +44,7 @@ class TeamsController < ApplicationController
   def show
     #@team = @owner_teams.find(params[:id])
     @team = Team.find(params[:id])
+    respond_with(@team)
   end
 
   def create

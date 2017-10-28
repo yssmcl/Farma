@@ -99,6 +99,7 @@ Carrie::Application.routes.draw do
       #end
       resources :subtopics
       resources :exercises do
+        # get 'introductions', on: :collection
         # Removed on 07/05/2014
         # Because its no long allowed a user clear your answers
         # delete 'delete_last_answers', :on => :member

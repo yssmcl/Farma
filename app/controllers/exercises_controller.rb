@@ -10,7 +10,13 @@ class ExercisesController < ApplicationController
 
   def create
     @exercise = @lo.exercises.build(params[:exercise])
+
     if @exercise.save
+      introduction_ids = []
+      @exercise.introductions.to_a.each do |intro|
+        introduction_ids.append(intro.id)
+      end
+      @exercise.introduction_ids = introduction_ids
       respond_with(@lo, @exercise)
     else
       respond_with(@lo, @exercise, status: 422)

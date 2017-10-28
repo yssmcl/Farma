@@ -68,4 +68,8 @@ class LosController < ApplicationController
   def exercises
     @exercises = Lo.find(params[:id]).exercises
   end
+
+  # def introductions
+  #   @introductions = Lo.find(params[:id]).introductions
+  # end
 end

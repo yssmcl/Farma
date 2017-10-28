@@ -19,6 +19,7 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
 
   beforeClose: ->
     $(@el).find("textarea").ckeditorGet().destroy()
+    console.log @model.attributes
 
   create: (ev) ->
     ev.preventDefault()
@@ -29,10 +30,10 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
     introduction_ids = checkboxes.serializeArray().map (el) ->
       el.value
 
-    @model.set('introduction_ids', introduction_ids)
-
     # Get date from ckeditor and set in the model
     @model.set('content', CKEDITOR.instances.ckeditor.getData())
+
+    @model.set('introduction_ids', introduction_ids)
 
     console.log @model.attributes
 
@@ -50,6 +51,8 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
         Carrie.Helpers.Notifications.Form.before 'Existem erros em seu formulário'
         Carrie.Helpers.Notifications.Form.showErrors(result.errors, @el)
         Carrie.Helpers.Notifications.Form.resetSubmit()
+
+    console.log @model.attributes
 
   checkboxes: ->
     obj = $(@el).find('div.checkboxes')
@@ -73,9 +76,6 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
         obj.append column
 
   checkbox: (label, id, ids)->
-    console.log '=== label: ' + label
-    console.log '=== id: ' + id
-    console.log '=== ids: '+ ids
     if jQuery.inArray(id, ids) != -1
       checked = 'checked'
     else
