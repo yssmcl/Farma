@@ -7,19 +7,15 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
   initialize: ->
     @model = new Carrie.Models.Exercise({lo:@options.lo}) if not @model
     @modelBinder = new Backbone.ModelBinder()
-    # @loadIntroductions()
-    #@loadSubtopics
+    # @loadSubtopics
 
   onRender: ->
     @modelBinder.bind(@model, @el)
     Carrie.CKEDITOR.show()
     @checkboxes()
-    # @introductionSelectTag = $(@el).find('select[name="introduction"]')
-    # @selectIntroduction()
 
   beforeClose: ->
     $(@el).find("textarea").ckeditorGet().destroy()
-    console.log @model.attributes
 
   create: (ev) ->
     ev.preventDefault()
@@ -33,9 +29,10 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
     # Get date from ckeditor and set in the model
     @model.set('content', CKEDITOR.instances.ckeditor.getData())
 
-    @model.set('introduction_ids', introduction_ids)
-
-    console.log @model.attributes
+    if introduction_ids.length == 0
+      @model.set('introduction_ids', [''])
+    else
+      @model.set('introduction_ids', introduction_ids)
 
     @model.save @model.attributes,
       wait: true
@@ -51,8 +48,6 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
         Carrie.Helpers.Notifications.Form.before 'Existem erros em seu formulário'
         Carrie.Helpers.Notifications.Form.showErrors(result.errors, @el)
         Carrie.Helpers.Notifications.Form.resetSubmit()
-
-    console.log @model.attributes
 
   checkboxes: ->
     obj = $(@el).find('div.checkboxes')
@@ -85,21 +80,6 @@ class Carrie.Views.CreateOrSaveExercise extends Backbone.Marionette.ItemView
                  " #{label} " +
                "</label>"
     checkbox
-
-  # serializeData: ->
-  #   datas =
-  #     introductions: @introductions.models
-  #   return datas
-
-  # loadIntroductions: ->
-  #   @introductions = new Carrie.Collections.Introductions()
-  #   @introductions.fetch
-  #     async: false
-  #     url: '/api/introductions/my-created-introductions'
-
-  # selectIntroduction: ->
-  #   if @options.introduction_id
-  #     @introductionSelectTag.find("option[value=\"#{@options.introduction_id}\"]").attr('selected', 'selected')
 
   #loadSubtopics: ->
   #  @subtopics = new Carrie.Collections.SubtopicsCreated()

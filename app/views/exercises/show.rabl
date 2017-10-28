@@ -12,7 +12,7 @@ glue @exercise do
     end
   end
 
-  child(:introductions) do
-    attributes :id, :title
-  end
+  # child(:introductions) do
+  #   attributes :id, :title
+  # end
 end

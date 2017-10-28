@@ -13,19 +13,13 @@ class Carrie.Models.Exercise extends Backbone.RelationalModel
       key: 'exercise'
     }
   }
-  # {
-  #   type: Backbone.HasMany
-  #   key: 'introductions'
-  #   relatedModel: 'Carrie.Models.Introduction'
-  #   collectionType: 'Carrie.Collections.Introductions'
-  # }
   ]
 
   defaults:
     'title': ''
     'subtopic': ''
     'content': ''
-    'introduction_ids': []
+    # 'introduction_ids': ['']
 
   toJSON: ->
     id: @get('id')
@@ -38,7 +32,6 @@ class Carrie.Models.Exercise extends Backbone.RelationalModel
     created_at: @get('created_at')
     questions: @get('questions').toJSON()
     questions_attributes: @get('questions_attributes')
-    # introductions: @get('introductions').toJSON()
     introduction_ids: @get('introduction_ids')
 
 Carrie.Models.Exercise.setup()
