@@ -10,7 +10,6 @@ class Sequence::AutoSequence
 
   embeds_one :exercises_ordering, class_name: "Sequence::ExercisesOrdering", inverse_of: :auto_sequence
 
-
   def lo
     @lo ||= Lo.find(self.lo_id)
   end
@@ -74,15 +73,15 @@ class Sequence::AutoSequence
 
   private
     def insert_introduction_pages
-         self.page_ids += lo.introductions.pluck(:id)          
+      self.page_ids += lo.introductions.pluck(:id)
     end
 
-  def insert_first_exercise
-         st = Sequence::Statistic.where(lo_id: lo_id).last
-         self.create_exercises_ordering statistic_id: st.id
-         id = self.exercises_ordering.nextExercise
-         self.page_ids << id.to_s
-         self.next_page = true
-         save
-  end
+    def insert_first_exercise
+      st = Sequence::Statistic.where(lo_id: lo_id).last
+      self.create_exercises_ordering statistic_id: st.id
+      id = self.exercises_ordering.nextExercise
+      self.page_ids << id.to_s
+      self.next_page = true
+      save
+    end
 end
