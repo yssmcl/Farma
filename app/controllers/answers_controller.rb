@@ -53,7 +53,7 @@ class AnswersController < ApplicationController
 
     # Go to next exercise
     @sequence = Sequence::AutoSequence.find_or_create_by(lo_id: @lo.id,
-                                                         team_id: @team.object_id,
+                                                         team_id: @team.id,
                                                          user_id: current_user.id) 
 
     @has_more_exercise = @sequence.calculates

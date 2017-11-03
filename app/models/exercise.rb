@@ -27,8 +27,8 @@ class Exercise
   #has_and_belongs_to_many :subtopics
   #Não funfou
 
-  # TODO: pré-requisitos
-  has_many :introductions
+  # Pré-requisitos do exercício
+  has_and_belongs_to_many :introductions
 
   # Removed on 07/05/2014
   # Because its no long allowed a user clear your answers
@@ -42,8 +42,6 @@ class Exercise
   def questions_available
     self.questions.where(available: true)
   end
-
-  
 
 private
   def set_position
