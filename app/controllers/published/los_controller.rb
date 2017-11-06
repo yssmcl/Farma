@@ -35,9 +35,6 @@ class Published::LosController < ApplicationController
                                                          team_id: params[:team_id],
                                                          user_id: current_user.id)  
 
-    puts "===================================="
-    puts "CHAMOU CHAMOU NEXT PAGE de LOS CONTROLLER"
-    puts "===================================="
     #@sequence.calculates
   end
 

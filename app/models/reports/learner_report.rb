@@ -53,25 +53,28 @@ private
     end
 
     @questions_amount = Lo.find(self.lo_id).exercises_avaiable.count
-    exercises_ordering = Sequence::AutoSequence.where(user_id: self.user_id, lo_id: self.lo_id).first.exercises_ordering 
+    exercises_ordering = Sequence::AutoSequence.where(user_id: self.user_id, lo_id: self.lo_id).first.exercises_ordering
     user_sequence = exercises_ordering.user_sequence
     i = 0.0
     #user_sequence_caqa = 0.0
-    
-    ledc_id = Question.find(user.answers.corrects.last.from_question_id).exercise_id
-    while (i < @questions_amount ) do
-      if user_sequence[i][0].to_str == ledc_id.to_str
-      #if user_sequence[i][0].to_str == Question.find(@last_question_id).exercise_id.to_str
-        @ledc_amount = i + 1    
-      elsif user_sequence[i][3]
-        @ledc_amount = i + 1
+
+    # TODO: se o aprendiz errar a primeira questão, `user.answers.corrects.last` é nil
+    if user.answers.corrects.last
+      ledc_id = Question.find(user.answers.corrects.last.from_question_id).exercise_id
+      while (i < @questions_amount ) do
+        if user_sequence[i][0].to_str == ledc_id.to_str
+        #if user_sequence[i][0].to_str == Question.find(@last_question_id).exercise_id.to_str
+          @ledc_amount = i + 1
+        elsif user_sequence[i][3]
+          @ledc_amount = i + 1
+        end
+        if (user_sequence[i][2])
+          @eda += 1
+        end
+        i += 1
       end
-      if (user_sequence[i][2])
-        @eda += 1
-      end
-      i += 1
+      @eda += 1
     end
-    @eda += 1
 
     #while (i < @questions_amount) do
     #  if (user_sequence[i][2])
@@ -84,13 +87,13 @@ private
     #  i = i + 1
     #end
     #@eda +=1
-    
+
 
     #if (@caqa > user_sequence_caqa) #nao esta contabilizada ainda a resposta atual
     #  @ledc_amount += exercises_ordering.step_size
-    #end  
+    #end
 
-    
+
   end
 end
 
