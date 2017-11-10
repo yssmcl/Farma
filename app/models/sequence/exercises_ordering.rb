@@ -58,8 +58,8 @@ class Sequence::ExercisesOrdering
       else # resposta não foi correta
         #debugger
         subtopic = Exercise.find(self.user_sequence[ind_last_exerc][0]).subtopic
-        # if self.somp.key?(subtopic)
-        if self.somp.include?(subtopic)
+        if self.somp.key?(subtopic)
+        # if self.somp.include?(subtopic)
           find_next_exercise_from_subtopic(ind_last_exerc)
         end
         save
@@ -90,8 +90,8 @@ class Sequence::ExercisesOrdering
   private
     def remove_subtopic_from_hash(hash, exercise_idx)
       subtopic = Exercise.find(self.user_sequence[exercise_idx][0]).subtopic
-      # if hash.key?(subtopic)
-      if hash.include?(subtopic)
+      if hash.key?(subtopic)
+      # if hash.include?(subtopic)
         hash.delete(subtopic)
       end
       return hash
@@ -154,8 +154,8 @@ class Sequence::ExercisesOrdering
       i = 0
       while(i < self.user_sequence.size()) do
         subtopic = Exercise.find(self.user_sequence[i][0]).subtopic
-        # unless subtopics.key?(subtopic)
-        unless subtopics.include?(subtopic)
+        unless subtopics.key?(subtopic)
+        # unless subtopics.include?(subtopic)
           subtopics[subtopic] = i
         end
         i = i + 1
