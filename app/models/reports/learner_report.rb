@@ -53,7 +53,8 @@ private
     end
 
     @questions_amount = Lo.find(self.lo_id).exercises_avaiable.count
-    exercises_ordering = Sequence::AutoSequence.where(user_id: self.user_id, lo_id: self.lo_id).first.exercises_ordering
+    exercises_ordering = Sequence::AutoSequence.find_by(user_id: self.user_id, lo_id: self.lo_id).exercises_ordering
+    # exercises_ordering = Sequence::AutoSequence.first.exercises_ordering
     user_sequence = exercises_ordering.user_sequence
     i = 0.0
     #user_sequence_caqa = 0.0

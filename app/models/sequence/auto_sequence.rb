@@ -37,7 +37,8 @@ class Sequence::AutoSequence
     return a
   end
 
-  # Retorna somente as IDs das introduções do array passado
+  # TODO: tirar o begin-end e o rescue
+  # Retorna somente as IDs das introduções do array ids
   def find_introductions(ids)
     a = []
     ids.each do |id|
@@ -59,20 +60,20 @@ class Sequence::AutoSequence
 
     if not(page_ids.include?(id.to_s))
       prerequisites = Exercise.find(id).introduction_ids
+      # TODO: Checar se prerequisites é vazio para, em vez de concatenar [] no page_ids, concatenar o resto das introduções que ainda não foram vistas? Se sim, escrever isso na monografia.
       logger.debug "#{Time.now} === pre-requisitos de #{findd(id.to_a)}: #{findd(prerequisites)}"
 
       viewed_introductions = find_introductions(page_ids)
       logger.debug "#{Time.now} === Introducoes vistas: #{findd(viewed_introductions)}"
 
       # Pega as páginas não comuns entre as páginas que já foram vistas e as que são pré-requisitos para o próximo exercício
-      introductions_to_be_viewed = prerequisites - viewed_introductions | viewed_introductions - prerequisites
-      # introductions_to_be_viewed = introductions_to_be_viewed - page_ids
-      logger.debug "#{Time.now} === Introducoes a serem vistas: #{findd(introductions_to_be_viewed)}"
+      # introductions_to_be_viewed = prerequisites - viewed_introductions | viewed_introductions - prerequisites
+      prerequisites = prerequisites - viewed_introductions
+      logger.debug "#{Time.now} === Introducoes a serem vistas: #{findd(prerequisites)}"
 
-      viewed_introductions = introductions_to_be_viewed
-      page_ids.concat(introductions_to_be_viewed)
+      page_ids.concat(prerequisites)
       page_ids << id.to_s
-      logger.debug "#{Time.now} === Novas paginas: #{findd(page_ids)}"
+      logger.debug "#{Time.now} === Novas paginas: #{findd(page_ids)}\n"
 
       self.next_page = true
     else

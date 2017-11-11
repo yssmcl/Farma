@@ -25,6 +25,7 @@ Carrie::Application.routes.draw do
     match '/reports/my-created-teams' => "reports#current_user_created_teams", via: :get
     match '/reports/teams/:team_id/los' => "reports#los_from_team", via: :get
     match '/reports/teams/:team_id/learners-and-los' => "reports#learners_and_los_from_team", via: :get
+    match '/reports/teams/:team_id/los/:lo_id' => "reports#update_progress", via: :post
 
     # My learners progress
     match '/reports/progress/teams/:team_id/los/:lo_id' => "reports#learners_progress", via: :get
@@ -45,9 +46,9 @@ Carrie::Application.routes.draw do
       match '/teams/:team_id/los/:lo_id' => "sequence#calculates", via: :post
     end
 
-    namespace :reports do
-      match '/teams/:team_id/los/:lo_id' => "reports#update_progress", via: :post
-    end
+    # namespace :reports do
+      # match '/teams/:team_id/los/:lo_id' => "reports#update_progress", via: :post
+    # end
 
     # subtopics
     #match '/my-created-subtopics' => "subtopics#current_user_created_teams", via: :get
