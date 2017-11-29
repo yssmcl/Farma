@@ -4,7 +4,7 @@
       first: "&laquo; Primeiro"
       last: "Último &raquo;"
       previous: "&lsaquo; Anterior"
-      next: "Próximo &rsaquo;"
+      next: "Próxima &rsaquo;"
       truncate: "..."
 
   attributes:
