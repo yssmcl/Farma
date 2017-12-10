@@ -59,7 +59,7 @@ private
     i = 0.0
     #user_sequence_caqa = 0.0
 
-    # TODO: se o aprendiz errar a primeira questão, `user.answers.corrects.last` é nil
+    # TODO: se o aprendiz errar a primeira questão, `user.answers.corrects.last` pode ser nil
     if user.answers.corrects.last
       ledc_id = Question.find(user.answers.corrects.last.from_question_id).exercise_id
       while (i < @questions_amount ) do

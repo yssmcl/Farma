@@ -18,62 +18,35 @@ class Sequence::AutoSequence
     @user ||= User.find(self.user_id)
   end
 
-  # TODO: after_create ou before_create?
-  # before_create :insert_introduction_pages
-  # after_create :insert_first_exercise
   after_create :insert_introduction_pages, :insert_first_exercise
 
-  # TODO: função de teste
-  def findd(ids)
-    a = []
-    ids.each do |id|
-      begin
-        item = Introduction.find(id)
-      rescue
-        item = Exercise.find(id).questions.first
-      end
-      a << item.title
-    end
-    return a
-  end
-
-  # TODO: tirar o begin-end e o rescue
-  # Retorna somente as IDs das introduções do array ids
+  # Retorna as ids das introduções do parâmetro `ids'
   def find_introductions(ids)
     a = []
     ids.each do |id|
-      begin
+      suppress(Exception) do
         item = Introduction.find(id)
         a << item.id
-      rescue
       end
     end
     return a
   end
 
-  # Realizar calculos do auto sequenciamento aqui
+  # Realiza cálculos do auto sequenciamento
   def calculates
     #debugger
     self.next_page = true
     id = exercises_ordering.nextExercise()
-    logger.info "#{Time.now} === page_ids: #{findd(page_ids)}"
 
     if not(page_ids.include?(id.to_s))
       prerequisites = Exercise.find(id).introduction_ids
-      # TODO: Checar se prerequisites é vazio para, em vez de concatenar [] no page_ids, concatenar o resto das introduções que ainda não foram vistas? Se sim, escrever isso na monografia.
-      logger.debug "#{Time.now} === pre-requisitos de #{findd(id.to_a)}: #{findd(prerequisites)}"
-
       viewed_introductions = find_introductions(page_ids)
-      logger.debug "#{Time.now} === Introducoes vistas: #{findd(viewed_introductions)}"
 
-      # Pega as páginas não comuns entre as páginas que já foram vistas e as que são pré-requisitos para o próximo exercício
-      # introductions_to_be_viewed = prerequisites - viewed_introductions | viewed_introductions - prerequisites
+      # Operação de diferença para evitar que páginas repetidas sejam exibidas
       prerequisites = prerequisites - viewed_introductions
-      logger.debug "#{Time.now} === Introducoes a serem vistas: #{findd(prerequisites)}"
 
       page_ids.concat(prerequisites)
       page_ids << id.to_s
-      logger.debug "#{Time.now} === Novas paginas: #{findd(page_ids)}\n"
 
       self.next_page = true
     else
@@ -119,10 +92,6 @@ class Sequence::AutoSequence
   end
 
   private
-    # def insert_introduction_pages
-    #   self.page_ids += lo.introductions.pluck(:id)
-    # end
-
     def insert_introduction_pages
       st = Sequence::Statistic.where(lo_id: lo_id).last
       self.create_exercises_ordering(statistic_id: st.id)

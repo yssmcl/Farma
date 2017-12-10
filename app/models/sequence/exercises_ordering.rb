@@ -105,9 +105,11 @@ class Sequence::ExercisesOrdering
 
       while idx < keys.size()
         value = self.somp[keys[idx]]
-        # TODO: value é nil
+
+        # TODO: value pode ser nil
         # if value > last_exercise_index && value < next_exercise_index
         if value && value > last_exercise_index && value < next_exercise_index
+
           if subtopicIndex == -1 || value < subtopicIndex
             subtopicIndex = value
           end

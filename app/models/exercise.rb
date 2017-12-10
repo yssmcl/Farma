@@ -28,7 +28,6 @@ class Exercise
   #Não funfou
 
   # Pré-requisitos do exercício
-  # TODO: `:introductions` ou `:prerequisites, :through Introduction`? Deixar o `:through` para ficar mais claro ou é obrigatório?
   has_and_belongs_to_many :introductions
 
   # Removed on 07/05/2014
